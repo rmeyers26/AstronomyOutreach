@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Astronomy Outreach — Explore the Universe</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet"/>
+  <style>
+
+    /* ══════════════════════════════════════════════
+       DESIGN SYSTEM — deep space palette
+    ══════════════════════════════════════════════ */
+    :root {
+      --void:      #05080f;
+      --deep:      #0b1020;
+      --star:      #f0f4ff;
+      --muted:     #7a8aaa;
+      --card-bg:   rgba(255,255,255,0.04);
+      --card-bdr:  rgba(255,255,255,0.10);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--void);
+      color: var(--star);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+
+    /* ══════════════════════════════════════
+       SITE NAVIGATION — mobile-first
+    ══════════════════════════════════════ */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      gap: 4px;
+      padding: 0 8px;
+      height: 52px;
+    }
+    .site-nav::-webkit-scrollbar { display: none; }
+    .site-nav a {
+      color: rgba(255,255,255,0.60);
+      text-decoration: none;
+      font-size: 12px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding: 6px 10px;
+      border-radius: 20px;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s, background 0.2s, border-color 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      min-height: 36px;
+    }
+    .site-nav a:hover,
+    .site-nav a:focus-visible { color: #fff; background: rgba(255,255,255,0.08); }
+    .site-nav a.active {
+      color: #fff;
+      background: rgba(255,255,255,0.10);
+      border-color: rgba(255,255,255,0.35);
+    }
+    @media (min-width: 600px) {
+      .site-nav { padding: 0 1.5rem; gap: 2px; }
+      .site-nav a { font-size: 13px; padding: 6px 14px; }
+    }
+
+    /* ══════════════════════════════════════
+       STARFIELD BACKGROUND
+    ══════════════════════════════════════ */
+    .star-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(1px 1px at 15% 25%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 42% 61%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 73% 12%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 88% 48%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 29% 82%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 55% 34%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 8%  70%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 66% 88%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 94% 75%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(2px 2px at 36% 9%,  rgba(255,255,255,0.8) 0%, transparent 100%),
+        radial-gradient(2px 2px at 80% 56%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 20% 44%, rgba(200,220,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 50% 50%, rgba(255,240,200,0.4) 0%, transparent 100%);
+    }
+
+    /* ══════════════════════════════════════
+       HERO
+    ══════════════════════════════════════ */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 16px 60px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 64px 0 48px;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 7vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #a0c4ff 0%, #c8b4ff 50%, #ffd6a0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 480px;
+      margin: 0 auto 40px;
+    }
+
+    /* ══════════════════════════════════════
+       TOPIC CARDS GRID
+    ══════════════════════════════════════ */
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    /* Mobile: single column */
+    .topics-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    /* Tablet: 2 columns */
+    @media (min-width: 500px) {
+      .topics-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* Desktop: mixed layout — 3 cols on last row if 5 items */
+    @media (min-width: 720px) {
+      .topics-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .topic-card {
+      display: flex;
+      flex-direction: column;
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      border-radius: 14px;
+      padding: 24px 20px 20px;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      /* Touch-friendly */
+      min-height: 140px;
+    }
+
+    .topic-card:hover,
+    .topic-card:focus-visible {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.20);
+      transform: translateY(-2px);
+    }
+
+    .topic-card:active { transform: translateY(0); }
+
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+      line-height: 1;
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.55;
+      flex: 1;
+    }
+
+    .card-arrow {
+      margin-top: 14px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.35);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s;
+    }
+
+    .topic-card:hover .card-arrow { color: rgba(255,255,255,0.7); }
+
+    /* Per-card accent borders on hover */
+    .card--sun:hover      { border-color: rgba(255,152,0,0.40); }
+    .card--jupiter:hover  { border-color: rgba(232,194,130,0.40); }
+    .card--orion:hover    { border-color: rgba(26,154,160,0.50); }
+    .card--galileo:hover  { border-color: rgba(196,168,74,0.40); }
+    .card--telescope:hover{ border-color: rgba(74,144,217,0.40); }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    footer {
+      margin-top: 60px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+  </style>
+</head>
+<body>
+
+<nav class="site-nav" aria-label="Site navigation">
+  <a href="index.html" class="active">🏠 <span>Home</span></a>
+  <a href="our-sun.html">☀️ <span>Our Sun</span></a>
+  <a href="jupiter.html">🪐 <span>Jupiter</span></a>
+  <a href="orion.html">⭐ <span>Orion</span></a>
+  <a href="galileo.html">🔭 <span>Galileo</span></a>
+  <a href="celestron-cpc1100.html">📡 <span>Telescope</span></a>
+</nav>
+
+<div class="star-bg" aria-hidden="true"></div>
+
+<div class="page">
+
+  <!-- ═══════════════════════════════
+       HERO
+  ═══════════════════════════════ -->
+  <section class="hero">
+    <span class="hero-eyebrow">Astronomy Outreach</span>
+    <h1 class="hero-title">Explore the <span>Universe</span></h1>
+    <p class="hero-sub">Interactive guides to stars, planets, constellations, scientists, and the telescopes we use to study them.</p>
+  </section>
+
+  <!-- ═══════════════════════════════
+       TOPIC CARDS
+  ═══════════════════════════════ -->
+  <p class="section-label">Choose a topic</p>
+  <div class="topics-grid">
+
+    <a href="our-sun.html" class="topic-card card--sun">
+      <div class="card-icon">☀️</div>
+      <div class="card-title">Our Sun</div>
+      <p class="card-desc">The G-type star at the centre of our solar system — explore its layers, nuclear fusion, and solar events.</p>
+      <div class="card-arrow">Explore <span>→</span></div>
+    </a>
+
+    <a href="jupiter.html" class="topic-card card--jupiter">
+      <div class="card-icon">🪐</div>
+      <div class="card-title">Jupiter</div>
+      <p class="card-desc">King of the planets — dive into its banded atmosphere, Great Red Spot, and 95 known moons.</p>
+      <div class="card-arrow">Explore <span>→</span></div>
+    </a>
+
+    <a href="orion.html" class="topic-card card--orion">
+      <div class="card-icon">⭐</div>
+      <div class="card-title">Orion</div>
+      <p class="card-desc">The Hunter of the Winter Sky — navigate the constellation's brightest stars, nebulae, and mythology.</p>
+      <div class="card-arrow">Explore <span>→</span></div>
+    </a>
+
+    <a href="galileo.html" class="topic-card card--galileo">
+      <div class="card-icon">🔭</div>
+      <div class="card-title">Galileo Galilei</div>
+      <p class="card-desc">Father of modern science — discover how one man's observations changed humanity's view of the cosmos.</p>
+      <div class="card-arrow">Explore <span>→</span></div>
+    </a>
+
+    <a href="celestron-cpc1100.html" class="topic-card card--telescope">
+      <div class="card-icon">📡</div>
+      <div class="card-title">Celestron CPC 1100</div>
+      <p class="card-desc">The Schmidt-Cassegrain telescope used for outreach — specifications, capabilities, and how it works.</p>
+      <div class="card-arrow">Explore <span>→</span></div>
+    </a>
+
+  </div>
+
+  <footer>
+    <p>Astronomy Outreach · Educational Resources for All Ages</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
