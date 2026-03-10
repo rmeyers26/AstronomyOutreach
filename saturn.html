@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Saturn — The Ringed Giant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Rajdhani:wght@300;400;500;600&family=Space+Mono&display=swap" rel="stylesheet"/>
+  <style>
+
+    /* ═══════════════════════════════════════════════
+       DESIGN SYSTEM — SATURN
+       Palette: pale champagne gold, warm ivory,
+       dusty amber, deep indigo-black.
+       Saturn's rings echo through every horizontal
+       line element on the page.
+    ═══════════════════════════════════════════════ */
+    :root {
+      --void:        #04030a;
+      --deep:        #090818;
+      --midnight:    #0e0d22;
+      --atmos:       #1a1630;
+      --gold:        #d4a84b;
+      --gold2:       #e8c070;
+      --gold3:       #f0d898;
+      --ivory:       #f2ead8;
+      --tan:         #c8a870;
+      --amber:       #b07830;
+      --ring-a:      #d4b870;
+      --ring-b:      #c4a858;
+      --ring-c:      rgba(180,150,80,0.4);
+      --muted:       #5a5070;
+      --card-bg:     rgba(9,8,24,0.85);
+      --card-bdr:    rgba(212,168,75,0.2);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--void);
+      color: var(--ivory);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      line-height: 1.78;
+      overflow-x: hidden;
+    }
+
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: rgba(9,8,24,0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(212,168,75,0.22);
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      gap: 4px;
+      padding: 0 8px;
+      height: 52px;
+    }
+
+    .site-nav::-webkit-scrollbar { display: none; }
+
+    .site-nav a {
+      color: rgba(242,234,216,0.72);
+      text-decoration: none;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding: 6px 10px;
+      border-radius: 20px;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s, background 0.2s, border-color 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      min-height: 36px;
+    }
+
+    .site-nav a:hover,
+    .site-nav a:focus-visible {
+      color: var(--ivory);
+      background: rgba(212,168,75,0.10);
+    }
+
+    .site-nav a.active {
+      color: var(--ivory);
+      background: rgba(212,168,75,0.14);
+      border-color: rgba(232,192,112,0.38);
+    }
+
+    /* ═══════ ANIMATED RING BANDS BACKGROUND ══════ */
+    .ring-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .ring-bg::before {
+      content: '';
+      position: absolute;
+      top: -10%;
+      left: -30%;
+      width: 160%;
+      height: 120%;
+      background: repeating-linear-gradient(
+        180deg,
+        transparent,
+        transparent 38px,
+        rgba(212,168,75,0.028) 38px,
+        rgba(212,168,75,0.028) 40px
+      );
+      animation: ringDrift 80s linear infinite;
+    }
+
+    @keyframes ringDrift {
+      from { transform: translateX(0); }
+      to   { transform: translateX(60px); }
+    }
+
+    /* Atmospheric glow */
+    .ring-bg::after {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: -15%;
+      width: 70vw;
+      height: 70vw;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        rgba(212,168,75,0.07) 0%,
+        rgba(180,120,40,0.04) 40%,
+        transparent 70%
+      );
+      animation: atmoPulse 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes atmoPulse {
+      from { opacity: 0.6; transform: scale(1); }
+      to   { opacity: 1;   transform: scale(1.06); }
+    }
+
+    /* ═══════════════════════════════════════════════
+       LAYOUT
+    ═══════════════════════════════════════════════ */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 60px 44px 96px;
+    }
+
+    /* ═══════════════════════════════════════════════
+       HEADER
+    ═══════════════════════════════════════════════ */
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: center;
+      padding-bottom: 48px;
+      margin-bottom: 52px;
+      border-bottom: 1px solid rgba(212,168,75,0.2);
+      animation: riseUp 1s ease both;
+    }
+
+    .eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(4rem, 9vw, 8rem);
+      font-weight: 300;
+      letter-spacing: 10px;
+      text-transform: uppercase;
+      color: var(--ivory);
+      line-height: 0.88;
+      text-shadow: 0 0 80px rgba(212,168,75,0.25);
+    }
+
+    .h1-sub {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 2.2vw, 1.3rem);
+      font-weight: 300;
+      letter-spacing: 2px;
+      color: var(--tan);
+      margin-top: 14px;
+      text-shadow: none;
+    }
+
+    /* ═══════════════════════════════════════════════
+       SATURN SVG ILLUSTRATION
+    ═══════════════════════════════════════════════ */
+    .saturn-wrap {
+      position: relative;
+      width: 260px;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .saturn-wrap svg {
+      overflow: visible;
+      animation: saturnFloat 9s ease-in-out infinite alternate;
+      filter: drop-shadow(0 0 30px rgba(212,168,75,0.22));
+    }
+
+    @keyframes saturnFloat {
+      from { transform: translateY(0) rotate(-1deg); }
+      to   { transform: translateY(-10px) rotate(1deg); }
+    }
+
+    /* ═══════════════════════════════════════════════
+       SECTION LABELS
+    ═══════════════════════════════════════════════ */
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
+    }
+
+    /* ═══════════════════════════════════════════════
+       FAST FACTS STRIP
+    ═══════════════════════════════════════════════ */
+    .facts-strip {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2px;
+      margin-bottom: 52px;
+      animation: riseUp 1s 0.07s ease both;
+    }
+
+    .fact-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 20px 14px;
+      text-align: center;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .fact-box:hover {
+      border-color: var(--gold);
+      background: rgba(212,168,75,0.06);
+    }
+
+    .fact-num {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.9rem;
+      font-weight: 300;
+      letter-spacing: 2px;
+      color: var(--gold3);
+      line-height: 1.05;
+      display: block;
+    }
+
+    .fact-unit {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .fact-label {
+      font-size: 0.8rem;
+      font-style: italic;
+      color: var(--tan);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    /* ═══════════════════════════════════════════════
+       INTRO COLUMNS
+    ═══════════════════════════════════════════════ */
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 48px;
+      margin-bottom: 52px;
+      animation: riseUp 1s 0.1s ease both;
+    }
+
+    .intro-text p {
+      font-size: 0.97rem;
+      line-height: 1.88;
+      margin-bottom: 14px;
+      color: var(--ivory);
+      opacity: 0.92;
+    }
+
+    /* Quick data table */
+    .data-table {
+      border: 1px solid var(--card-bdr);
+      background: var(--card-bg);
+    }
+
+    .dt-head {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--card-bdr);
+      background: rgba(212,168,75,0.06);
+    }
+
+    .dt-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 9px 16px;
+      border-bottom: 1px solid rgba(212,168,75,0.07);
+      font-size: 0.86rem;
+    }
+
+    .dt-row:last-child { border-bottom: none; }
+    .dt-key { color: var(--muted); font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; }
+    .dt-val { color: var(--ivory); font-family: 'Rajdhani', sans-serif; font-weight: 400; letter-spacing: 1px; }
+
+    /* ═══════════════════════════════════════════════
+       DIVIDER
+    ═══════════════════════════════════════════════ */
+    .rule {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 44px 0;
+    }
+
+    .rule-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(212,168,75,0.35), transparent);
+    }
+
+    .rule-diamond {
+      width: 8px; height: 8px;
+      background: var(--gold);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+      box-shadow: 0 0 10px rgba(212,168,75,0.5);
+    }
+
+    /* ═══════════════════════════════════════════════
+       THE RINGS — FEATURE SECTION
+    ═══════════════════════════════════════════════ */
+    .rings-section {
+      animation: riseUp 1s 0.13s ease both;
+      margin-bottom: 52px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      border-top: 2px solid var(--gold);
+      padding: 36px;
+    }
+
+    .rings-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 20px;
+      align-items: start;
+    }
+
+    .rings-text p {
+      font-size: 0.92rem;
+      line-height: 1.88;
+      margin-bottom: 12px;
+      color: var(--ivory);
+      opacity: 0.9;
+    }
+
+    .rings-ms {
+      background: rgba(212,168,75,0.06);
+      border: 1px solid rgba(212,168,75,0.2);
+      padding: 16px 18px;
+      margin-top: 12px;
+    }
+
+    .ms-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 7px;
+    }
+
+    .ms-text {
+      font-style: italic;
+      font-size: 0.86rem;
+      line-height: 1.75;
+      color: var(--tan);
+    }
+
+    /* Ring diagram stats */
+    .ring-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .ring-stat-row {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(212,168,75,0.05);
+      border: 1px solid rgba(212,168,75,0.12);
+    }
+
+    .rs-name {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--gold2);
+    }
+
+    .rs-bar-wrap {
+      height: 6px;
+      background: rgba(212,168,75,0.1);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .rs-bar {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--amber), var(--gold2));
+    }
+
+    .rs-note {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+
+    /* ═══════════════════════════════════════════════
+       CONCEPT CARDS
+    ═══════════════════════════════════════════════ */
+    .concepts-section {
+      animation: riseUp 1s 0.16s ease both;
+      margin-bottom: 52px;
+    }
+
+    .ms-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .ms-badge {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: rgba(212,168,75,0.08);
+      border: 1px solid rgba(212,168,75,0.28);
+      color: var(--gold);
+      padding: 3px 10px;
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .concept-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 26px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-color 0.3s;
+    }
+
+    .concept-card:hover { border-color: var(--gold); }
+
+    .cc-icon { font-size: 2rem; }
+
+    .cc-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--ivory);
+    }
+
+    .cc-def {
+      font-size: 0.87rem;
+      line-height: 1.78;
+      color: var(--ivory);
+      opacity: 0.87;
+      border-left: 2px solid rgba(212,168,75,0.4);
+      padding-left: 10px;
+    }
+
+    .analogy-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .analogy-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .analogy-list li {
+      display: flex;
+      gap: 8px;
+      font-size: 0.83rem;
+      color: var(--tan);
+      line-height: 1.6;
+      align-items: flex-start;
+    }
+
+    .analogy-list li span:first-child { flex-shrink: 0; }
+    .analogy-list li strong { color: var(--ivory); }
+
+    /* ═══════════════════════════════════════════════
+       MOONS OF SATURN
+    ═══════════════════════════════════════════════ */
+    .moons-section {
+      animation: riseUp 1s 0.19s ease both;
+      margin-bottom: 52px;
+    }
+
+    .moons-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .moon-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 22px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color 0.3s;
+    }
+
+    .moon-card:hover { border-color: var(--gold); }
+
+    .moon-icon { font-size: 1.7rem; }
+
+    .moon-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-size: 1.05rem;
+      color: var(--gold3);
+    }
+
+    .moon-type {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 2px;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .moon-body {
+      font-size: 0.85rem;
+      line-height: 1.75;
+      color: var(--tan);
+    }
+
+    .moon-body strong { color: var(--ivory); }
+
+    /* ═══════════════════════════════════════════════
+       MIND-BLOWING FACTS
+    ═══════════════════════════════════════════════ */
+    .wows-section {
+      animation: riseUp 1s 0.22s ease both;
+      margin-bottom: 52px;
+    }
+
+    .wows-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+    }
+
+    .wow-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 24px 22px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: border-color 0.3s;
+    }
+
+    .wow-card:hover { border-color: var(--gold); }
+
+    .wow-icon { font-size: 1.8rem; flex-shrink: 0; }
+
+    .wow-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+      color: var(--gold2);
+      margin-bottom: 6px;
+    }
+
+    .wow-body {
+      font-size: 0.86rem;
+      line-height: 1.78;
+      color: var(--tan);
+    }
+
+    .wow-body strong { color: var(--ivory); }
+    .wow-body em { color: var(--gold2); font-style: normal; }
+
+    /* ═══════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════ */
+    footer {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(212,168,75,0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: riseUp 1s 0.26s ease both;
+    }
+
+    .footer-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 300;
+      font-size: 1.6rem;
+      letter-spacing: 10px;
+      text-transform: uppercase;
+      color: var(--tan);
+    }
+
+    .footer-note {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* ═══════════════════════════════════════════════
+       ANIMATIONS
+    ═══════════════════════════════════════════════ */
+    @keyframes riseUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ═══════════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════════ */
+    @media (max-width: 740px) {
+      .page { padding: 36px 20px 64px; }
+      header { grid-template-columns: 1fr; }
+      .saturn-wrap { margin: 0 auto; }
+      .facts-strip { grid-template-columns: repeat(3, 1fr); }
+      .intro-grid { grid-template-columns: 1fr; }
+      .rings-grid { grid-template-columns: 1fr; }
+      .concept-grid { grid-template-columns: 1fr; }
+      .moons-grid { grid-template-columns: 1fr; }
+      .wows-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+
+    @media (min-width: 600px) {
+      .site-nav { padding: 0 1.5rem; gap: 2px; }
+      .site-nav a { padding: 6px 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav" aria-label="Site navigation">
+  <a href="index.html">🏠 <span>Home</span></a>
+  <a href="our-sun.html">☀️ <span>Our Sun</span></a>
+  <a href="jupiter.html">🪐 <span>Jupiter</span></a>
+  <a href="mars.html">🔴 <span>Mars</span></a>
+  <a href="saturn.html" class="active">🪐 <span>Saturn</span></a>
+  <a href="orion.html">⭐ <span>Orion</span></a>
+  <a href="galileo.html">🔭 <span>Galileo</span></a>
+  <a href="moon-retro.html">🌕 <span>Moon Retro</span></a>
+  <a href="celestron-cpc1100.html">📡 <span>Telescope</span></a>
+</nav>
+
+<div class="ring-bg"></div>
+
+<div class="page">
+
+  <!-- ══════════════════ HEADER ══════════════════ -->
+  <header>
+    <div>
+      <p class="eyebrow">Gas Giant · Sixth Planet · Solar System</p>
+      <h1>Saturn<span class="h1-sub">"The Jewel of the Solar System" — the most visually stunning planet we know</span></h1>
+    </div>
+
+    <!-- Saturn SVG -->
+    <div class="saturn-wrap">
+      <svg viewBox="0 0 260 200" width="260" height="200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="satGrad" cx="42%" cy="38%" r="58%">
+            <stop offset="0%"   stop-color="#f0dca0"/>
+            <stop offset="25%"  stop-color="#d4b870"/>
+            <stop offset="50%"  stop-color="#b89040"/>
+            <stop offset="72%"  stop-color="#a07830"/>
+            <stop offset="100%" stop-color="#705020"/>
+          </radialGradient>
+          <radialGradient id="satAtmo" cx="50%" cy="50%" r="50%">
+            <stop offset="70%"  stop-color="transparent"/>
+            <stop offset="100%" stop-color="rgba(10,8,20,0.5)"/>
+          </radialGradient>
+          <linearGradient id="ringA" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#705020" stop-opacity="0.3"/>
+            <stop offset="20%"  stop-color="#c8a050" stop-opacity="0.9"/>
+            <stop offset="50%"  stop-color="#e0c068" stop-opacity="0.95"/>
+            <stop offset="80%"  stop-color="#c8a050" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#705020" stop-opacity="0.3"/>
+          </linearGradient>
+          <linearGradient id="ringB" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#705020" stop-opacity="0.15"/>
+            <stop offset="20%"  stop-color="#d4b060" stop-opacity="0.7"/>
+            <stop offset="50%"  stop-color="#e8c878" stop-opacity="0.8"/>
+            <stop offset="80%"  stop-color="#d4b060" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#705020" stop-opacity="0.15"/>
+          </linearGradient>
+          <linearGradient id="ringC" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="transparent"/>
+            <stop offset="25%"  stop-color="rgba(200,160,70,0.35)"/>
+            <stop offset="50%"  stop-color="rgba(220,180,80,0.4)"/>
+            <stop offset="75%"  stop-color="rgba(200,160,70,0.35)"/>
+            <stop offset="100%" stop-color="transparent"/>
+          </linearGradient>
+          <filter id="satGlow">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <clipPath id="satClip">
+            <ellipse cx="130" cy="100" rx="55" ry="55"/>
+          </clipPath>
+        </defs>
+
+        <!-- Outer ring C (faint) -->
+        <ellipse cx="130" cy="118" rx="105" ry="18" fill="none" stroke="url(#ringC)" stroke-width="10"/>
+
+        <!-- Ring B -->
+        <ellipse cx="130" cy="118" rx="88"  ry="15" fill="none" stroke="url(#ringB)" stroke-width="14"/>
+
+        <!-- Ring A (brightest) — back half -->
+        <path d="M 42,118 Q 130,104 218,118" fill="none" stroke="url(#ringA)" stroke-width="10" opacity="0.5"/>
+
+        <!-- Saturn globe -->
+        <ellipse cx="130" cy="100" rx="55" ry="55" fill="url(#satGrad)" filter="url(#satGlow)"/>
+
+        <!-- Atmospheric bands on globe -->
+        <g clip-path="url(#satClip)">
+          <rect x="75" y="82"  width="110" height="5"  fill="rgba(160,120,50,0.35)" rx="2"/>
+          <rect x="75" y="92"  width="110" height="8"  fill="rgba(120,90,35,0.3)"  rx="2"/>
+          <rect x="75" y="105" width="110" height="5"  fill="rgba(150,110,45,0.3)" rx="2"/>
+          <rect x="75" y="115" width="110" height="4"  fill="rgba(130,100,40,0.25)" rx="2"/>
+          <rect x="75" y="123" width="110" height="6"  fill="rgba(140,105,42,0.28)" rx="2"/>
+          <!-- Limb darkening -->
+          <ellipse cx="130" cy="100" rx="55" ry="55" fill="url(#satAtmo)"/>
+        </g>
+
+        <!-- Ring A front half (over planet) -->
+        <path d="M 42,118 Q 130,132 218,118" fill="none" stroke="url(#ringA)" stroke-width="10"/>
+
+        <!-- Ring shadow on planet -->
+        <path d="M 85,90 Q 130,86 175,90" fill="none" stroke="rgba(50,30,10,0.35)" stroke-width="6"/>
+
+        <!-- Titan moon -->
+        <circle cx="224" cy="78" r="5" fill="#c89850" opacity="0.9" filter="url(#satGlow)"/>
+        <text x="224" y="70" text-anchor="middle" font-family="Space Mono, monospace" font-size="6.5" fill="rgba(200,152,80,0.7)" letter-spacing="1">TITAN</text>
+      </svg>
+    </div>
+  </header>
+
+  <!-- ══════════════════ FACTS STRIP ══════════════════ -->
+  <p class="section-label">Fast Facts</p>
+  <div class="facts-strip">
+    <div class="fact-box">
+      <span class="fact-num">116,460</span>
+      <span class="fact-unit">km · Diameter</span>
+      <p class="fact-label">9.5× wider than Earth</p>
+    </div>
+    <div class="fact-box">
+      <span class="fact-num">0.69</span>
+      <span class="fact-unit">g/cm³ · Density</span>
+      <p class="fact-label">Less dense than water — it would float</p>
+    </div>
+    <div class="fact-box">
+      <span class="fact-num">29.5</span>
+      <span class="fact-unit">Earth Years · Orbit</span>
+      <p class="fact-label">One Saturn year</p>
+    </div>
+    <div class="fact-box">
+      <span class="fact-num">146</span>
+      <span class="fact-unit">Known Moons</span>
+      <p class="fact-label">Most of any planet in the solar system</p>
+    </div>
+    <div class="fact-box">
+      <span class="fact-num">1.2B</span>
+      <span class="fact-unit">km · From Sun</span>
+      <p class="fact-label">Light takes 80 minutes to arrive</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════ INTRO ══════════════════ -->
+  <div class="intro-grid">
+    <div>
+      <p class="section-label">What Is Saturn?</p>
+      <div class="intro-text">
+        <p>
+          Saturn is the sixth planet from the Sun and the second largest in the solar system —
+          a gas giant so enormous that <strong>764 Earths could fit inside it</strong>. Yet for
+          all its size, Saturn is the least dense planet we know of. It is composed mostly of
+          hydrogen and helium, with no solid surface — if you tried to land on it, you would
+          simply sink deeper and deeper into increasingly dense gas and liquid.
+        </p>
+        <p>
+          What makes Saturn immediately unforgettable is its <strong>ring system</strong> —
+          vast, flat discs of ice and rock orbiting the planet's equator. The rings span
+          nearly 300,000 km from edge to edge — wider than the distance from Earth to the Moon —
+          yet are remarkably thin, averaging only about 10–100 metres in depth. They are the
+          most spectacular structure in our solar system visible through a small telescope.
+        </p>
+        <p>
+          Saturn also hosts an extraordinary family of moons — <strong>146 confirmed</strong>,
+          more than any other planet. Among them: Titan, the only moon in the solar system with
+          a thick atmosphere and liquid lakes (of methane), and Enceladus, which sprays
+          geysers of liquid water into space from a hidden ocean beneath its icy crust.
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <p class="section-label">Planetary Data</p>
+      <div class="data-table">
+        <div class="dt-head">Saturn · Key Measurements</div>
+        <div class="dt-row"><span class="dt-key">Diameter</span><span class="dt-val">116,460 km</span></div>
+        <div class="dt-row"><span class="dt-key">Mass</span><span class="dt-val">95.2 × Earth</span></div>
+        <div class="dt-row"><span class="dt-key">Gravity</span><span class="dt-val">1.07 × Earth</span></div>
+        <div class="dt-row"><span class="dt-key">Day length</span><span class="dt-val">10.7 hours</span></div>
+        <div class="dt-row"><span class="dt-key">Year length</span><span class="dt-val">29.5 Earth years</span></div>
+        <div class="dt-row"><span class="dt-key">Avg. temperature</span><span class="dt-val">–178°C</span></div>
+        <div class="dt-row"><span class="dt-key">Composition</span><span class="dt-val">96% hydrogen, 3% helium</span></div>
+        <div class="dt-row"><span class="dt-key">Ring span</span><span class="dt-val">~300,000 km across</span></div>
+        <div class="dt-row"><span class="dt-key">Ring thickness</span><span class="dt-val">~10–100 metres</span></div>
+        <div class="dt-row"><span class="dt-key">Known moons</span><span class="dt-val">146</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule"><div class="rule-line"></div><div class="rule-diamond"></div><div class="rule-line"></div></div>
+
+  <!-- ══════════════════ THE RINGS ══════════════════ -->
+  <div class="rings-section">
+    <p class="section-label">Saturn's Rings — The Solar System's Greatest Structure</p>
+    <div class="rings-grid">
+      <div class="rings-text">
+        <p>
+          Saturn's rings are made almost entirely of <strong>water ice particles</strong> —
+          ranging in size from tiny grains smaller than a grain of sand up to chunks the size
+          of a house. They are extraordinarily reflective, which is why Saturn appears so
+          bright in our night sky despite being over a billion kilometres away.
+        </p>
+        <p>
+          The rings are divided into named groups — primarily the C, B, and A rings,
+          separated by gaps. The most famous gap, the <strong>Cassini Division</strong>
+          (about 4,800 km wide), is visible through a small backyard telescope and is
+          caused by the gravitational influence of Saturn's moon Mimas.
+        </p>
+        <p>
+          Despite spanning nearly the distance from Earth to the Moon, the rings are
+          astonishingly thin — in proportion to their width, they are thinner than a sheet of
+          paper. If you scaled the rings to the size of a basketball court, they would be
+          less than 0.1 mm thick — thinner than a human hair.
+        </p>
+        <div class="rings-ms">
+          <span class="ms-label">🎒 Middle School Analogy</span>
+          <p class="ms-text">
+            Imagine a vinyl record stretched to be wider than the distance from Earth to the Moon —
+            but still only as thick as a few metres of snow. That's Saturn's ring system.
+            The rings look solid from a distance but are actually millions of separate
+            ice particles, each orbiting Saturn like a tiny moon.
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <p class="section-label" style="margin-bottom: 14px;">Ring Zones</p>
+        <div class="ring-stats">
+          <div class="ring-stat-row">
+            <span class="rs-name">D Ring</span>
+            <div class="rs-bar-wrap"><div class="rs-bar" style="width:20%"></div></div>
+            <span class="rs-note">Faint · innermost</span>
+          </div>
+          <div class="ring-stat-row">
+            <span class="rs-name">C Ring</span>
+            <div class="rs-bar-wrap"><div class="rs-bar" style="width:45%"></div></div>
+            <span class="rs-note">Maxwell Gap inside</span>
+          </div>
+          <div class="ring-stat-row">
+            <span class="rs-name">B Ring</span>
+            <div class="rs-bar-wrap"><div class="rs-bar" style="width:100%"></div></div>
+            <span class="rs-note">Brightest · densest</span>
+          </div>
+          <div class="ring-stat-row">
+            <span class="rs-name">Cassini Div.</span>
+            <div class="rs-bar-wrap"><div class="rs-bar" style="width:5%; background: rgba(212,168,75,0.2);"></div></div>
+            <span class="rs-note">4,800 km gap</span>
+          </div>
+          <div class="ring-stat-row">
+            <span class="rs-name">A Ring</span>
+            <div class="rs-bar-wrap"><div class="rs-bar" style="width:75%"></div></div>
+            <span class="rs-note">Keeler & Encke gaps</span>
+          </div>
+          <div class="ring-stat-row">
+            <span class="rs-name">F Ring</span>
+            <div class="rs-bar-wrap"><div class="rs-bar" style="width:15%"></div></div>
+            <span class="rs-note">Narrow · braided</span>
+          </div>
+          <div class="ring-stat-row">
+            <span class="rs-name">E Ring</span>
+            <div class="rs-bar-wrap"><div class="rs-bar" style="width:30%; background: rgba(212,168,75,0.35);"></div></div>
+            <span class="rs-note">From Enceladus geysers</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ CONCEPTS ══════════════════ -->
+  <div class="concepts-section">
+    <div class="ms-header">
+      <p class="section-label" style="margin:0;">Key Concepts Explained</p>
+      <div class="ms-badge">🎒 Middle School Friendly</div>
+    </div>
+    <div class="concept-grid">
+
+      <div class="concept-card">
+        <span class="cc-icon">🪐</span>
+        <p class="cc-title">Gas Giant</p>
+        <p class="cc-def">Saturn has no solid surface. It is made almost entirely of gas (hydrogen and helium) that gradually becomes denser and more liquid toward the centre. There is likely a small rocky or metallic core, but you could never stand on Saturn — you'd sink through it like fog.</p>
+        <p class="analogy-label">Analogies</p>
+        <ul class="analogy-list">
+          <li><span>🌊</span><span><strong>Ocean with no floor:</strong> Imagine an ocean that gets denser and denser the deeper you go, eventually becoming a strange, metal-like liquid — but there is no rocky bottom. That's Saturn's interior.</span></li>
+          <li><span>☁️</span><span><strong>Thick cloud:</strong> If you jumped into a cloud, you'd fall straight through. Saturn is like an impossibly thick cloud — but one with the mass of 95 Earths.</span></li>
+          <li><span>🫧</span><span><strong>Giant bubble:</strong> Saturn is so much less dense than water that it would float in a bathtub large enough to hold it. A bubble floats because gas is less dense than water — same principle, unimaginably larger scale.</span></li>
+        </ul>
+      </div>
+
+      <div class="concept-card">
+        <span class="cc-icon">⏱️</span>
+        <p class="cc-title">10-Hour Day</p>
+        <p class="cc-def">Saturn spins so fast — completing one rotation every 10.7 hours — that it bulges noticeably at its equator and is visibly flattened at the poles. Its equatorial diameter is about 10% wider than its polar diameter. Fast spin + low density = a planet shaped like a slightly squashed ball.</p>
+        <p class="analogy-label">Analogies</p>
+        <ul class="analogy-list">
+          <li><span>🍕</span><span><strong>Pizza dough:</strong> Spin pizza dough fast and centrifugal force flings it outward, making it wide and flat. Saturn is the universe's most extreme pizza toss — spinning so fast its equator bulges 6,000 km wider than its poles.</span></li>
+          <li><span>🎡</span><span><strong>Spinning top:</strong> A top spinning at high speed wobbles and flattens slightly due to centrifugal force. Scale that up to a planet 95 times Earth's mass and the flattening becomes dramatic.</span></li>
+          <li><span>💧</span><span><strong>Water droplet in zero-g:</strong> A water droplet floating in zero gravity is a perfect sphere. Spin it and it flattens into a disc shape. Saturn's fast rotation does exactly this to its gas body.</span></li>
+        </ul>
+      </div>
+
+      <div class="concept-card">
+        <span class="cc-icon">🌀</span>
+        <p class="cc-title">Hexagonal Storm</p>
+        <p class="cc-def">Saturn's north pole has a bizarre, persistent hexagonal cloud pattern — a six-sided storm system each side of which is longer than Earth's diameter. It has been rotating continuously since at least 1981 when Voyager first photographed it. Nothing like it exists anywhere else in the known solar system.</p>
+        <p class="analogy-label">Analogies</p>
+        <ul class="analogy-list">
+          <li><span>🔬</span><span><strong>Fluid dynamics experiment:</strong> Scientists can create hexagonal patterns in rotating fluids in a lab. Saturn's hexagon is nature doing the same physics experiment — at planetary scale, for decades without stopping.</span></li>
+          <li><span>🌀</span><span><strong>Permanent hurricane:</strong> Earth's hurricanes last days or weeks. Saturn's north polar hexagon has been spinning continuously for at least 40 years — and possibly much longer.</span></li>
+          <li><span>📐</span><span><strong>Nature's geometry:</strong> Bees make hexagonal honeycombs because it's the most efficient shape. Saturn's hexagon forms through a similar efficiency principle in rotating fluid dynamics — nature keeps choosing the hexagon.</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="rule"><div class="rule-line"></div><div class="rule-diamond"></div><div class="rule-line"></div></div>
+
+  <!-- ══════════════════ MOONS ══════════════════ -->
+  <div class="moons-section">
+    <p class="section-label">Notable Moons of Saturn</p>
+    <div class="moons-grid">
+
+      <div class="moon-card">
+        <span class="moon-icon">🌫️</span>
+        <p class="moon-name">Titan</p>
+        <p class="moon-type">Largest Moon · Atmosphere</p>
+        <p class="moon-body">The only moon in the solar system with a <strong>dense atmosphere</strong> — thicker than Earth's. Its surface has lakes, rivers, and rain — but of liquid methane, not water. Larger than the planet Mercury. NASA's Dragonfly mission will land a helicopter drone there in the 2030s.</p>
+      </div>
+
+      <div class="moon-card">
+        <span class="moon-icon">💦</span>
+        <p class="moon-name">Enceladus</p>
+        <p class="moon-type">Ocean World · Geysers</p>
+        <p class="moon-body">A small, icy moon with an <strong>underground liquid water ocean</strong>. Massive geysers shoot water vapour and ice particles hundreds of kilometres into space from cracks at its south pole — feeding Saturn's E ring. One of the top candidates in the solar system for harbouring life.</p>
+      </div>
+
+      <div class="moon-card">
+        <span class="moon-icon">🌊</span>
+        <p class="moon-name">Mimas</p>
+        <p class="moon-type">Death Star Moon · Cassini Gap</p>
+        <p class="moon-body">Famous for a <strong>giant crater</strong> giving it an uncanny resemblance to the Death Star from Star Wars. Its gravity carves the Cassini Division — the famous gap in Saturn's rings visible from Earth. May also have a hidden ocean beneath its icy surface.</p>
+      </div>
+
+      <div class="moon-card">
+        <span class="moon-icon">🎭</span>
+        <p class="moon-name">Iapetus</p>
+        <p class="moon-type">Two-Tone Mystery Moon</p>
+        <p class="moon-body">One hemisphere is jet black; the other is bright white — giving it the appearance of a <strong>yin-yang symbol</strong>. The dark material is thought to be organic compounds swept up as Iapetus orbits. Giovanni Cassini discovered it in 1671 and was baffled by its changing brightness.</p>
+      </div>
+
+      <div class="moon-card">
+        <span class="moon-icon">🌀</span>
+        <p class="moon-name">Hyperion</p>
+        <p class="moon-type">Chaotic Tumbler</p>
+        <p class="moon-body">Unlike almost every other moon in the solar system, Hyperion <strong>tumbles chaotically</strong> with no predictable rotation. It looks like a giant sponge — 40% of its volume is empty space — and its unusual shape means gravity can't lock it into a stable spin.</p>
+      </div>
+
+      <div class="moon-card">
+        <span class="moon-icon">💍</span>
+        <p class="moon-name">Shepherd Moons</p>
+        <p class="moon-type">Ring Herders</p>
+        <p class="moon-body">Tiny moons like <strong>Prometheus and Pandora</strong> orbit just inside and outside the F ring, their gravity "herding" ring particles and keeping the ring narrow and well-defined — like shepherds keeping a flock together. Without them the ring would spread and diffuse.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════ MIND-BLOWING FACTS ══════════════════ -->
+  <div class="wows-section">
+    <p class="section-label">Mind-Blowing Saturn Facts</p>
+    <div class="wows-grid">
+
+      <div class="wow-card">
+        <span class="wow-icon">🫧</span>
+        <div>
+          <p class="wow-title">It Would Float on Water</p>
+          <p class="wow-body">
+            Saturn is the only planet in the solar system <strong>less dense than water</strong>
+            (density 0.69 g/cm³ vs water's 1.0 g/cm³). If you could find an ocean large enough,
+            Saturn would bob on the surface. This is because it is made almost entirely of
+            lightweight hydrogen and helium gas — <em>the same stuff the Sun is made of.</em>
+          </p>
+        </div>
+      </div>
+
+      <div class="wow-card">
+        <span class="wow-icon">💎</span>
+        <div>
+          <p class="wow-title">Diamond Rain</p>
+          <p class="wow-body">
+            Scientists believe that deep inside Saturn, <strong>lightning storms turn methane
+            into carbon</strong>, which hardens into graphite as it falls, then into diamond
+            under intense pressure — with chunks potentially the size of a fist raining down
+            through the atmosphere. Saturn (and Jupiter) may produce <em>thousands of tonnes
+            of diamonds per year.</em>
+          </p>
+        </div>
+      </div>
+
+      <div class="wow-card">
+        <span class="wow-icon">🕐</span>
+        <div>
+          <p class="wow-title">The Rings Are Disappearing</p>
+          <p class="wow-body">
+            Saturn's rings are being pulled into the planet by gravity at a rate that means
+            <strong>they will be completely gone in 100 million years</strong> — a blink in
+            cosmic time. We happen to exist at a moment when Saturn has rings. Earlier or
+            later in the solar system's history, <em>Saturn would have looked like any other
+            gas giant — ringless.</em>
+          </p>
+        </div>
+      </div>
+
+      <div class="wow-card">
+        <span class="wow-icon">🌬️</span>
+        <div>
+          <p class="wow-title">Winds Faster Than Any Hurricane</p>
+          <p class="wow-body">
+            Saturn's atmospheric winds reach <strong>1,800 km/h at the equator</strong> —
+            five times faster than the most powerful hurricane ever recorded on Earth.
+            These jet streams circle the entire planet and have been blowing continuously
+            for as long as we've been able to observe them. <em>Earth's strongest tornadoes
+            barely reach 500 km/h.</em>
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-name">Saturn</div>
+    <div class="footer-note">Sixth Planet · Gas Giant · 146 Moons · Ring System 300,000 km Wide</div>
+  </footer>
+
+</div>
+</body>
+</html>

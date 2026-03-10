@@ -44,6 +44,62 @@
       overflow-x: hidden;
     }
 
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: rgba(10,22,40,0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(232,168,32,0.22);
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      gap: 4px;
+      padding: 0 8px;
+      height: 52px;
+    }
+
+    .site-nav::-webkit-scrollbar { display: none; }
+
+    .site-nav a {
+      color: rgba(240,232,208,0.72);
+      text-decoration: none;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding: 6px 10px;
+      border-radius: 20px;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s, background 0.2s, border-color 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      min-height: 36px;
+    }
+
+    .site-nav a:hover,
+    .site-nav a:focus-visible {
+      color: var(--white);
+      background: rgba(232,168,32,0.10);
+    }
+
+    .site-nav a.active {
+      color: var(--white);
+      background: rgba(232,168,32,0.14);
+      border-color: rgba(232,168,32,0.38);
+    }
+
+    @media (min-width: 600px) {
+      .site-nav { padding: 0 1.5rem; gap: 2px; }
+      .site-nav a { padding: 6px 14px; }
+    }
+
     /* ═══════════════════════════════════════════════
        GRAIN / HALFTONE TEXTURE OVERLAY
     ═══════════════════════════════════════════════ */
@@ -940,6 +996,17 @@
   </style>
 </head>
 <body>
+<nav class="site-nav" aria-label="Site navigation">
+  <a href="index.html">🏠 <span>Home</span></a>
+  <a href="our-sun.html">☀️ <span>Our Sun</span></a>
+  <a href="jupiter.html">🪐 <span>Jupiter</span></a>
+  <a href="mars.html">🔴 <span>Mars</span></a>
+  <a href="saturn.html">🪐 <span>Saturn</span></a>
+  <a href="orion.html">⭐ <span>Orion</span></a>
+  <a href="galileo.html">🔭 <span>Galileo</span></a>
+  <a href="moon-retro.html" class="active">🌕 <span>Moon Retro</span></a>
+  <a href="celestron-cpc1100.html">📡 <span>Telescope</span></a>
+</nav>
 <div class="page">
 
   <!-- ══════════════════════
