@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Sun — The Star at the Centre of Everything</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+
+    /* ══════════════════════════════════════════════
+       DESIGN SYSTEM — warm solar palette
+    ══════════════════════════════════════════════ */
+    :root {
+      --corona:    #fff8e1;
+      --solar:     #ff9800;
+      --flare:     #ff6f00;
+      --deep:      #1a0a00;
+      --surface:   #140800;
+      --plasma:    #ffcc02;
+      --red:       #e53935;
+      --muted:     #a07850;
+      --card-bg:   rgba(255,152,0,0.06);
+      --card-bdr:  rgba(255,152,0,0.22);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--surface);
+      color: var(--corona);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* ══════════════════════════════════════════════
+       ANIMATED SOLAR BACKGROUND
+    ══════════════════════════════════════════════ */
+    .solar-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    /* Slow pulsing glow behind everything */
+    .solar-bg::before {
+      content: '';
+      position: absolute;
+      top: -30%;
+      left: -20%;
+      width: 80vw;
+      height: 80vw;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        rgba(255,180,0,0.18) 0%,
+        rgba(255,100,0,0.08) 40%,
+        transparent 70%
+      );
+      animation: pulse 8s ease-in-out infinite alternate;
+    }
+
+    /* Second glow layer offset for depth */
+    .solar-bg::after {
+      content: '';
+      position: absolute;
+      bottom: -20%;
+      right: -10%;
+      width: 60vw;
+      height: 60vw;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        rgba(255,80,0,0.12) 0%,
+        transparent 65%
+      );
+      animation: pulse 11s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1);   opacity: 0.7; }
+      to   { transform: scale(1.12); opacity: 1;  }
+    }
+
+    /* Floating plasma particle dots */
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--plasma);
+      opacity: 0;
+      animation: drift linear infinite;
+    }
+
+    @keyframes drift {
+      0%   { transform: translateY(0)   scale(1);   opacity: 0; }
+      20%  { opacity: 0.6; }
+      80%  { opacity: 0.3; }
+      100% { transform: translateY(-120vh) scale(0.3); opacity: 0; }
+    }
+
+    /* ══════════════════════════════════════════════
+       LAYOUT
+    ══════════════════════════════════════════════ */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 56px 40px 80px;
+    }
+
+    /* ══════════════════════════════════════════════
+       HERO HEADER
+    ══════════════════════════════════════════════ */
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 48px;
+      margin-bottom: 52px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255,152,0,0.25);
+      animation: riseUp 1s ease both;
+    }
+
+    .eyebrow {
+      font-size: 10px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--solar);
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1;
+      color: var(--plasma);
+      text-shadow: 0 0 60px rgba(255,200,0,0.5);
+      letter-spacing: -1px;
+    }
+
+    h1 span {
+      display: block;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 0.5em;
+      color: var(--corona);
+      text-shadow: none;
+      letter-spacing: 0;
+      margin-top: 6px;
+    }
+
+    /* Animated sun orb */
+    .sun-orb {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 38% 38%,
+        #fffde7 0%,
+        #ffee58 20%,
+        #ff9800 55%,
+        #e65100 80%,
+        #bf360c 100%
+      );
+      box-shadow:
+        0 0 0 12px rgba(255,152,0,0.15),
+        0 0 0 28px rgba(255,152,0,0.08),
+        0 0 0 50px rgba(255,152,0,0.04),
+        0 0 80px rgba(255,152,0,0.6);
+      animation: orbPulse 4s ease-in-out infinite alternate, spin 80s linear infinite;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    @keyframes orbPulse {
+      from { box-shadow: 0 0 0 12px rgba(255,152,0,0.15), 0 0 0 28px rgba(255,152,0,0.08), 0 0 0 50px rgba(255,152,0,0.04), 0 0 80px rgba(255,152,0,0.6); }
+      to   { box-shadow: 0 0 0 18px rgba(255,152,0,0.2),  0 0 0 40px rgba(255,152,0,0.1),  0 0 0 70px rgba(255,152,0,0.05), 0 0 120px rgba(255,152,0,0.8); }
+    }
+
+    @keyframes spin { from { filter: hue-rotate(0deg); } to { filter: hue-rotate(15deg); } }
+
+    /* ══════════════════════════════════════════════
+       SECTION LABELS
+    ══════════════════════════════════════════════ */
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--solar);
+      margin-bottom: 18px;
+      font-weight: 500;
+    }
+
+    /* ══════════════════════════════════════════════
+       FAST FACTS STRIP
+    ══════════════════════════════════════════════ */
+    .facts-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      margin-bottom: 52px;
+      animation: riseUp 1s 0.1s ease both;
+    }
+
+    .fact-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 22px 18px;
+      text-align: center;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .fact-box:hover {
+      border-color: var(--solar);
+      background: rgba(255,152,0,0.1);
+    }
+
+    .fact-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--plasma);
+      line-height: 1.1;
+    }
+
+    .fact-unit {
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .fact-label {
+      font-size: 11px;
+      color: var(--corona);
+      margin-top: 6px;
+      opacity: 0.8;
+    }
+
+    /* ══════════════════════════════════════════════
+       INTRO + LAYERS GRID
+    ══════════════════════════════════════════════ */
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 48px;
+      margin-bottom: 52px;
+      animation: riseUp 1s 0.15s ease both;
+    }
+
+    .intro-text p {
+      font-size: 1rem;
+      color: var(--corona);
+      line-height: 1.8;
+      margin-bottom: 14px;
+      opacity: 0.9;
+    }
+
+    /* Sun layers list */
+    .layers-list { list-style: none; }
+
+    .layer-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(255,152,0,0.1);
+    }
+
+    .layer-item:last-child { border-bottom: none; }
+
+    .layer-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .layer-name {
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--solar);
+      font-weight: 500;
+      width: 100px;
+      flex-shrink: 0;
+    }
+
+    .layer-desc {
+      font-size: 0.88rem;
+      color: var(--corona);
+      opacity: 0.8;
+    }
+
+    /* ══════════════════════════════════════════════
+       DIVIDER
+    ══════════════════════════════════════════════ */
+    .rule {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 44px 0;
+    }
+
+    .rule-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,152,0,0.4), transparent);
+    }
+
+    .rule-sun {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--solar);
+      box-shadow: 0 0 10px var(--solar);
+    }
+
+    /* ══════════════════════════════════════════════
+       MIDDLE-SCHOOL EXPLAINER CARDS
+    ══════════════════════════════════════════════ */
+    .explainer-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .ms-badge {
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: rgba(255,111,0,0.2);
+      border: 1px solid rgba(255,111,0,0.4);
+      color: var(--flare);
+      padding: 3px 10px;
+      font-weight: 500;
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-bottom: 52px;
+      animation: riseUp 1s 0.2s ease both;
+    }
+
+    .concept-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 26px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    .concept-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--solar), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .concept-card:hover { border-color: var(--solar); }
+    .concept-card:hover::after { opacity: 1; }
+
+    .concept-icon { font-size: 2rem; }
+
+    .concept-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--plasma);
+    }
+
+    .concept-def {
+      font-size: 0.88rem;
+      color: var(--corona);
+      line-height: 1.7;
+      opacity: 0.85;
+      border-left: 2px solid var(--flare);
+      padding-left: 10px;
+    }
+
+    .analogy-label {
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--solar);
+      font-weight: 500;
+    }
+
+    .analogy-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .analogy-list li {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      font-size: 0.85rem;
+      color: var(--corona);
+      opacity: 0.85;
+      line-height: 1.55;
+    }
+
+    .analogy-list li span:first-child { flex-shrink: 0; }
+
+    /* ══════════════════════════════════════════════
+       SUN vs EARTH COMPARISON
+    ══════════════════════════════════════════════ */
+    .compare-section {
+      animation: riseUp 1s 0.25s ease both;
+      margin-bottom: 52px;
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .compare-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 20px 18px;
+      text-align: center;
+    }
+
+    .compare-topic {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .compare-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .compare-side {
+      text-align: center;
+      flex: 1;
+    }
+
+    .compare-val {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--plasma);
+      display: block;
+    }
+
+    .compare-lbl {
+      font-size: 9px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .compare-vs {
+      font-size: 0.75rem;
+      color: var(--muted);
+      padding: 0 8px;
+    }
+
+    .compare-analogy {
+      font-size: 0.8rem;
+      color: var(--corona);
+      opacity: 0.7;
+      margin-top: 10px;
+      border-top: 1px solid rgba(255,152,0,0.1);
+      padding-top: 8px;
+      line-height: 1.5;
+    }
+
+    /* ══════════════════════════════════════════════
+       SOLAR EVENTS
+    ══════════════════════════════════════════════ */
+    .events-section {
+      animation: riseUp 1s 0.3s ease both;
+      margin-bottom: 52px;
+    }
+
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+
+    .event-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 22px 18px;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .event-card:hover {
+      border-color: var(--red);
+      background: rgba(229,57,53,0.06);
+    }
+
+    .event-icon { font-size: 1.6rem; margin-bottom: 10px; display: block; }
+
+    .event-name {
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .event-desc {
+      font-size: 0.85rem;
+      color: var(--corona);
+      line-height: 1.65;
+      opacity: 0.85;
+    }
+
+    .event-analogy {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: var(--solar);
+      border-top: 1px solid rgba(255,152,0,0.15);
+      padding-top: 8px;
+      line-height: 1.5;
+    }
+
+    /* ══════════════════════════════════════════════
+       WHY THE SUN MATTERS
+    ══════════════════════════════════════════════ */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      animation: riseUp 1s 0.35s ease both;
+      margin-bottom: 52px;
+    }
+
+    .why-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 24px 22px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .why-icon { font-size: 1.8rem; flex-shrink: 0; }
+
+    .why-title {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--solar);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .why-body {
+      font-size: 0.88rem;
+      color: var(--corona);
+      line-height: 1.7;
+      opacity: 0.85;
+    }
+
+    /* ══════════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════════ */
+    footer {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,152,0,0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: riseUp 1s 0.4s ease both;
+    }
+
+    .footer-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--plasma);
+      font-style: italic;
+    }
+
+    .footer-note {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    /* ══════════════════════════════════════════════
+       ANIMATIONS
+    ══════════════════════════════════════════════ */
+    @keyframes riseUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ══════════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════════ */
+    @media (max-width: 720px) {
+      .page { padding: 36px 20px 60px; }
+      header { grid-template-columns: 1fr; }
+      .sun-orb { width: 80px; height: 80px; }
+      .facts-strip { grid-template-columns: repeat(2,1fr); }
+      .intro-grid { grid-template-columns: 1fr; }
+      .concept-grid { grid-template-columns: 1fr; }
+      .compare-grid { grid-template-columns: 1fr; }
+      .events-grid { grid-template-columns: repeat(2,1fr); }
+      .why-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Animated solar background -->
+<div class="solar-bg">
+  <!-- Floating plasma particles injected by JS below -->
+</div>
+
+<div class="page">
+
+  <!-- ═══════════════════════════════════════════
+       HERO HEADER
+  ═══════════════════════════════════════════ -->
+  <header>
+    <div>
+      <p class="eyebrow">Our Solar System · The Star at the Centre</p>
+      <h1>The Sun<span>Sol · G-Type Main-Sequence Star</span></h1>
+    </div>
+    <div class="sun-orb" aria-hidden="true"></div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════
+       FAST FACTS
+  ═══════════════════════════════════════════ -->
+  <p class="section-label">Fast Facts</p>
+  <div class="facts-strip">
+    <div class="fact-box">
+      <div class="fact-num">4.6</div>
+      <span class="fact-unit">Billion Years Old</span>
+      <p class="fact-label">Age — roughly halfway through its life</p>
+    </div>
+    <div class="fact-box">
+      <div class="fact-num">1.39</div>
+      <span class="fact-unit">Million km · Diameter</span>
+      <p class="fact-label">109× wider than Earth</p>
+    </div>
+    <div class="fact-box">
+      <div class="fact-num">15M°</div>
+      <span class="fact-unit">Celsius · Core Temp</span>
+      <p class="fact-label">Hot enough to fuse hydrogen atoms</p>
+    </div>
+    <div class="fact-box">
+      <div class="fact-num">99.8%</div>
+      <span class="fact-unit">of Solar System Mass</span>
+      <p class="fact-label">All planets combined = the other 0.2%</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       INTRO + LAYERS
+  ═══════════════════════════════════════════ -->
+  <div class="intro-grid">
+    <div class="intro-text">
+      <p class="section-label">What Is the Sun?</p>
+      <p>
+        The Sun is an enormous ball of hot plasma held together by its own gravity.
+        At its core, temperatures reach 15 million °C — hot enough to smash hydrogen
+        atoms together and fuse them into helium. That process, called
+        <strong>nuclear fusion</strong>, releases staggering amounts of energy as
+        light and heat.
+      </p>
+      <p>
+        That energy travels 150 million kilometres across space and arrives at Earth
+        in about 8 minutes. It powers every plant, every weather system, and every
+        living thing on our planet. Without the Sun, Earth would be a frozen,
+        lifeless rock drifting in the dark.
+      </p>
+      <p>
+        The Sun is classified as a <strong>G-type main-sequence star</strong> —
+        average in size and brightness compared to other stars in the galaxy, but
+        extraordinary to us because it is ours.
+      </p>
+    </div>
+
+    <div>
+      <p class="section-label">Layers of the Sun</p>
+      <ul class="layers-list">
+        <li class="layer-item">
+          <div class="layer-dot" style="background:#ff1744;"></div>
+          <span class="layer-name">Core</span>
+          <span class="layer-desc">Nuclear fusion happens here — 15,000,000 °C</span>
+        </li>
+        <li class="layer-item">
+          <div class="layer-dot" style="background:#ff6d00;"></div>
+          <span class="layer-name">Radiative</span>
+          <span class="layer-desc">Energy bounces around for up to 100,000 years</span>
+        </li>
+        <li class="layer-item">
+          <div class="layer-dot" style="background:#ff9800;"></div>
+          <span class="layer-name">Convective</span>
+          <span class="layer-desc">Hot plasma bubbles up like boiling soup</span>
+        </li>
+        <li class="layer-item">
+          <div class="layer-dot" style="background:#ffcc02;"></div>
+          <span class="layer-name">Photosphere</span>
+          <span class="layer-desc">The visible surface — what we see as sunlight (~5,500 °C)</span>
+        </li>
+        <li class="layer-item">
+          <div class="layer-dot" style="background:#fff8e1;"></div>
+          <span class="layer-name">Chromosphere</span>
+          <span class="layer-desc">Thin reddish layer above the surface — visible in solar eclipses</span>
+        </li>
+        <li class="layer-item">
+          <div class="layer-dot" style="background:#b0bec5;"></div>
+          <span class="layer-name">Corona</span>
+          <span class="layer-desc">Superheated outer atmosphere — millions of °C and extends far into space</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule"><div class="rule-line"></div><div class="rule-sun"></div><div class="rule-line"></div></div>
+
+  <!-- ═══════════════════════════════════════════
+       MIDDLE-SCHOOL CONCEPTS
+  ═══════════════════════════════════════════ -->
+  <div class="explainer-label">
+    <p class="section-label" style="margin:0;">Key Concepts Explained</p>
+    <div class="ms-badge">🎒 Middle School Friendly</div>
+  </div>
+
+  <div class="concept-grid">
+
+    <!-- Nuclear Fusion -->
+    <div class="concept-card">
+      <span class="concept-icon">⚛️</span>
+      <p class="concept-title">Nuclear Fusion</p>
+      <p class="concept-def">
+        The Sun slams hydrogen atoms together so hard they fuse into helium.
+        The leftover mass converts directly to energy — that's the light and heat
+        we feel on Earth.
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>🔫</span><span><strong>Nerf bullets:</strong> If you fire two foam bullets at each other hard enough, imagine them sticking together and releasing a flash of light. That's fusion — pressure makes things that wouldn't normally combine, combine.</span></li>
+        <li><span>🧱</span><span><strong>Lego bricks:</strong> Snap two bricks together and you get one stronger piece. Fusing hydrogen gives you helium — a totally different, heavier atom — plus a burst of energy left over.</span></li>
+        <li><span>🎈</span><span><strong>Balloon squeeze:</strong> Squeeze a balloon from all sides until it pops. The Sun's gravity does this to hydrogen gas — the pressure at the centre gets so extreme that atoms are forced to fuse.</span></li>
+      </ul>
+    </div>
+
+    <!-- Gravity -->
+    <div class="concept-card">
+      <span class="concept-icon">🌀</span>
+      <p class="concept-title">Gravity vs. Pressure</p>
+      <p class="concept-def">
+        The Sun is a constant tug-of-war. Gravity pulls all the mass inward,
+        trying to collapse it. The energy from fusion pushes outward with
+        enormous pressure. These two forces balance each other perfectly —
+        that balance is what keeps a star alive.
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>🪂</span><span><strong>Skydiver:</strong> A skydiver falls due to gravity but air resistance pushes back up. At terminal velocity, they balance. The Sun is at its own "terminal velocity" between gravity and fusion pressure.</span></li>
+        <li><span>🎈</span><span><strong>Balloon walls:</strong> The rubber skin squeezes inward (gravity). The air inside pushes outward (fusion pressure). The balloon holds its shape because both forces are equal.</span></li>
+        <li><span>🤼</span><span><strong>Arm wrestling:</strong> Two perfectly matched people — neither wins. The Sun has been arm-wrestling itself for 4.6 billion years and is still tied.</span></li>
+      </ul>
+    </div>
+
+    <!-- Light Travel Time -->
+    <div class="concept-card">
+      <span class="concept-icon">💡</span>
+      <p class="concept-title">Light Travel Time</p>
+      <p class="concept-def">
+        Light from the Sun takes about <strong>8 minutes 20 seconds</strong> to reach
+        Earth. But that same light spent up to 100,000 years bouncing around inside
+        the Sun before it escaped. Once free, it covers 150 million km in minutes.
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>🏃</span><span><strong>Pinball machine:</strong> A ball bouncing inside a pinball machine (the Sun's interior) for 100,000 years — then the second it exits the machine, it rolls 150 million km in 8 minutes. That's how light travels.</span></li>
+        <li><span>🌊</span><span><strong>Crowd wave:</strong> A wave at a sports stadium passes from person to person slowly. But once it reaches the outside of the stadium, it's just sound in open air — instantly fast.</span></li>
+        <li><span>📸</span><span><strong>Old photo:</strong> When you look at the Sun (safely, with filters!), you're seeing what it looked like 8 minutes ago. You're literally looking into the past.</span></li>
+      </ul>
+    </div>
+
+    <!-- Solar Wind -->
+    <div class="concept-card">
+      <span class="concept-icon">💨</span>
+      <p class="concept-title">Solar Wind</p>
+      <p class="concept-def">
+        The Sun constantly streams charged particles (mostly protons and electrons)
+        outward in all directions at 400–800 km/s. This invisible "wind" fills the
+        entire solar system and affects every planet.
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>💨</span><span><strong>Garden sprinkler:</strong> A spinning sprinkler shoots water in all directions. The Sun shoots particles in all directions — a permanent gust blowing outward across billions of kilometres.</span></li>
+        <li><span>🕯️</span><span><strong>Candle flame:</strong> A candle constantly loses hot wax vapour into the air. The Sun constantly loses particles into space. Over billions of years, the Sun very slowly loses mass this way.</span></li>
+        <li><span>🧲</span><span><strong>Earth's shield:</strong> Earth's magnetic field deflects solar wind like a force field. Where it leaks in at the poles, we get the <em>aurora borealis</em> — the Northern Lights.</span></li>
+      </ul>
+    </div>
+
+    <!-- Sunspots -->
+    <div class="concept-card">
+      <span class="concept-icon">🔵</span>
+      <p class="concept-title">Sunspots</p>
+      <p class="concept-def">
+        Sunspots are dark patches on the Sun's surface where intense magnetic
+        fields prevent hot plasma from rising. They look dark only because the
+        surrounding surface is even hotter and brighter — a sunspot alone would
+        outshine a full moon.
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>🍳</span><span><strong>Frying pan:</strong> Put a cold ice cube in a hot frying pan. The spot under the ice stays cooler. Sunspots are "cool" spots (4,000 °C) on a surface that's 5,500 °C — still incredibly hot!</span></li>
+        <li><span>🚦</span><span><strong>Traffic jam:</strong> Magnetic fields act like a road block, stopping the hot plasma from flowing up. The plasma piles up but can't get through — so that area stays cooler than the rest.</span></li>
+        <li><span>🎱</span><span><strong>Shadow comparison:</strong> A sunspot on the Sun is like a shadow on a lightbulb — it only looks dark compared to the blazing light around it. In reality it's still blisteringly hot.</span></li>
+      </ul>
+    </div>
+
+    <!-- The Sun's Future -->
+    <div class="concept-card">
+      <span class="concept-icon">🔴</span>
+      <p class="concept-title">The Sun's Future</p>
+      <p class="concept-def">
+        In about 5 billion years, the Sun will run out of hydrogen fuel. It will
+        expand into a <strong>red giant</strong>, swallowing Mercury, Venus, and
+        possibly Earth. Then it will shed its outer layers and leave behind a
+        dense <strong>white dwarf</strong> — a cooling ember the size of Earth.
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>🕯️</span><span><strong>Candle melting:</strong> A candle burns steady for hours, then as it runs low, the wax pools outward before going out. The Sun will "pool outward" as a red giant before dimming to a white dwarf.</span></li>
+        <li><span>🎆</span><span><strong>Firework:</strong> A firework burns a bright centre, then expands in a big flash (red giant phase), then fades into sparkling embers (white dwarf phase).</span></li>
+        <li><span>🌬️</span><span><strong>Campfire:</strong> A campfire roars for hours, then the logs collapse inward, leaving a small dense pile of hot glowing embers — long after the big flames are gone.</span></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="rule"><div class="rule-line"></div><div class="rule-sun"></div><div class="rule-line"></div></div>
+
+  <!-- ═══════════════════════════════════════════
+       SUN vs EARTH COMPARISONS
+  ═══════════════════════════════════════════ -->
+  <div class="compare-section">
+    <p class="section-label">Sun vs Earth — Scale Comparisons</p>
+    <div class="compare-grid">
+
+      <div class="compare-card">
+        <p class="compare-topic">Size</p>
+        <div class="compare-row">
+          <div class="compare-side">
+            <span class="compare-val">1,390,000</span>
+            <span class="compare-lbl">☀️ Sun (km)</span>
+          </div>
+          <span class="compare-vs">vs</span>
+          <div class="compare-side">
+            <span class="compare-val">12,742</span>
+            <span class="compare-lbl">🌍 Earth (km)</span>
+          </div>
+        </div>
+        <p class="compare-analogy">🏀 If the Sun were a basketball, Earth would be a peppercorn sitting 26 metres away.</p>
+      </div>
+
+      <div class="compare-card">
+        <p class="compare-topic">Volume</p>
+        <div class="compare-row">
+          <div class="compare-side">
+            <span class="compare-val">1,300,000</span>
+            <span class="compare-lbl">☀️ Earths fit inside</span>
+          </div>
+          <span class="compare-vs">≈</span>
+          <div class="compare-side">
+            <span class="compare-val">1</span>
+            <span class="compare-lbl">🌍 Earth</span>
+          </div>
+        </div>
+        <p class="compare-analogy">🫐 If Earth were a blueberry, you could fit 1.3 million blueberries inside the Sun.</p>
+      </div>
+
+      <div class="compare-card">
+        <p class="compare-topic">Temperature</p>
+        <div class="compare-row">
+          <div class="compare-side">
+            <span class="compare-val">5,500°C</span>
+            <span class="compare-lbl">☀️ Sun surface</span>
+          </div>
+          <span class="compare-vs">vs</span>
+          <div class="compare-side">
+            <span class="compare-val">~15°C</span>
+            <span class="compare-lbl">🌍 Earth avg.</span>
+          </div>
+        </div>
+        <p class="compare-analogy">🍕 The Sun's surface is like a pizza oven cranked up 366× hotter than the hottest oven on Earth.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SOLAR EVENTS
+  ═══════════════════════════════════════════ -->
+  <div class="events-section">
+    <p class="section-label">Solar Events &amp; Phenomena</p>
+    <div class="events-grid">
+
+      <div class="event-card">
+        <span class="event-icon">🌋</span>
+        <p class="event-name">Solar Flare</p>
+        <p class="event-desc">A sudden burst of radiation from the Sun's surface — can last minutes to hours and releases as much energy as billions of nuclear bombs.</p>
+        <p class="event-analogy">🎆 Like a camera flash going off on the surface — sudden, intense, then done.</p>
+      </div>
+
+      <div class="event-card">
+        <span class="event-icon">🌊</span>
+        <p class="event-name">CME</p>
+        <p class="event-desc">Coronal Mass Ejection — a huge cloud of magnetised plasma launched into space. When it hits Earth's magnetic field, it can cause blackouts and auroras.</p>
+        <p class="event-analogy">🌊 Like a massive ocean wave — it travels for days before it crashes into Earth's magnetic "shore."</p>
+      </div>
+
+      <div class="event-card">
+        <span class="event-icon">🌑</span>
+        <p class="event-name">Solar Eclipse</p>
+        <p class="event-desc">The Moon passes exactly between Earth and the Sun, blocking sunlight. The Sun's corona (outer atmosphere) becomes briefly visible as a halo of light.</p>
+        <p class="event-analogy">🔦 Hold a tennis ball up in front of a floodlight — the ball blocks the bright centre, revealing the glow around the edge.</p>
+      </div>
+
+      <div class="event-card">
+        <span class="event-icon">🌈</span>
+        <p class="event-name">Aurora Borealis</p>
+        <p class="event-desc">Solar wind particles funnel into Earth's atmosphere at the poles and collide with gas molecules, releasing light in curtains of green, red, and purple.</p>
+        <p class="event-analogy">💡 Like a neon sign — electricity excites gas and the gas glows. Solar wind excites Earth's upper atmosphere and it glows.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       WHY THE SUN MATTERS
+  ═══════════════════════════════════════════ -->
+  <div class="why-grid">
+    <div class="why-card">
+      <span class="why-icon">🌱</span>
+      <div>
+        <p class="why-title">Powers All Life</p>
+        <p class="why-body">Through photosynthesis, plants convert sunlight into food energy. Every animal — including you — ultimately eats energy that started as sunlight. Even oil and coal are stored ancient sunlight.</p>
+      </div>
+    </div>
+    <div class="why-card">
+      <span class="why-icon">🌦️</span>
+      <div>
+        <p class="why-title">Drives Weather</p>
+        <p class="why-body">The Sun heats land and oceans unevenly, creating air pressure differences — which become wind and weather systems. Every storm, breeze, and cloud owes its existence to solar energy.</p>
+      </div>
+    </div>
+    <div class="why-card">
+      <span class="why-icon">🪐</span>
+      <div>
+        <p class="why-title">Holds the Solar System Together</p>
+        <p class="why-body">The Sun's gravity keeps all eight planets, hundreds of moons, and billions of asteroids in orbit. Without it, everything would fly off into interstellar space.</p>
+      </div>
+    </div>
+    <div class="why-card">
+      <span class="why-icon">🔬</span>
+      <div>
+        <p class="why-title">Our Best Lab for Stellar Science</p>
+        <p class="why-body">The Sun is the only star close enough to study in detail. Everything we know about how all other stars in the universe work, we learned first by studying the Sun.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer>
+    <div class="footer-title">Our Sun</div>
+    <div class="footer-note">G-Type Main-Sequence Star · Age 4.6 Billion Years</div>
+    <div class="footer-note">150,000,000 km from Earth</div>
+  </footer>
+
+</div>
+
+<!-- Inject floating plasma particles -->
+<script>
+  const bg = document.querySelector('.solar-bg');
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 3 + 1;
+    p.style.cssText = `
+      width: ${size}px;
+      height: ${size}px;
+      left: ${Math.random() * 100}%;
+      bottom: ${Math.random() * 20}%;
+      animation-duration: ${Math.random() * 20 + 15}s;
+      animation-delay: ${Math.random() * 15}s;
+    `;
+    bg.appendChild(p);
+  }
+</script>
+
+</body>
+</html>

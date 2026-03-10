@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jupiter — King of the Planets</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+
+    /* ══════════════════════════════════════
+       DESIGN SYSTEM — Jupiter: warm ochre,
+       rust red, cream bands on deep indigo
+    ══════════════════════════════════════ */
+    :root {
+      --void:      #06040f;
+      --deep:      #0d0820;
+      --band1:     #c97c3a;   /* warm ochre band */
+      --band2:     #7a3e1a;   /* dark rust band  */
+      --band3:     #e8c282;   /* cream highlight */
+      --grs:       #8b2615;   /* Great Red Spot  */
+      --grs-light: #c94030;
+      --chalk:     #f5ede0;
+      --muted:     #8a7060;
+      --card-bg:   rgba(201,124,58,0.07);
+      --card-bdr:  rgba(201,124,58,0.25);
+      --accent:    #e8c282;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--void);
+      color: var(--chalk);
+      font-family: 'Lora', serif;
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ══════════════════════════════════════
+       JUPITER BANDED BACKGROUND
+    ══════════════════════════════════════ */
+    .jup-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    /* Slow-drifting horizontal bands */
+    .jup-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg,
+          transparent 0%,
+          rgba(201,124,58,0.04) 12%,
+          transparent 16%,
+          rgba(122,62,26,0.06) 25%,
+          transparent 30%,
+          rgba(201,124,58,0.05) 42%,
+          transparent 47%,
+          rgba(122,62,26,0.07) 58%,
+          transparent 63%,
+          rgba(232,194,130,0.04) 74%,
+          transparent 79%,
+          rgba(201,124,58,0.05) 88%,
+          transparent 100%
+        );
+      animation: bandDrift 30s linear infinite;
+    }
+
+    @keyframes bandDrift {
+      from { background-position: 0 0; }
+      to   { background-position: 0 200px; }
+    }
+
+    /* Deep space glow from lower left */
+    .jup-bg::after {
+      content: '';
+      position: absolute;
+      bottom: -15%;
+      left: -10%;
+      width: 70vw;
+      height: 70vw;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        rgba(139,38,21,0.12) 0%,
+        rgba(201,124,58,0.06) 40%,
+        transparent 70%
+      );
+      animation: grsGlow 12s ease-in-out infinite alternate;
+    }
+
+    @keyframes grsGlow {
+      from { opacity: 0.6; transform: scale(1);   }
+      to   { opacity: 1;   transform: scale(1.08); }
+    }
+
+    /* ══════════════════════════════════════
+       STARFIELD
+    ══════════════════════════════════════ */
+    .stars {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(1px 1px at 8%  15%, rgba(255,255,255,0.55) 0%, transparent 100%),
+        radial-gradient(1px 1px at 22% 72%, rgba(255,255,255,0.40) 0%, transparent 100%),
+        radial-gradient(1px 1px at 55% 8%,  rgba(255,255,255,0.65) 0%, transparent 100%),
+        radial-gradient(1px 1px at 78% 88%, rgba(255,255,255,0.45) 0%, transparent 100%),
+        radial-gradient(1px 1px at 91% 30%, rgba(255,255,255,0.55) 0%, transparent 100%),
+        radial-gradient(1px 1px at 35% 55%, rgba(255,255,255,0.35) 0%, transparent 100%),
+        radial-gradient(1px 1px at 65% 40%, rgba(255,255,255,0.50) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 45% 80%, rgba(232,194,130,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 12% 90%, rgba(255,255,255,0.40) 0%, transparent 100%),
+        radial-gradient(1px 1px at 88% 60%, rgba(255,255,255,0.35) 0%, transparent 100%);
+    }
+
+    /* ══════════════════════════════════════
+       LAYOUT
+    ══════════════════════════════════════ */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 56px 40px 88px;
+    }
+
+    /* ══════════════════════════════════════
+       HEADER
+    ══════════════════════════════════════ */
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: center;
+      border-bottom: 1px solid rgba(201,124,58,0.3);
+      padding-bottom: 44px;
+      margin-bottom: 52px;
+      animation: slideIn 0.9s ease both;
+    }
+
+    .eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--band1);
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 9vw, 8rem);
+      line-height: 0.9;
+      color: var(--accent);
+      letter-spacing: 3px;
+      text-shadow: 0 0 80px rgba(232,194,130,0.35);
+    }
+
+    h1 .subtitle {
+      display: block;
+      font-family: 'Lora', serif;
+      font-size: clamp(0.85rem, 2vw, 1.1rem);
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-top: 8px;
+      text-shadow: none;
+    }
+
+    /* Animated Jupiter orb */
+    .jup-orb {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow:
+        0 0 0 10px rgba(201,124,58,0.1),
+        0 0 0 24px rgba(201,124,58,0.06),
+        0 0 60px rgba(201,124,58,0.4);
+      animation: orbFloat 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes orbFloat {
+      from { transform: translateY(0);   box-shadow: 0 0 0 10px rgba(201,124,58,0.1), 0 0 0 24px rgba(201,124,58,0.06), 0 0 60px rgba(201,124,58,0.4); }
+      to   { transform: translateY(-8px); box-shadow: 0 0 0 14px rgba(201,124,58,0.14), 0 0 0 32px rgba(201,124,58,0.07), 0 0 90px rgba(201,124,58,0.5); }
+    }
+
+    /* Jupiter's banded surface */
+    .jup-orb-inner {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: linear-gradient(180deg,
+        #d4915a 0%,
+        #c97c3a 8%,
+        #f0ddb0 14%,
+        #b86830 20%,
+        #e8c88a 28%,
+        #7a3e1a 36%,
+        #d4915a 43%,
+        #c07840 50%,
+        #f5e4c0 58%,
+        #8b4520 65%,
+        #d4915a 72%,
+        #e8c282 80%,
+        #a05830 88%,
+        #c97c3a 100%
+      );
+      animation: jupSpin 20s linear infinite;
+    }
+
+    /* Great Red Spot */
+    .grs-dot {
+      position: absolute;
+      width: 30px;
+      height: 18px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, #c94030 0%, #8b2615 60%, transparent 100%);
+      bottom: 38%;
+      left: 20%;
+      animation: grsSpin 20s linear infinite;
+      box-shadow: 0 0 8px rgba(139,38,21,0.6);
+    }
+
+    @keyframes jupSpin {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-20px); }
+    }
+
+    @keyframes grsSpin {
+      from { left: 20%; }
+      to   { left: 10%; }
+    }
+
+    /* ══════════════════════════════════════
+       SECTION LABELS
+    ══════════════════════════════════════ */
+    .section-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--band1);
+      margin-bottom: 18px;
+      font-weight: 500;
+    }
+
+    /* ══════════════════════════════════════
+       FAST FACTS
+    ══════════════════════════════════════ */
+    .facts-strip {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2px;
+      margin-bottom: 52px;
+      animation: slideIn 0.9s 0.08s ease both;
+    }
+
+    .fact-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 20px 14px;
+      text-align: center;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .fact-box:hover {
+      border-color: var(--band1);
+      background: rgba(201,124,58,0.12);
+    }
+
+    .fact-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--accent);
+      line-height: 1;
+      letter-spacing: 1px;
+    }
+
+    .fact-unit {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .fact-label {
+      font-size: 0.78rem;
+      color: var(--chalk);
+      margin-top: 6px;
+      opacity: 0.75;
+      line-height: 1.4;
+    }
+
+    /* ══════════════════════════════════════
+       INTRO + COMPOSITION GRID
+    ══════════════════════════════════════ */
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 48px;
+      margin-bottom: 52px;
+      animation: slideIn 0.9s 0.12s ease both;
+    }
+
+    .intro-text p {
+      font-size: 0.97rem;
+      line-height: 1.85;
+      margin-bottom: 14px;
+      color: var(--chalk);
+      opacity: 0.9;
+    }
+
+    /* Composition bar chart */
+    .comp-bars { display: flex; flex-direction: column; gap: 10px; }
+
+    .comp-row { display: flex; flex-direction: column; gap: 4px; }
+
+    .comp-labels {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+    }
+
+    .comp-name { color: var(--band3); letter-spacing: 1px; }
+    .comp-pct  { color: var(--muted); }
+
+    .comp-track {
+      height: 8px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 1px;
+      overflow: hidden;
+    }
+
+    .comp-fill {
+      height: 100%;
+      border-radius: 1px;
+      animation: barGrow 1.2s ease both;
+    }
+
+    @keyframes barGrow {
+      from { width: 0; }
+    }
+
+    /* ══════════════════════════════════════
+       DIVIDER
+    ══════════════════════════════════════ */
+    .rule {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 44px 0;
+    }
+
+    .rule-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,124,58,0.4), transparent);
+    }
+
+    .rule-diamond {
+      width: 8px;
+      height: 8px;
+      border: 1px solid var(--band1);
+      transform: rotate(45deg);
+    }
+
+    /* ══════════════════════════════════════
+       MIDDLE-SCHOOL CONCEPT CARDS
+    ══════════════════════════════════════ */
+    .ms-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .ms-badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: rgba(139,38,21,0.25);
+      border: 1px solid rgba(201,63,48,0.4);
+      color: var(--grs-light);
+      padding: 3px 10px;
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-bottom: 52px;
+      animation: slideIn 0.9s 0.18s ease both;
+    }
+
+    .concept-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 26px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    .concept-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--band1), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .concept-card:hover { border-color: var(--band1); }
+    .concept-card:hover::before { opacity: 1; }
+
+    .concept-icon { font-size: 1.9rem; }
+
+    .concept-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 2px;
+      color: var(--accent);
+    }
+
+    .concept-def {
+      font-size: 0.86rem;
+      line-height: 1.7;
+      color: var(--chalk);
+      opacity: 0.85;
+      border-left: 2px solid var(--grs);
+      padding-left: 10px;
+    }
+
+    .analogy-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--band1);
+    }
+
+    .analogy-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .analogy-list li {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      font-size: 0.83rem;
+      color: var(--chalk);
+      opacity: 0.83;
+      line-height: 1.55;
+    }
+
+    .analogy-list li span:first-child { flex-shrink: 0; }
+    .analogy-list li strong { color: var(--accent); font-style: italic; }
+
+    /* ══════════════════════════════════════
+       JUPITER vs EARTH COMPARISON
+    ══════════════════════════════════════ */
+    .compare-section {
+      animation: slideIn 0.9s 0.22s ease both;
+      margin-bottom: 52px;
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+
+    .compare-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 20px 16px;
+    }
+
+    .compare-topic {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .compare-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .compare-side { text-align: center; flex: 1; }
+
+    .compare-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      color: var(--accent);
+      letter-spacing: 1px;
+      display: block;
+    }
+
+    .compare-lbl {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .compare-vs {
+      font-size: 0.75rem;
+      color: var(--muted);
+      padding: 0 6px;
+    }
+
+    .compare-analogy {
+      font-size: 0.78rem;
+      color: var(--chalk);
+      opacity: 0.7;
+      margin-top: 10px;
+      border-top: 1px solid rgba(201,124,58,0.12);
+      padding-top: 8px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    /* ══════════════════════════════════════
+       MOONS
+    ══════════════════════════════════════ */
+    .moons-section {
+      animation: slideIn 0.9s 0.26s ease both;
+      margin-bottom: 52px;
+    }
+
+    .moons-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+
+    .moon-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 22px 18px;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .moon-card:hover {
+      border-color: var(--accent);
+      background: rgba(232,194,130,0.07);
+    }
+
+    .moon-icon { font-size: 1.8rem; display: block; margin-bottom: 10px; }
+
+    .moon-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 2px;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .moon-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--band1);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .moon-desc {
+      font-size: 0.83rem;
+      line-height: 1.65;
+      color: var(--chalk);
+      opacity: 0.82;
+    }
+
+    .moon-analogy {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: var(--accent);
+      border-top: 1px solid rgba(232,194,130,0.12);
+      padding-top: 8px;
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    /* ══════════════════════════════════════
+       FUN FACTS — MIDDLE SCHOOL HOOKS
+    ══════════════════════════════════════ */
+    .hooks-section {
+      animation: slideIn 0.9s 0.3s ease both;
+      margin-bottom: 52px;
+    }
+
+    .hooks-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+    }
+
+    .hook-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 22px 22px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: border-color 0.3s;
+    }
+
+    .hook-card:hover { border-color: var(--band1); }
+
+    .hook-icon { font-size: 1.7rem; flex-shrink: 0; margin-top: 2px; }
+
+    .hook-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .hook-body {
+      font-size: 0.86rem;
+      line-height: 1.7;
+      color: var(--chalk);
+      opacity: 0.85;
+    }
+
+    .hook-body strong { color: var(--accent); }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    footer {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(201,124,58,0.25);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: slideIn 0.9s 0.35s ease both;
+    }
+
+    .footer-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--accent);
+      letter-spacing: 4px;
+    }
+
+    .footer-note {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* ══════════════════════════════════════
+       ANIMATIONS
+    ══════════════════════════════════════ */
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ══════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════ */
+    @media (max-width: 740px) {
+      .page { padding: 36px 20px 64px; }
+      header { grid-template-columns: 1fr; }
+      .facts-strip { grid-template-columns: repeat(3, 1fr); }
+      .intro-grid { grid-template-columns: 1fr; }
+      .concept-grid { grid-template-columns: 1fr; }
+      .compare-grid { grid-template-columns: repeat(2,1fr); }
+      .moons-grid { grid-template-columns: repeat(2,1fr); }
+      .hooks-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="jup-bg"></div>
+<div class="stars"></div>
+
+<div class="page">
+
+  <!-- ════════════════════════════════════
+       HERO HEADER
+  ════════════════════════════════════ -->
+  <header>
+    <div>
+      <p class="eyebrow">Solar System · Fifth Planet from the Sun · Gas Giant</p>
+      <h1>JUPITER<span class="subtitle">King of the Planets — largest world in our solar system</span></h1>
+    </div>
+    <div class="jup-orb" aria-hidden="true">
+      <div class="jup-orb-inner"></div>
+      <div class="grs-dot"></div>
+    </div>
+  </header>
+
+  <!-- ════════════════════════════════════
+       FAST FACTS
+  ════════════════════════════════════ -->
+  <p class="section-label">Fast Facts</p>
+  <div class="facts-strip">
+    <div class="fact-box">
+      <div class="fact-num">142,984</div>
+      <span class="fact-unit">km · Diameter</span>
+      <p class="fact-label">11× wider than Earth</p>
+    </div>
+    <div class="fact-box">
+      <div class="fact-num">1,321</div>
+      <span class="fact-unit">Earths by volume</span>
+      <p class="fact-label">You could fit 1,321 Earths inside</p>
+    </div>
+    <div class="fact-box">
+      <div class="fact-num">9.9 hr</div>
+      <span class="fact-unit">Day length</span>
+      <p class="fact-label">Fastest rotation in the solar system</p>
+    </div>
+    <div class="fact-box">
+      <div class="fact-num">95</div>
+      <span class="fact-unit">Known Moons</span>
+      <p class="fact-label">More moons than any other planet</p>
+    </div>
+    <div class="fact-box">
+      <div class="fact-num">400+ yrs</div>
+      <span class="fact-unit">Great Red Spot age</span>
+      <p class="fact-label">A storm older than the USA</p>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       INTRO + COMPOSITION
+  ════════════════════════════════════ -->
+  <div class="intro-grid">
+    <div class="intro-text">
+      <p class="section-label">What Is Jupiter?</p>
+      <p>
+        Jupiter is a <strong>gas giant</strong> — a planet so massive it contains
+        more than twice the mass of all the other planets combined. Unlike Earth,
+        it has no solid surface. You couldn't land on it; you'd just sink deeper
+        and deeper into swirling gas, until the pressure crushed anything we've
+        ever built.
+      </p>
+      <p>
+        Its most famous feature, the <strong>Great Red Spot</strong>, is a storm
+        that has been raging for at least 400 years. At its largest it was three
+        times the size of Earth. Scientists aren't sure why it keeps going —
+        there's nothing to slow it down.
+      </p>
+      <p>
+        Jupiter also acts as a giant <strong>cosmic shield</strong> for the inner
+        solar system. Its enormous gravity captures or deflects comets and asteroids
+        that would otherwise head toward Earth. Without Jupiter, our planet would
+        get hit far more often.
+      </p>
+    </div>
+
+    <div>
+      <p class="section-label">What Is Jupiter Made Of?</p>
+      <div class="comp-bars">
+        <div class="comp-row">
+          <div class="comp-labels">
+            <span class="comp-name">Hydrogen (gas)</span>
+            <span class="comp-pct">75%</span>
+          </div>
+          <div class="comp-track">
+            <div class="comp-fill" style="width:75%; background: linear-gradient(90deg,#c97c3a,#e8c282); animation-delay:0.2s;"></div>
+          </div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-labels">
+            <span class="comp-name">Helium</span>
+            <span class="comp-pct">24%</span>
+          </div>
+          <div class="comp-track">
+            <div class="comp-fill" style="width:24%; background: linear-gradient(90deg,#7a3e1a,#c97c3a); animation-delay:0.35s;"></div>
+          </div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-labels">
+            <span class="comp-name">Methane, ammonia</span>
+            <span class="comp-pct">~0.9%</span>
+          </div>
+          <div class="comp-track">
+            <div class="comp-fill" style="width:5%; background: #8b4520; animation-delay:0.5s;"></div>
+          </div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-labels">
+            <span class="comp-name">Other trace gases</span>
+            <span class="comp-pct">~0.1%</span>
+          </div>
+          <div class="comp-track">
+            <div class="comp-fill" style="width:2%; background: #5a3010; animation-delay:0.65s;"></div>
+          </div>
+        </div>
+
+        <p style="font-size:0.82rem; color:var(--muted); margin-top:12px; line-height:1.6;">
+          Jupiter is almost entirely hydrogen and helium — the same stuff stars are made of.
+          It's often called a <em>"failed star"</em> because if it had been about
+          80× more massive, it could have ignited nuclear fusion and become a second sun.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule"><div class="rule-line"></div><div class="rule-diamond"></div><div class="rule-line"></div></div>
+
+  <!-- ════════════════════════════════════
+       MIDDLE-SCHOOL CONCEPT CARDS
+  ════════════════════════════════════ -->
+  <div class="ms-header">
+    <p class="section-label" style="margin:0;">Key Concepts Explained</p>
+    <div class="ms-badge">🎒 Middle School Friendly</div>
+  </div>
+
+  <div class="concept-grid">
+
+    <!-- Gas Giant -->
+    <div class="concept-card">
+      <span class="concept-icon">🌀</span>
+      <p class="concept-title">Gas Giant</p>
+      <p class="concept-def">
+        Jupiter has no solid ground. It's mostly hydrogen and helium gas that gets
+        denser and hotter the deeper you go, eventually turning into a liquid —
+        and possibly a small rocky core at the very centre.
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>☁️</span><span><strong>Cloud diving:</strong> Imagine jumping into a cloud. At first it's just fog. But imagine it keeps getting thicker and thicker the lower you go — until eventually it's as dense as water, then as dense as rock. That's Jupiter.</span></li>
+        <li><span>🍮</span><span><strong>Jello cup:</strong> The outside is wiggly and soft. Dig deeper and it gets firmer. At the very bottom there might be a solid chunk. Jupiter works the same way — soft outside, unknown solid core inside.</span></li>
+        <li><span>🌊</span><span><strong>Deep ocean:</strong> The ocean has no "floor" you crash into right away — you sink through increasing pressure until you can't go further. Jupiter is like an ocean of gas with no obvious bottom.</span></li>
+      </ul>
+    </div>
+
+    <!-- Great Red Spot -->
+    <div class="concept-card">
+      <span class="concept-icon">🌪️</span>
+      <p class="concept-title">Great Red Spot</p>
+      <p class="concept-def">
+        A storm larger than Earth that has been spinning continuously for over
+        400 years. It's an <strong>anticyclone</strong> — wind spinning in the
+        opposite direction of most storms — with wind speeds up to 640 km/h.
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>🛁</span><span><strong>Bathtub drain:</strong> Water swirling down a drain keeps spinning in one direction because nothing stops it. On Jupiter there's no land or friction to slow the storm — so it just keeps going and going for centuries.</span></li>
+        <li><span>🍦</span><span><strong>Soft-serve swirl:</strong> The bands of Jupiter swirl past each other like two conveyor belts moving in opposite directions. Where they meet, the gas gets spun up into a permanent vortex — the GRS.</span></li>
+        <li><span>⏰</span><span><strong>Old timer:</strong> The GRS started spinning before the United States existed. It was already a storm when Isaac Newton was writing his laws of physics. That's how long it's been going.</span></li>
+      </ul>
+    </div>
+
+    <!-- Gravity & Magnetic Field -->
+    <div class="concept-card">
+      <span class="concept-icon">🧲</span>
+      <p class="concept-title">Gravity & Magnetic Field</p>
+      <p class="concept-def">
+        Jupiter's gravity is 2.4× Earth's — if you weighed 50 kg on Earth,
+        you'd weigh 118 kg on Jupiter. Its magnetic field is the strongest of
+        any planet — 20,000× stronger than Earth's — trapping deadly radiation
+        around it.
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>🏋️</span><span><strong>Heavy backpack:</strong> If you normally carry a 10 kg backpack and suddenly it became 24 kg, every step would be exhausting. Jupiter's gravity would make walking feel like carrying double your own weight.</span></li>
+        <li><span>🫧</span><span><strong>Giant bubble:</strong> Jupiter's magnetic field creates an invisible bubble (the magnetosphere) so big that if you could see it from Earth, it would appear larger than the full Moon in our sky.</span></li>
+        <li><span>🚗</span><span><strong>Cosmic vacuum:</strong> Jupiter hoovers up stray asteroids and comets with its gravity, like a car driving through bugs on a highway. Earth is safer because Jupiter cleans up the neighbourhood.</span></li>
+      </ul>
+    </div>
+
+    <!-- Fast Rotation -->
+    <div class="concept-card">
+      <span class="concept-icon">⚡</span>
+      <p class="concept-title">Fastest Spin in the Solar System</p>
+      <p class="concept-def">
+        Despite being the largest planet, Jupiter spins a full rotation in just
+        9 hours 56 minutes. This creates powerful forces that flatten the planet
+        at its poles and bulge it at its equator — Jupiter is noticeably squashed.
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>🍕</span><span><strong>Pizza dough:</strong> A pizza maker spins dough in the air and it flattens and spreads outward. Jupiter spinning so fast does the same — it squashes at the top and bottom and puffs out at the middle.</span></li>
+        <li><span>🎡</span><span><strong>Spinning top:</strong> A fast-spinning top wobbles and the edges flare out. Jupiter is like a top the size of 1,300 Earths, spinning so fast its equator bulges 9,000 km more than its poles.</span></li>
+        <li><span>🌀</span><span><strong>Washing machine:</strong> A washing machine on spin cycle pulls everything outward. Jupiter's spin creates centrifugal force that pushes its atmosphere toward the equator, creating those dramatic bands.</span></li>
+      </ul>
+    </div>
+
+    <!-- Liquid Metallic Hydrogen -->
+    <div class="concept-card">
+      <span class="concept-icon">⚗️</span>
+      <p class="concept-title">Liquid Metallic Hydrogen</p>
+      <p class="concept-def">
+        Deep inside Jupiter, the pressure is so extreme that hydrogen gas is
+        squeezed into a liquid that conducts electricity like a metal. This
+        bizarre substance — found nowhere on Earth — is what generates Jupiter's
+        massive magnetic field.
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>🧃</span><span><strong>Squished juice box:</strong> Squeeze a juice box hard enough and liquid squirts out the sides. Jupiter squeezes hydrogen so hard it transforms into a completely different state — one that behaves like liquid metal.</span></li>
+        <li><span>💎</span><span><strong>Diamond from coal:</strong> Coal and diamonds are both made of carbon — but extreme pressure turns one into the other. Extreme pressure turns Jupiter's hydrogen into something that behaves like a metal.</span></li>
+        <li><span>🔌</span><span><strong>Electric river:</strong> This liquid metallic hydrogen flows in currents like an underground river, and those moving electric currents create a giant magnetic field — like how your phone's motor creates a magnetic field when current flows through it.</span></li>
+      </ul>
+    </div>
+
+    <!-- Jupiter as Shield -->
+    <div class="concept-card">
+      <span class="concept-icon">🛡️</span>
+      <p class="concept-title">Jupiter: Earth's Bodyguard</p>
+      <p class="concept-def">
+        Jupiter's massive gravity attracts comets and asteroids, pulling them
+        into itself or slinging them out of the solar system before they can
+        reach Earth. Scientists estimate Jupiter reduces asteroid impacts on
+        Earth by a factor of 1,000.
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>🎳</span><span><strong>Bowling pin:</strong> Imagine Jupiter is a giant bowling ball rolling around the solar system. Comets and asteroids are like pins — when they get too close, they get knocked away before they can reach the lanes where Earth lives.</span></li>
+        <li><span>🪰</span><span><strong>Bug zapper:</strong> A bug zapper attracts insects with its light and zaps them before they reach you. Jupiter's gravity attracts space rocks and destroys or deflects them before they reach the inner planets.</span></li>
+        <li><span>🏈</span><span><strong>Offensive lineman:</strong> In football, linemen block defenders before they reach the quarterback. Jupiter is Earth's offensive lineman — blocking cosmic threats before they get close.</span></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="rule"><div class="rule-line"></div><div class="rule-diamond"></div><div class="rule-line"></div></div>
+
+  <!-- ════════════════════════════════════
+       JUPITER vs EARTH
+  ════════════════════════════════════ -->
+  <div class="compare-section">
+    <p class="section-label">Jupiter vs Earth — Scale Comparisons</p>
+    <div class="compare-grid">
+
+      <div class="compare-card">
+        <p class="compare-topic">Diameter</p>
+        <div class="compare-row">
+          <div class="compare-side">
+            <span class="compare-val">142,984</span>
+            <span class="compare-lbl">♃ Jupiter (km)</span>
+          </div>
+          <span class="compare-vs">vs</span>
+          <div class="compare-side">
+            <span class="compare-val">12,742</span>
+            <span class="compare-lbl">🌍 Earth (km)</span>
+          </div>
+        </div>
+        <p class="compare-analogy">🏀 If Jupiter were a basketball, Earth would be a marble. Place them 4 metres apart.</p>
+      </div>
+
+      <div class="compare-card">
+        <p class="compare-topic">Day Length</p>
+        <div class="compare-row">
+          <div class="compare-side">
+            <span class="compare-val">9.9 hr</span>
+            <span class="compare-lbl">♃ Jupiter</span>
+          </div>
+          <span class="compare-vs">vs</span>
+          <div class="compare-side">
+            <span class="compare-val">24 hr</span>
+            <span class="compare-lbl">🌍 Earth</span>
+          </div>
+        </div>
+        <p class="compare-analogy">⏰ On Jupiter, your school day would end before lunch — a full day is under 10 hours.</p>
+      </div>
+
+      <div class="compare-card">
+        <p class="compare-topic">Year Length</p>
+        <div class="compare-row">
+          <div class="compare-side">
+            <span class="compare-val">11.9 yrs</span>
+            <span class="compare-lbl">♃ Jupiter</span>
+          </div>
+          <span class="compare-vs">vs</span>
+          <div class="compare-side">
+            <span class="compare-val">1 yr</span>
+            <span class="compare-lbl">🌍 Earth</span>
+          </div>
+        </div>
+        <p class="compare-analogy">📅 If you were born when Jupiter's year started, you'd be almost a teenager by the time it ended.</p>
+      </div>
+
+      <div class="compare-card">
+        <p class="compare-topic">Weight on Surface</p>
+        <div class="compare-row">
+          <div class="compare-side">
+            <span class="compare-val">2.4×</span>
+            <span class="compare-lbl">♃ Jupiter gravity</span>
+          </div>
+          <span class="compare-vs">vs</span>
+          <div class="compare-side">
+            <span class="compare-val">1×</span>
+            <span class="compare-lbl">🌍 Earth gravity</span>
+          </div>
+        </div>
+        <p class="compare-analogy">🏋️ A 50 kg person would feel like 120 kg — like carrying a whole extra person on your back.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       THE GALILEAN MOONS
+  ════════════════════════════════════ -->
+  <div class="moons-section">
+    <p class="section-label">The Galilean Moons — Discovered in 1610</p>
+    <div class="moons-grid">
+
+      <div class="moon-card">
+        <span class="moon-icon">🌋</span>
+        <p class="moon-name">Io</p>
+        <span class="moon-tag">Most Volcanic World Known</span>
+        <p class="moon-desc">Io has hundreds of active volcanoes — more than any world in the solar system. Jupiter's gravity constantly squeezes and stretches Io, creating enormous heat inside. It's essentially a ball of lava wrapped in a thin crust.</p>
+        <p class="moon-analogy">🍊 Squeeze an orange back and forth in your hands — the inside heats up from friction. Jupiter squeezes Io the same way, but the heat is so intense it erupts as volcanoes.</p>
+      </div>
+
+      <div class="moon-card">
+        <span class="moon-icon">🧊</span>
+        <p class="moon-name">Europa</p>
+        <span class="moon-tag">Possible Hidden Ocean</span>
+        <p class="moon-desc">Europa is covered in a smooth shell of ice — but beneath it may lie a liquid water ocean twice the size of all Earth's oceans combined, warmed by tidal heating. It's one of the best candidates in the solar system for finding life.</p>
+        <p class="moon-analogy">🏒 Imagine a hockey rink with a warm underground lake beneath the ice. Europa might be like that — a frozen surface hiding a vast ocean below where life could exist.</p>
+      </div>
+
+      <div class="moon-card">
+        <span class="moon-icon">🌑</span>
+        <p class="moon-name">Ganymede</p>
+        <span class="moon-tag">Largest Moon in Solar System</span>
+        <p class="moon-desc">Ganymede is bigger than the planet Mercury and has its own magnetic field — the only moon in the solar system known to have one. It likely also has a subsurface ocean beneath its icy crust.</p>
+        <p class="moon-analogy">🪐 Ganymede is so big that if it orbited the Sun instead of Jupiter, astronomers would call it a planet. It's a world in its own right.</p>
+      </div>
+
+      <div class="moon-card">
+        <span class="moon-icon">🌘</span>
+        <p class="moon-name">Callisto</p>
+        <span class="moon-tag">Most Cratered World Known</span>
+        <p class="moon-desc">Callisto is one of the most heavily cratered objects in the solar system — its surface is ancient and unchanged. Every impact from billions of years is still visible. Scientists use it as a "geological clock" to measure solar system history.</p>
+        <p class="moon-analogy">📖 Callisto's surface is like a history book that was never erased — every page (crater) represents a different event in the solar system's 4.6-billion-year story.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       MIND-BLOWING FACTS
+  ════════════════════════════════════ -->
+  <div class="hooks-section">
+    <p class="section-label">Mind-Blowing Jupiter Facts</p>
+    <div class="hooks-grid">
+
+      <div class="hook-card">
+        <span class="hook-icon">💎</span>
+        <div>
+          <p class="hook-title">It Rains Diamonds</p>
+          <p class="hook-body">Deep in Jupiter's atmosphere, lightning storms turn methane into soot (carbon). As the soot sinks through intense pressure, it crystallises into <strong>graphite, then diamond</strong>. Scientists estimate it rains about 1,000 tonnes of diamonds per year. They never reach the surface — they melt back into carbon in the extreme heat below.</p>
+        </div>
+      </div>
+
+      <div class="hook-card">
+        <span class="hook-icon">🌪️</span>
+        <div>
+          <p class="hook-title">A Storm Older Than America</p>
+          <p class="hook-body">The Great Red Spot has been observed since <strong>at least 1665</strong> — that's before the United States existed, before Mozart was born, before the steam engine was invented. It's a single storm that has been continuously raging for over 350 years. On Earth, the strongest hurricanes last a few weeks at most.</p>
+        </div>
+      </div>
+
+      <div class="hook-card">
+        <span class="hook-icon">⭐</span>
+        <div>
+          <p class="hook-title">Almost a Star</p>
+          <p class="hook-body">Jupiter is made of hydrogen and helium — exactly what the Sun is made of. If Jupiter had been <strong>about 80 times more massive</strong>, its core would have reached temperatures high enough to ignite nuclear fusion and become a star. Our solar system would have had two suns, and Earth's sky would never go fully dark.</p>
+        </div>
+      </div>
+
+      <div class="hook-card">
+        <span class="hook-icon">📡</span>
+        <div>
+          <p class="hook-title">It Broadcasts Radio Waves</p>
+          <p class="hook-body">Jupiter emits powerful radio waves — so powerful they can be picked up by a backyard radio antenna on Earth. The waves are created by electrons spiralling along Jupiter's massive magnetic field lines. You can <strong>literally listen to Jupiter</strong> with the right equipment, and it sounds like crashing waves and electronic noise.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════ -->
+  <footer>
+    <div class="footer-title">JUPITER</div>
+    <div class="footer-note">Fifth Planet · Gas Giant · 95 Known Moons</div>
+    <div class="footer-note">778,500,000 km from the Sun</div>
+  </footer>
+
+</div>
+</body>
+</html>

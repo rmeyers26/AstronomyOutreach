@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Orion — The Hunter of the Winter Sky</title>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,200;0,300;0,400;0,700;1,200;1,300&family=Spectral:ital,wght@0,300;0,400;1,300;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+  <style>
+
+    /* ═══════════════════════════════════════════════
+       DESIGN SYSTEM
+       Aesthetic: Deep-field observatory night.
+       Midnight blue-black sky, electric blue–white
+       star colours, pale nebula teal, warm Betelgeuse
+       red-orange. Clean geometric precision offset
+       by organic stellar glow effects.
+    ═══════════════════════════════════════════════ */
+    :root {
+      --void:       #020510;
+      --deep:       #060d1e;
+      --midnight:   #0a1428;
+      --nebula:     #0d2240;
+      --teal:       #1a9aa0;
+      --teal-dim:   #0d5560;
+      --frost:      #c8e8ff;
+      --frost-dim:  #7ab4d8;
+      --white:      #f0f4ff;
+      --betelgeuse: #ff6030;
+      --rigel:      #9ec8ff;
+      --bellatrix:  #c0d8ff;
+      --saiph:      #b0c8e8;
+      --nebula-glow:#6090b0;
+      --muted:      #4a6880;
+      --card-bg:    rgba(10,20,40,0.7);
+      --card-bdr:   rgba(28,154,160,0.25);
+      --gold:       #c8a840;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--void);
+      color: var(--frost);
+      font-family: 'Spectral', serif;
+      font-size: 15px;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════════════════════════════════
+       DEEP-FIELD STARFIELD BACKGROUND
+    ═══════════════════════════════════════════════ */
+    .sky-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    /* Milky Way nebulosity band */
+    .sky-bg::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -20%;
+      width: 140%;
+      height: 100%;
+      background:
+        radial-gradient(ellipse 70% 40% at 60% 30%, rgba(13,34,64,0.9) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 60% at 20% 60%, rgba(26,154,160,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 30% at 80% 70%, rgba(96,144,176,0.05) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 80% at 40% 90%, rgba(10,20,40,0.7) 0%, transparent 60%);
+    }
+
+    /* Nebula glow layers */
+    .sky-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 30% 20% at 65% 25%, rgba(26,154,160,0.08) 0%, transparent 100%),
+        radial-gradient(ellipse 20% 25% at 35% 40%, rgba(255,96,48,0.05) 0%, transparent 100%),
+        radial-gradient(ellipse 25% 15% at 75% 65%, rgba(158,200,255,0.06) 0%, transparent 100%);
+      animation: nebulaPulse 18s ease-in-out infinite alternate;
+    }
+
+    @keyframes nebulaPulse {
+      from { opacity: 0.6; }
+      to   { opacity: 1; }
+    }
+
+    /* ═══════════════════════════════════════════════
+       TWINKLING STAR FIELD (CSS only)
+    ═══════════════════════════════════════════════ */
+    .starfield {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .starfield span {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle var(--dur, 3s) ease-in-out infinite alternate;
+      animation-delay: var(--delay, 0s);
+    }
+
+    @keyframes twinkle {
+      from { opacity: var(--min-op, 0.2); transform: scale(1); }
+      to   { opacity: var(--max-op, 1);   transform: scale(var(--sc, 1.3)); }
+    }
+
+    /* ═══════════════════════════════════════════════
+       LAYOUT
+    ═══════════════════════════════════════════════ */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 56px 40px 96px;
+    }
+
+    /* ═══════════════════════════════════════════════
+       HEADER
+    ═══════════════════════════════════════════════ */
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: center;
+      border-bottom: 1px solid rgba(28,154,160,0.25);
+      padding-bottom: 44px;
+      margin-bottom: 52px;
+      animation: riseUp 1s ease both;
+    }
+
+    .eyebrow {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-family: 'Exo 2', sans-serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 200;
+      line-height: 0.9;
+      color: var(--white);
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      text-shadow: 0 0 60px rgba(158,200,255,0.3);
+    }
+
+    .h1-sub {
+      display: block;
+      font-family: 'Spectral', serif;
+      font-style: italic;
+      font-size: clamp(0.9rem, 2vw, 1.15rem);
+      font-weight: 300;
+      letter-spacing: 2px;
+      color: var(--frost-dim);
+      margin-top: 12px;
+      text-shadow: none;
+      text-transform: none;
+    }
+
+    /* ═══════════════════════════════════════════════
+       INTERACTIVE STAR MAP SVG
+    ═══════════════════════════════════════════════ */
+    .star-map-wrap {
+      position: relative;
+      width: 220px;
+      height: 300px;
+      flex-shrink: 0;
+    }
+
+    .star-map-wrap svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    /* Glow filter */
+    .star-glow { filter: url(#glow); }
+
+    /* Star hover tooltips */
+    .star-group { cursor: pointer; }
+    .star-group:hover .star-label { opacity: 1; }
+    .star-group:hover circle.star-dot { r: 8; }
+
+    .star-label {
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+    }
+
+    circle.star-dot {
+      transition: r 0.2s;
+    }
+
+    /* ═══════════════════════════════════════════════
+       SECTION LABELS
+    ═══════════════════════════════════════════════ */
+    .section-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 18px;
+    }
+
+    /* ═══════════════════════════════════════════════
+       QUICK FACTS
+    ═══════════════════════════════════════════════ */
+    .facts-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      margin-bottom: 52px;
+      animation: riseUp 1s 0.08s ease both;
+    }
+
+    .fact-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 20px 16px;
+      text-align: center;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .fact-box:hover {
+      border-color: var(--teal);
+      background: rgba(26,154,160,0.08);
+    }
+
+    .fact-num {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: var(--frost);
+      letter-spacing: 2px;
+      line-height: 1.1;
+      display: block;
+    }
+
+    .fact-unit {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .fact-label {
+      font-size: 0.78rem;
+      color: var(--frost-dim);
+      margin-top: 6px;
+      line-height: 1.4;
+      font-style: italic;
+    }
+
+    /* ═══════════════════════════════════════════════
+       INTRO + MYTHOLOGY COLUMNS
+    ═══════════════════════════════════════════════ */
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 48px;
+      margin-bottom: 52px;
+      animation: riseUp 1s 0.12s ease both;
+    }
+
+    .intro-text p {
+      font-size: 0.97rem;
+      line-height: 1.85;
+      margin-bottom: 14px;
+      color: var(--frost);
+      opacity: 0.9;
+    }
+
+    /* Mythology box */
+    .myth-box {
+      background: rgba(10,20,40,0.6);
+      border: 1px solid rgba(200,168,64,0.2);
+      border-top: 2px solid var(--gold);
+      padding: 24px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .myth-title {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .myth-body {
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: var(--frost);
+      opacity: 0.85;
+      font-style: italic;
+    }
+
+    .myth-cultures {
+      border-top: 1px solid rgba(200,168,64,0.15);
+      padding-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .myth-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 0.82rem;
+      color: var(--frost-dim);
+      line-height: 1.55;
+    }
+
+    .myth-culture-name {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px;
+      color: var(--gold);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      width: 80px;
+      flex-shrink: 0;
+      padding-top: 1px;
+    }
+
+    /* ═══════════════════════════════════════════════
+       DIVIDER
+    ═══════════════════════════════════════════════ */
+    .rule {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 44px 0;
+    }
+
+    .rule-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(26,154,160,0.4), transparent);
+    }
+
+    .rule-cross {
+      width: 12px;
+      height: 12px;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .rule-cross::before,
+    .rule-cross::after {
+      content: '';
+      position: absolute;
+      background: var(--teal);
+      border-radius: 1px;
+    }
+
+    .rule-cross::before { width: 2px; height: 12px; left: 5px; top: 0; }
+    .rule-cross::after  { width: 12px; height: 2px; left: 0; top: 5px; }
+
+    /* ═══════════════════════════════════════════════
+       STAR CARDS — KEY STARS
+    ═══════════════════════════════════════════════ */
+    .stars-section {
+      animation: riseUp 1s 0.16s ease both;
+      margin-bottom: 52px;
+    }
+
+    .stars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .star-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 24px 20px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    .star-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      transition: opacity 0.3s;
+      opacity: 0.7;
+    }
+
+    .star-card.red::before    { background: linear-gradient(90deg, transparent, var(--betelgeuse), transparent); }
+    .star-card.blue::before   { background: linear-gradient(90deg, transparent, var(--rigel), transparent); }
+    .star-card.bblue::before  { background: linear-gradient(90deg, transparent, var(--bellatrix), transparent); }
+    .star-card.dim::before    { background: linear-gradient(90deg, transparent, var(--saiph), transparent); }
+    .star-card.white::before  { background: linear-gradient(90deg, transparent, var(--white), transparent); }
+    .star-card.mint::before   { background: linear-gradient(90deg, transparent, var(--teal), transparent); }
+
+    .star-card:hover { border-color: var(--teal); }
+    .star-card:hover::before { opacity: 1; }
+
+    .star-dot-display {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      margin-bottom: 12px;
+      box-shadow: 0 0 12px currentColor;
+    }
+
+    .star-name {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .star-designation {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: var(--muted);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .star-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+
+    .star-stat {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      border-bottom: 1px solid rgba(26,154,160,0.08);
+      padding: 3px 0;
+    }
+
+    .stat-k { color: var(--muted); font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; }
+    .stat-v { color: var(--frost); }
+
+    .star-desc {
+      font-size: 0.83rem;
+      line-height: 1.7;
+      color: var(--frost-dim);
+      font-style: italic;
+    }
+
+    /* ═══════════════════════════════════════════════
+       MIDDLE SCHOOL CONCEPTS
+    ═══════════════════════════════════════════════ */
+    .concepts-section {
+      animation: riseUp 1s 0.2s ease both;
+      margin-bottom: 52px;
+    }
+
+    .ms-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .ms-badge {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: rgba(26,154,160,0.1);
+      border: 1px solid rgba(26,154,160,0.3);
+      color: var(--teal);
+      padding: 3px 10px;
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .concept-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 26px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-color 0.3s;
+    }
+
+    .concept-card:hover { border-color: var(--teal); }
+
+    .concept-icon { font-size: 1.9rem; }
+
+    .concept-title {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--frost);
+    }
+
+    .concept-def {
+      font-size: 0.86rem;
+      line-height: 1.75;
+      color: var(--frost);
+      opacity: 0.85;
+      border-left: 2px solid var(--teal-dim);
+      padding-left: 10px;
+    }
+
+    .analogy-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teal);
+    }
+
+    .analogy-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .analogy-list li {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      font-size: 0.83rem;
+      color: var(--frost-dim);
+      line-height: 1.6;
+    }
+
+    .analogy-list li span:first-child { flex-shrink: 0; }
+    .analogy-list li strong { color: var(--frost); }
+
+    /* ═══════════════════════════════════════════════
+       ORION NEBULA FEATURE
+    ═══════════════════════════════════════════════ */
+    .nebula-section {
+      animation: riseUp 1s 0.24s ease both;
+      margin-bottom: 52px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      border-top: 2px solid var(--teal);
+      padding: 36px;
+    }
+
+    .nebula-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 20px;
+      align-items: start;
+    }
+
+    .nebula-text p {
+      font-size: 0.92rem;
+      line-height: 1.85;
+      margin-bottom: 12px;
+      color: var(--frost);
+      opacity: 0.9;
+    }
+
+    /* Nebula SVG illustration */
+    .nebula-art {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Nebula facts */
+    .nebula-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      margin-top: 16px;
+    }
+
+    .nstat {
+      background: rgba(26,154,160,0.06);
+      border: 1px solid rgba(26,154,160,0.15);
+      padding: 12px 14px;
+      text-align: center;
+    }
+
+    .nstat-val {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 300;
+      color: var(--teal);
+      letter-spacing: 2px;
+      display: block;
+    }
+
+    .nstat-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 8px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      margin-top: 3px;
+    }
+
+    /* ═══════════════════════════════════════════════
+       HOW TO FIND ORION + SEEING IT
+    ═══════════════════════════════════════════════ */
+    .find-section {
+      animation: riseUp 1s 0.28s ease both;
+      margin-bottom: 52px;
+    }
+
+    .find-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .find-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 24px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .find-icon { font-size: 1.8rem; }
+
+    .find-title {
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 300;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+      color: var(--frost);
+    }
+
+    .find-body {
+      font-size: 0.86rem;
+      line-height: 1.8;
+      color: var(--frost-dim);
+    }
+
+    .find-body strong { color: var(--frost); }
+    .find-body em { color: var(--teal); }
+
+    /* ═══════════════════════════════════════════════
+       MIND-BLOWING FACTS
+    ═══════════════════════════════════════════════ */
+    .wows-section {
+      animation: riseUp 1s 0.32s ease both;
+      margin-bottom: 52px;
+    }
+
+    .wows-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+    }
+
+    .wow-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 22px 22px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: border-color 0.3s;
+    }
+
+    .wow-card:hover { border-color: var(--teal); }
+
+    .wow-icon { font-size: 1.7rem; flex-shrink: 0; margin-top: 2px; }
+
+    .wow-title {
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 300;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      color: var(--frost);
+      margin-bottom: 6px;
+    }
+
+    .wow-body {
+      font-size: 0.85rem;
+      line-height: 1.75;
+      color: var(--frost-dim);
+    }
+
+    .wow-body strong { color: var(--betelgeuse); }
+    .wow-body em { color: var(--teal); }
+
+    /* ═══════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════ */
+    footer {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(26,154,160,0.25);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: riseUp 1s 0.38s ease both;
+    }
+
+    .footer-name {
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 200;
+      font-size: 1.4rem;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: var(--frost-dim);
+    }
+
+    .footer-note {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* ═══════════════════════════════════════════════
+       ANIMATIONS
+    ═══════════════════════════════════════════════ */
+    @keyframes riseUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes starPop {
+      0%   { transform: scale(0); opacity: 0; }
+      60%  { transform: scale(1.4); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* ═══════════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════════ */
+    @media (max-width: 720px) {
+      .page { padding: 36px 20px 64px; }
+      header { grid-template-columns: 1fr; }
+      .star-map-wrap { width: 160px; height: 220px; margin: 0 auto; }
+      .facts-strip { grid-template-columns: repeat(2,1fr); }
+      .intro-grid { grid-template-columns: 1fr; }
+      .stars-grid { grid-template-columns: 1fr; }
+      .concept-grid { grid-template-columns: 1fr; }
+      .nebula-grid { grid-template-columns: 1fr; }
+      .find-grid { grid-template-columns: 1fr; }
+      .wows-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Sky background layers -->
+<div class="sky-bg"></div>
+<div class="starfield" id="starfield"></div>
+
+<div class="page">
+
+  <!-- ═══════════════════════════════════
+       HEADER + STAR MAP
+  ═══════════════════════════════════ -->
+  <header>
+    <div>
+      <p class="eyebrow">Constellation · IAU Orion · Winter Sky · Northern Hemisphere</p>
+      <h1>ORION<span class="h1-sub">The Hunter — most recognised constellation in the night sky</span></h1>
+    </div>
+
+    <!-- Interactive Orion Star Map -->
+    <div class="star-map-wrap">
+      <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg" aria-label="Orion constellation map">
+        <defs>
+          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="glow-strong" x="-80%" y="-80%" width="260%" height="260%">
+            <feGaussianBlur stdDeviation="5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="nebula-filter">
+            <feGaussianBlur stdDeviation="6"/>
+          </filter>
+          <radialGradient id="nebulaGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   stop-color="#1a9aa0" stop-opacity="0.35"/>
+            <stop offset="60%"  stop-color="#0d5560" stop-opacity="0.15"/>
+            <stop offset="100%" stop-color="#1a9aa0" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Background subtle nebula glow -->
+        <ellipse cx="100" cy="205" rx="28" ry="22" fill="url(#nebulaGrad)" filter="url(#nebula-filter)" opacity="0.8"/>
+
+        <!-- Connecting lines (constellation figure) -->
+        <!-- Shoulders: Betelgeuse to Bellatrix -->
+        <line x1="60" y1="85" x2="142" y2="78" stroke="rgba(158,200,255,0.35)" stroke-width="1.2" stroke-dasharray="0"/>
+        <!-- Betelgeuse down to belt left (Alnitak) -->
+        <line x1="60" y1="85" x2="78" y2="155" stroke="rgba(158,200,255,0.35)" stroke-width="1.2"/>
+        <!-- Bellatrix down to belt right (Mintaka) -->
+        <line x1="142" y1="78" x2="122" y2="152" stroke="rgba(158,200,255,0.35)" stroke-width="1.2"/>
+        <!-- Belt: Mintaka - Alnilam - Alnitak -->
+        <line x1="122" y1="152" x2="100" y2="158" stroke="rgba(158,200,255,0.5)" stroke-width="1.5"/>
+        <line x1="100" y1="158" x2="78" y2="155" stroke="rgba(158,200,255,0.5)" stroke-width="1.5"/>
+        <!-- Alnitak down to Saiph -->
+        <line x1="78" y1="155" x2="62" y2="225" stroke="rgba(158,200,255,0.35)" stroke-width="1.2"/>
+        <!-- Mintaka down to Rigel -->
+        <line x1="122" y1="152" x2="148" y2="230" stroke="rgba(158,200,255,0.35)" stroke-width="1.2"/>
+        <!-- Head: Bellatrix up to Meissa -->
+        <line x1="142" y1="78" x2="105" y2="32" stroke="rgba(158,200,255,0.25)" stroke-width="1" stroke-dasharray="3 3"/>
+        <!-- Betelgeuse up to Meissa -->
+        <line x1="60" y1="85" x2="105" y2="32" stroke="rgba(158,200,255,0.25)" stroke-width="1" stroke-dasharray="3 3"/>
+        <!-- Sword: Alnilam down toward nebula -->
+        <line x1="100" y1="158" x2="100" y2="200" stroke="rgba(26,154,160,0.4)" stroke-width="1" stroke-dasharray="2 2"/>
+
+        <!-- ── STARS ── -->
+
+        <!-- Meissa (head / Lambda Ori) -->
+        <g class="star-group">
+          <circle class="star-dot" cx="105" cy="32" r="4" fill="#c0d0f0" filter="url(#glow)" opacity="0.9"/>
+          <text class="star-label" x="115" y="30" font-family="Share Tech Mono, monospace" font-size="8" fill="#7ab4d8" letter-spacing="1">MEISSA</text>
+        </g>
+
+        <!-- Betelgeuse (top left — RED SUPERGIANT) -->
+        <g class="star-group">
+          <circle cx="60" cy="85" r="10" fill="#ff6030" filter="url(#glow-strong)" opacity="0.35"/>
+          <circle class="star-dot" cx="60" cy="85" r="6" fill="#ff6030" filter="url(#glow)"/>
+          <text class="star-label" x="10" y="82" font-family="Share Tech Mono, monospace" font-size="8" fill="#ff9060" letter-spacing="1">BETELGEUSE</text>
+        </g>
+
+        <!-- Bellatrix (top right) -->
+        <g class="star-group">
+          <circle class="star-dot" cx="142" cy="78" r="5" fill="#a0c0e8" filter="url(#glow)"/>
+          <text class="star-label" x="148" y="76" font-family="Share Tech Mono, monospace" font-size="8" fill="#7ab4d8" letter-spacing="1">BELLATRIX</text>
+        </g>
+
+        <!-- Belt: Mintaka (right) -->
+        <g class="star-group">
+          <circle class="star-dot" cx="122" cy="152" r="4.5" fill="#c8e4ff" filter="url(#glow)"/>
+          <text class="star-label" x="128" y="150" font-family="Share Tech Mono, monospace" font-size="8" fill="#7ab4d8" letter-spacing="1">MINTAKA</text>
+        </g>
+
+        <!-- Belt: Alnilam (centre) -->
+        <g class="star-group">
+          <circle cx="100" cy="158" r="7" fill="#d0ecff" filter="url(#glow-strong)" opacity="0.25"/>
+          <circle class="star-dot" cx="100" cy="158" r="5" fill="#d0ecff" filter="url(#glow)"/>
+          <text class="star-label" x="106" y="170" font-family="Share Tech Mono, monospace" font-size="8" fill="#7ab4d8" letter-spacing="1">ALNILAM</text>
+        </g>
+
+        <!-- Belt: Alnitak (left) -->
+        <g class="star-group">
+          <circle class="star-dot" cx="78" cy="155" r="4.5" fill="#c0dcff" filter="url(#glow)"/>
+          <text class="star-label" x="18" y="153" font-family="Share Tech Mono, monospace" font-size="8" fill="#7ab4d8" letter-spacing="1">ALNITAK</text>
+        </g>
+
+        <!-- Orion Nebula (M42) glow spot -->
+        <ellipse cx="100" cy="203" rx="14" ry="10" fill="rgba(26,154,160,0.4)" filter="url(#glow)"/>
+        <circle cx="100" cy="203" r="3" fill="#1a9aa0" opacity="0.9"/>
+        <text x="106" y="207" font-family="Share Tech Mono, monospace" font-size="7" fill="#1a9aa0" letter-spacing="1" opacity="0.8">M42</text>
+
+        <!-- Rigel (bottom right — BLUE SUPERGIANT) -->
+        <g class="star-group">
+          <circle cx="148" cy="230" r="10" fill="#9ec8ff" filter="url(#glow-strong)" opacity="0.3"/>
+          <circle class="star-dot" cx="148" cy="230" r="6.5" fill="#9ec8ff" filter="url(#glow)"/>
+          <text class="star-label" x="155" y="228" font-family="Share Tech Mono, monospace" font-size="8" fill="#7ab4d8" letter-spacing="1">RIGEL</text>
+        </g>
+
+        <!-- Saiph (bottom left) -->
+        <g class="star-group">
+          <circle class="star-dot" cx="62" cy="225" r="4.5" fill="#b0c8e8" filter="url(#glow)"/>
+          <text class="star-label" x="14" y="224" font-family="Share Tech Mono, monospace" font-size="8" fill="#7ab4d8" letter-spacing="1">SAIPH</text>
+        </g>
+
+        <!-- Belt label -->
+        <text x="68" y="173" font-family="Share Tech Mono, monospace" font-size="7" fill="rgba(158,200,255,0.4)" letter-spacing="2">BELT</text>
+
+        <!-- Sword label -->
+        <text x="105" y="200" font-family="Share Tech Mono, monospace" font-size="7" fill="rgba(26,154,160,0.6)" letter-spacing="1">SWORD</text>
+      </svg>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════
+       FAST FACTS
+  ═══════════════════════════════════ -->
+  <p class="section-label">Fast Facts</p>
+  <div class="facts-strip">
+    <div class="fact-box">
+      <span class="fact-num">7</span>
+      <span class="fact-unit">Named Stars</span>
+      <p class="fact-label">Including 2 of the 10 brightest in the sky</p>
+    </div>
+    <div class="fact-box">
+      <span class="fact-num">1,344</span>
+      <span class="fact-unit">Light-years · Betelgeuse</span>
+      <p class="fact-label">Distance to the red supergiant shoulder star</p>
+    </div>
+    <div class="fact-box">
+      <span class="fact-num">1,344</span>
+      <span class="fact-unit">Light-years · Orion Nebula</span>
+      <p class="fact-label">Closest star-forming region to Earth</p>
+    </div>
+    <div class="fact-box">
+      <span class="fact-num">Dec–Mar</span>
+      <span class="fact-unit">Best Visibility</span>
+      <p class="fact-label">Visible from every location on Earth</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       INTRO + MYTHOLOGY
+  ═══════════════════════════════════ -->
+  <div class="intro-grid">
+    <div>
+      <p class="section-label">What Is Orion?</p>
+      <div class="intro-text">
+        <p>
+          Orion is the most recognisable constellation in the night sky — a bold,
+          symmetrical pattern of bright stars that humans have been watching,
+          naming, and telling stories about for at least <strong>32,000 years</strong>.
+          Carvings of Orion have been found on mammoth ivory dating back to the
+          last Ice Age.
+        </p>
+        <p>
+          The constellation is defined by three unmistakable stars in a perfectly
+          straight line — <em>Orion's Belt</em> — flanked by two brilliant
+          supergiants: the red giant Betelgeuse at the top left, and the blue
+          supergiant Rigel at the bottom right. Together they make Orion
+          impossible to confuse with anything else.
+        </p>
+        <p>
+          It is also the sky's richest neighbourhood. Hanging below the Belt is
+          the <strong>Orion Nebula</strong> — a vast cloud of gas and dust where
+          new stars are being born right now. It's visible to the naked eye as
+          a fuzzy smudge in Orion's "sword," and it's one of the most-studied
+          objects in all of astronomy.
+        </p>
+      </div>
+    </div>
+
+    <div class="myth-box">
+      <p class="myth-title">Mythology &amp; Ancient Names</p>
+      <p class="myth-body">
+        In Greek mythology, Orion was the greatest hunter who ever lived —
+        son of Poseidon, companion of Artemis, boaster of his invincibility.
+        The gods placed him in the sky after his death, forever chased
+        by Scorpius (the scorpion he could not escape), which is why
+        Orion sets in the west just as Scorpius rises in the east.
+        They never share the same sky.
+      </p>
+      <div class="myth-cultures">
+        <div class="myth-row">
+          <span class="myth-culture-name">Greek</span>
+          <span>Orion — the great hunter, son of the sea god</span>
+        </div>
+        <div class="myth-row">
+          <span class="myth-culture-name">Egyptian</span>
+          <span>Sah — god of the stars, associated with Osiris and the afterlife</span>
+        </div>
+        <div class="myth-row">
+          <span class="myth-culture-name">Aztec</span>
+          <span>The Belt stars marked the fire-drill used to create the world</span>
+        </div>
+        <div class="myth-row">
+          <span class="myth-culture-name">Chinese</span>
+          <span>Shēn — the white tiger of the west, one of 28 lunar mansions</span>
+        </div>
+        <div class="myth-row">
+          <span class="myth-culture-name">Aboriginal</span>
+          <span>The three Belt stars are three brothers in a canoe fishing in the sky river</span>
+        </div>
+        <div class="myth-row">
+          <span class="myth-culture-name">Inuit</span>
+          <span>The Belt is the three steps cut into a seal-hunting snowbank</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule"><div class="rule-line"></div><div class="rule-cross"></div><div class="rule-line"></div></div>
+
+  <!-- ═══════════════════════════════════
+       KEY STARS
+  ═══════════════════════════════════ -->
+  <div class="stars-section">
+    <p class="section-label">The Key Stars of Orion</p>
+    <div class="stars-grid">
+
+      <!-- Betelgeuse -->
+      <div class="star-card red">
+        <div class="star-dot-display" style="background: #ff6030; color: #ff6030;"></div>
+        <p class="star-name" style="color: #ff8050;">Betelgeuse</p>
+        <p class="star-designation">Alpha Orionis · Top Left Shoulder</p>
+        <div class="star-stats">
+          <div class="star-stat"><span class="stat-k">Type</span><span class="stat-v">Red Supergiant</span></div>
+          <div class="star-stat"><span class="stat-k">Distance</span><span class="stat-v">~700 light-years</span></div>
+          <div class="star-stat"><span class="stat-k">Diameter</span><span class="stat-v">~1,000× our Sun</span></div>
+          <div class="star-stat"><span class="stat-k">Fate</span><span class="stat-v">Will explode as a supernova</span></div>
+        </div>
+        <p class="star-desc">
+          Betelgeuse is a dying giant nearing the end of its life. If it replaced
+          our Sun, it would swallow Mercury, Venus, Earth, and Mars. It will eventually
+          explode as a supernova — visible from Earth in daylight.
+          🏀 Analogy: If the Sun were a marble, Betelgeuse would be a basketball field.
+        </p>
+      </div>
+
+      <!-- Rigel -->
+      <div class="star-card blue">
+        <div class="star-dot-display" style="background: #9ec8ff; color: #9ec8ff;"></div>
+        <p class="star-name" style="color: #9ec8ff;">Rigel</p>
+        <p class="star-designation">Beta Orionis · Bottom Right Foot</p>
+        <div class="star-stats">
+          <div class="star-stat"><span class="stat-k">Type</span><span class="stat-v">Blue Supergiant</span></div>
+          <div class="star-stat"><span class="stat-k">Distance</span><span class="stat-v">~860 light-years</span></div>
+          <div class="star-stat"><span class="stat-k">Luminosity</span><span class="stat-v">120,000× our Sun</span></div>
+          <div class="star-stat"><span class="stat-k">Rank</span><span class="stat-v">7th brightest star in sky</span></div>
+        </div>
+        <p class="star-desc">
+          Rigel is 120,000 times more luminous than our Sun — yet it sits 860
+          light-years away and still blazes bright white-blue in our sky. It's
+          hotter and younger than Betelgeuse, burning fast and furiously.
+          🔦 Analogy: A floodlight 860 light-years away, still bright enough to cast shadows.
+        </p>
+      </div>
+
+      <!-- Bellatrix -->
+      <div class="star-card bblue">
+        <div class="star-dot-display" style="background: #b0ccee; color: #b0ccee;"></div>
+        <p class="star-name" style="color: #b0ccee;">Bellatrix</p>
+        <p class="star-designation">Gamma Orionis · Top Right Shoulder</p>
+        <div class="star-stats">
+          <div class="star-stat"><span class="stat-k">Type</span><span class="stat-v">Blue Giant</span></div>
+          <div class="star-stat"><span class="stat-k">Distance</span><span class="stat-v">~250 light-years</span></div>
+          <div class="star-stat"><span class="stat-k">Luminosity</span><span class="stat-v">~6,400× our Sun</span></div>
+          <div class="star-stat"><span class="stat-k">Name meaning</span><span class="stat-v">"Female Warrior"</span></div>
+        </div>
+        <p class="star-desc">
+          "The Amazon Star" — Bellatrix means "female warrior" in Latin.
+          It's the 27th brightest star in the sky. Burning hot and blue,
+          it will eventually explode as a supernova within the next few
+          million years, after Betelgeuse.
+        </p>
+      </div>
+
+      <!-- Alnilam (Belt centre) -->
+      <div class="star-card white">
+        <div class="star-dot-display" style="background: #dceeff; color: #dceeff;"></div>
+        <p class="star-name" style="color: var(--white);">Alnilam</p>
+        <p class="star-designation">Epsilon Orionis · Centre Belt Star</p>
+        <div class="star-stats">
+          <div class="star-stat"><span class="stat-k">Type</span><span class="stat-v">Blue Supergiant</span></div>
+          <div class="star-stat"><span class="stat-k">Distance</span><span class="stat-v">~1,340 light-years</span></div>
+          <div class="star-stat"><span class="stat-k">Luminosity</span><span class="stat-v">~375,000× our Sun</span></div>
+          <div class="star-stat"><span class="stat-k">Name meaning</span><span class="stat-v">"String of pearls" (Arabic)</span></div>
+        </div>
+        <p class="star-desc">
+          The middle and brightest of the three Belt stars. Despite being much
+          farther than the others, it appears the brightest of the trio because
+          it is truly one of the most luminous stars we can see with the naked eye.
+        </p>
+      </div>
+
+      <!-- Alnitak (Belt left) -->
+      <div class="star-card dim">
+        <div class="star-dot-display" style="background: #a0c4e8; color: #a0c4e8;"></div>
+        <p class="star-name" style="color: #b0d4f0;">Alnitak</p>
+        <p class="star-designation">Zeta Orionis · Left Belt Star</p>
+        <div class="star-stats">
+          <div class="star-stat"><span class="stat-k">Type</span><span class="stat-v">Triple star system</span></div>
+          <div class="star-stat"><span class="stat-k">Distance</span><span class="stat-v">~1,200 light-years</span></div>
+          <div class="star-stat"><span class="stat-k">Neighbour</span><span class="stat-v">Horsehead Nebula nearby</span></div>
+          <div class="star-stat"><span class="stat-k">Name meaning</span><span class="stat-v">"The girdle" (Arabic)</span></div>
+        </div>
+        <p class="star-desc">
+          Alnitak is actually a triple star system — three stars orbiting each
+          other. Nearby sits the famous Horsehead Nebula, a dark cloud of gas
+          shaped like a chess knight's head, silhouetted against a glowing
+          red emission nebula.
+        </p>
+      </div>
+
+      <!-- Saiph -->
+      <div class="star-card mint">
+        <div class="star-dot-display" style="background: #8ec0d8; color: #8ec0d8;"></div>
+        <p class="star-name" style="color: #8ec0d8;">Saiph</p>
+        <p class="star-designation">Kappa Orionis · Bottom Left Foot</p>
+        <div class="star-stats">
+          <div class="star-stat"><span class="stat-k">Type</span><span class="stat-v">Blue Supergiant</span></div>
+          <div class="star-stat"><span class="stat-k">Distance</span><span class="stat-v">~650 light-years</span></div>
+          <div class="star-stat"><span class="stat-k">True brightness</span><span class="stat-v">57,500× our Sun</span></div>
+          <div class="star-stat"><span class="stat-k">Name meaning</span><span class="stat-v">"Sword of the giant"</span></div>
+        </div>
+        <p class="star-desc">
+          Saiph looks dimmer than Rigel in our sky, but in reality is just as
+          luminous — it's simply farther away. A good reminder that what we
+          see in the sky doesn't always reflect true brightness: distance fools
+          the eye every time.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="rule"><div class="rule-line"></div><div class="rule-cross"></div><div class="rule-line"></div></div>
+
+  <!-- ═══════════════════════════════════
+       MIDDLE SCHOOL CONCEPTS
+  ═══════════════════════════════════ -->
+  <div class="concepts-section">
+    <div class="ms-header">
+      <p class="section-label" style="margin:0;">Key Concepts Explained</p>
+      <div class="ms-badge">🎒 Middle School Friendly</div>
+    </div>
+    <div class="concept-grid">
+
+      <!-- Light Years -->
+      <div class="concept-card">
+        <span class="concept-icon">💡</span>
+        <p class="concept-title">What Is a Light-Year?</p>
+        <p class="concept-def">
+          A light-year is the distance light travels in one year — about
+          9.46 trillion kilometres. It's not a measure of time — it's a
+          measure of distance. Betelgeuse is ~700 light-years away, meaning
+          the light hitting your eye left that star 700 years ago.
+        </p>
+        <p class="analogy-label">Analogies</p>
+        <ul class="analogy-list">
+          <li><span>📸</span><span><strong>Old photograph:</strong> When you look at Betelgeuse, you're seeing it as it looked during the Middle Ages — before Christopher Columbus was even born. You're looking 700 years into the past.</span></li>
+          <li><span>🐢</span><span><strong>Slow snail mail:</strong> Imagine a letter that takes 700 years to arrive. That's the "news" you're getting from Betelgeuse right now — ancient, delayed, and possibly already out of date.</span></li>
+          <li><span>🎮</span><span><strong>Lag in a video game:</strong> Multiplayer lag means you see players where they were, not where they are. Every star in the sky is "lagged" — some by hundreds, some by millions of years.</span></li>
+        </ul>
+      </div>
+
+      <!-- Star Colour = Temperature -->
+      <div class="concept-card">
+        <span class="concept-icon">🌡️</span>
+        <p class="concept-title">Star Colour = Temperature</p>
+        <p class="concept-def">
+          A star's colour directly tells you how hot it is. Cooler stars burn
+          red-orange (like Betelgeuse). Hotter stars burn blue-white (like Rigel).
+          This is the opposite of what we expect from faucet colours —
+          in stars, blue is hot, red is cool.
+        </p>
+        <p class="analogy-label">Analogies</p>
+        <ul class="analogy-list">
+          <li><span>🍳</span><span><strong>Stovetop burner:</strong> Turn a gas stove on low and the flame is orange-red. Crank it high and it burns blue. Stars work the same way — the hotter the fire, the bluer the colour.</span></li>
+          <li><span>🔥</span><span><strong>Campfire vs forge:</strong> A campfire glows red-orange (~1,000°C). A blacksmith's forge for melting iron glows white-blue (~1,500°C). Betelgeuse is the campfire; Rigel is the forge.</span></li>
+          <li><span>🎨</span><span><strong>Colour thermometer:</strong> Red = warm in everyday life, but in stars red = cool (3,500°C). Blue = cold in everyday life, but in stars blue = scorching (25,000°C). Stars flip our intuition completely.</span></li>
+        </ul>
+      </div>
+
+      <!-- What Is a Constellation? -->
+      <div class="concept-card">
+        <span class="concept-icon">🗺️</span>
+        <p class="concept-title">Constellations Aren't Real Shapes</p>
+        <p class="concept-def">
+          The stars in Orion appear to form a human shape — but they are not
+          actually close together. They're at wildly different distances from
+          Earth. Constellations are like dot-to-dot drawings on a curved wall —
+          the pattern only exists from our specific viewpoint.
+        </p>
+        <p class="analogy-label">Analogies</p>
+        <ul class="analogy-list">
+          <li><span>🌆</span><span><strong>City skyline:</strong> A city skyline looks flat from a distance — buildings appear side by side. But one building might be 1km away and another 5km away. Orion is like a skyline of stars at different distances.</span></li>
+          <li><span>🎯</span><span><strong>Fly on a window:</strong> A fly on your window and a tree far in the background might "line up" perfectly — but they're nowhere near each other. Belt stars appear in a line but are at different distances.</span></li>
+          <li><span>☁️</span><span><strong>Cloud animals:</strong> You find shapes in clouds that aren't really there — your brain connects the dots. Ancient humans did the same thing with stars. Constellations are humanity's cloud-gazing.</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       ORION NEBULA FEATURE
+  ═══════════════════════════════════ -->
+  <div class="nebula-section">
+    <p class="section-label">The Orion Nebula — M42 — A Star Nursery</p>
+    <div class="nebula-grid">
+      <div class="nebula-text">
+        <p>
+          Hang below Orion's Belt and look for three fainter stars in a
+          vertical line — Orion's Sword. The middle "star" isn't a star at all.
+          It's the <strong>Orion Nebula (M42)</strong>, a vast cloud of gas
+          and dust 1,344 light-years away, visible to the naked eye as a fuzzy
+          smudge of pale light.
+        </p>
+        <p>
+          Inside that smudge, new stars are being born right now. The nebula is
+          a <strong>stellar nursery</strong> — gas and dust collapsing under
+          gravity, heating up, until nuclear fusion ignites and a new star
+          switches on. The James Webb Space Telescope captured this process in
+          extraordinary detail in 2022 and 2023.
+        </p>
+        <p>
+          The four young, hot stars at the heart of the nebula — called the
+          <strong>Trapezium Cluster</strong> — are so powerful that their
+          radiation is slowly blowing the surrounding gas away, carving a
+          glowing cave in the cloud visible from Earth.
+        </p>
+        <p style="font-style:italic; color: var(--teal); border-left: 2px solid var(--teal-dim); padding-left: 10px; font-size: 0.88rem; margin-top: 4px;">
+          🎒 Middle school analogy: The Orion Nebula is like a giant kitchen
+          where stars are being cooked. The gas and dust are the ingredients.
+          Gravity is the heat. When the recipe is right, a new star "turns on"
+          — and the Orion Nebula is doing this with hundreds of stars right now.
+        </p>
+
+        <div class="nebula-stats">
+          <div class="nstat">
+            <span class="nstat-val">1,344</span>
+            <p class="nstat-label">light-years away</p>
+          </div>
+          <div class="nstat">
+            <span class="nstat-val">24 ly</span>
+            <p class="nstat-label">across (diameter)</p>
+          </div>
+          <div class="nstat">
+            <span class="nstat-val">700+</span>
+            <p class="nstat-label">young stars inside</p>
+          </div>
+          <div class="nstat">
+            <span class="nstat-val">M42</span>
+            <p class="nstat-label">Messier catalogue #42</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nebula SVG art -->
+      <div class="nebula-art">
+        <svg viewBox="0 0 280 280" width="260" height="260" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="neb1" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.9"/>
+              <stop offset="20%"  stop-color="#b0e0ff" stop-opacity="0.6"/>
+              <stop offset="50%"  stop-color="#1a9aa0" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#0a2040" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="neb2" cx="40%" cy="60%" r="60%">
+              <stop offset="0%"   stop-color="#6090c0" stop-opacity="0.4"/>
+              <stop offset="40%"  stop-color="#1a5080" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#0a2040" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="neb3" cx="65%" cy="35%" r="50%">
+              <stop offset="0%"   stop-color="#c080a0" stop-opacity="0.2"/>
+              <stop offset="60%"  stop-color="#802060" stop-opacity="0.1"/>
+              <stop offset="100%" stop-color="#0a2040" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="soft">
+              <feGaussianBlur stdDeviation="8"/>
+            </filter>
+            <filter id="soft2">
+              <feGaussianBlur stdDeviation="4"/>
+            </filter>
+            <filter id="starGlow2">
+              <feGaussianBlur stdDeviation="2.5" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- Deep background -->
+          <rect width="280" height="280" fill="#03080f" rx="4"/>
+
+          <!-- Outer nebula wisps -->
+          <ellipse cx="140" cy="140" rx="120" ry="100" fill="url(#neb2)" filter="url(#soft)"/>
+          <ellipse cx="130" cy="130" rx="80" ry="90" fill="url(#neb3)" filter="url(#soft)"/>
+
+          <!-- Main nebula glow layers -->
+          <ellipse cx="140" cy="145" rx="95" ry="80" fill="rgba(26,80,128,0.35)" filter="url(#soft)"/>
+          <ellipse cx="145" cy="135" rx="60" ry="55" fill="rgba(26,120,160,0.4)"  filter="url(#soft2)"/>
+          <ellipse cx="140" cy="138" rx="35" ry="32" fill="rgba(80,180,200,0.45)" filter="url(#soft2)"/>
+          <ellipse cx="140" cy="138" rx="18" ry="16" fill="rgba(160,220,240,0.5)" filter="url(#soft2)"/>
+
+          <!-- Bright core -->
+          <ellipse cx="140" cy="138" rx="6" ry="5" fill="url(#neb1)"/>
+
+          <!-- Nebula filaments / wisps -->
+          <path d="M140,138 Q170,100 200,90"  stroke="rgba(100,180,220,0.2)" stroke-width="8"  fill="none" filter="url(#soft2)"/>
+          <path d="M140,138 Q105,100 75,85"   stroke="rgba(100,160,200,0.18)" stroke-width="6"  fill="none" filter="url(#soft2)"/>
+          <path d="M140,138 Q160,170 180,200" stroke="rgba(80,120,180,0.15)"  stroke-width="5"  fill="none" filter="url(#soft2)"/>
+          <path d="M140,138 Q115,175 90,200"  stroke="rgba(100,140,200,0.12)" stroke-width="4"  fill="none" filter="url(#soft2)"/>
+          <path d="M140,138 Q185,138 220,145" stroke="rgba(150,200,220,0.1)"  stroke-width="6"  fill="none" filter="url(#soft2)"/>
+          <path d="M140,138 Q90,140 58,130"   stroke="rgba(120,180,200,0.1)"  stroke-width="5"  fill="none" filter="url(#soft2)"/>
+
+          <!-- Trapezium stars (4 hot young stars) -->
+          <circle cx="136" cy="135" r="3.5" fill="white" filter="url(#starGlow2)" opacity="0.95"/>
+          <circle cx="144" cy="132" r="4"   fill="white" filter="url(#starGlow2)" opacity="0.95"/>
+          <circle cx="142" cy="142" r="3"   fill="white" filter="url(#starGlow2)" opacity="0.9"/>
+          <circle cx="134" cy="143" r="2.5" fill="white" filter="url(#starGlow2)" opacity="0.9"/>
+
+          <!-- Background field stars -->
+          <circle cx="60"  cy="40"  r="1"   fill="white" opacity="0.6"/>
+          <circle cx="200" cy="55"  r="1.5" fill="white" opacity="0.7"/>
+          <circle cx="240" cy="110" r="1"   fill="white" opacity="0.5"/>
+          <circle cx="30"  cy="150" r="1.2" fill="white" opacity="0.55"/>
+          <circle cx="255" cy="200" r="1"   fill="white" opacity="0.5"/>
+          <circle cx="80"  cy="240" r="1.5" fill="white" opacity="0.6"/>
+          <circle cx="220" cy="250" r="1"   fill="white" opacity="0.5"/>
+          <circle cx="170" cy="30"  r="1"   fill="#c0d8ff" opacity="0.65"/>
+          <circle cx="45"  cy="220" r="1.2" fill="white" opacity="0.5"/>
+          <circle cx="260" cy="75"  r="1"   fill="white" opacity="0.45"/>
+
+          <!-- Label -->
+          <text x="140" y="272" text-anchor="middle" font-family="Share Tech Mono, monospace"
+                font-size="9" fill="rgba(26,154,160,0.7)" letter-spacing="3">M42 · ORION NEBULA</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       HOW TO FIND ORION
+  ═══════════════════════════════════ -->
+  <div class="find-section">
+    <p class="section-label">How to Find Orion in the Night Sky</p>
+    <div class="find-grid">
+
+      <div class="find-card">
+        <span class="find-icon">🧭</span>
+        <p class="find-title">Step 1 — Find the Belt</p>
+        <p class="find-body">
+          Look south on a clear winter night (December–March in the Northern Hemisphere).
+          Find <em>three bright stars in a perfectly straight, evenly-spaced line</em>.
+          That's Orion's Belt — <strong>Mintaka, Alnilam, and Alnitak</strong>.
+          Nothing else in the sky looks quite like it. Once you've seen it,
+          you'll never unsee it.
+        </p>
+      </div>
+
+      <div class="find-card">
+        <span class="find-icon">🔴</span>
+        <p class="find-title">Step 2 — Spot Betelgeuse</p>
+        <p class="find-body">
+          Look to the <em>upper left of the Belt</em>. The noticeably
+          <strong>orange-red star</strong> is Betelgeuse — Orion's right shoulder.
+          Its colour is unmistakable. If you're not sure if you see it, look for
+          the brightest reddish-orange star in that region of sky.
+        </p>
+      </div>
+
+      <div class="find-card">
+        <span class="find-icon">🔵</span>
+        <p class="find-title">Step 3 — Find Rigel</p>
+        <p class="find-body">
+          Diagonally opposite Betelgeuse — to the <em>lower right of the Belt</em> —
+          blazes <strong>Rigel, the blue-white supergiant</strong>. It's
+          slightly brighter than Betelgeuse. Together they frame the Belt
+          like two bright bookends, making Orion look like a massive hourglass in the sky.
+        </p>
+      </div>
+
+      <div class="find-card">
+        <span class="find-icon">🌫️</span>
+        <p class="find-title">Step 4 — Look for the Sword &amp; Nebula</p>
+        <p class="find-body">
+          Hanging below the Belt, find <em>three fainter stars in a vertical line</em>
+          — the Sword. The <strong>middle one looks fuzzy</strong> to the naked eye.
+          That's not a star — that's the Orion Nebula, a cloud of gas 24 light-years
+          wide where stars are being born. Binoculars reveal it clearly.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       MIND-BLOWING FACTS
+  ═══════════════════════════════════ -->
+  <div class="wows-section">
+    <p class="section-label">Mind-Blowing Orion Facts</p>
+    <div class="wows-grid">
+
+      <div class="wow-card">
+        <span class="wow-icon">💥</span>
+        <div>
+          <p class="wow-title">Betelgeuse Will Explode</p>
+          <p class="wow-body">
+            <strong>Betelgeuse is expected to explode as a supernova</strong>
+            — possibly within the next 100,000 years (any moment in cosmic terms).
+            When it does, it will be visible from Earth in broad daylight,
+            outshining the full Moon for weeks. It will then slowly fade,
+            leaving behind either a neutron star or a black hole.
+            <em>We may already be seeing the light from after the explosion — we won't know until it arrives.</em>
+          </p>
+        </div>
+      </div>
+
+      <div class="wow-card">
+        <span class="wow-icon">🗿</span>
+        <div>
+          <p class="wow-title">Orion Is 32,000 Years Old</p>
+          <p class="wow-body">
+            <strong>A mammoth ivory carving found in Germany</strong> shows
+            Orion's figure dated to ~32,000 BCE — before agriculture existed,
+            before cities, before writing. Humans have been looking at
+            <em>this exact constellation</em> for over 30 millennia.
+            Every civilisation that ever existed under a clear winter sky
+            would have seen what you see tonight.
+          </p>
+        </div>
+      </div>
+
+      <div class="wow-card">
+        <span class="wow-icon">📡</span>
+        <div>
+          <p class="wow-title">The Belt Aligns with Pyramids</p>
+          <p class="wow-body">
+            The three Great Pyramids of Giza are arranged in a pattern that
+            mirrors the three Belt stars of Orion — including their slight
+            offset from a straight line. Many Egyptologists believe this
+            was intentional. <strong>Orion was sacred to the Egyptians</strong>
+            as the celestial home of Osiris, god of the afterlife. The
+            pyramid shafts also align with Orion at specific times of year.
+          </p>
+        </div>
+      </div>
+
+      <div class="wow-card">
+        <span class="wow-icon">🌌</span>
+        <div>
+          <p class="wow-title">The Nebula Is Making Stars Right Now</p>
+          <p class="wow-body">
+            The Orion Nebula isn't a pretty cloud — it's a <em>factory</em>.
+            Inside it, over <strong>700 young stars</strong> have already
+            formed, and the process is ongoing. In 2023, the James Webb
+            Space Telescope photographed newly forming planetary systems
+            inside M42 — discs of dust that could become solar systems like ours.
+            Orion's Sword contains the future.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════ -->
+  <footer>
+    <div class="footer-name">ORION</div>
+    <div class="footer-note">IAU Constellation · 594 sq° area · 7 Named Stars</div>
+    <div class="footer-note">Visible Dec – Mar · All Latitudes</div>
+  </footer>
+
+</div>
+
+<!-- Generate twinkling starfield -->
+<script>
+  const sf = document.getElementById('starfield');
+  const stars = [
+    [8,12,1.2,0.3,0.8,2.8,0.5,'#fff'],
+    [18,35,0.8,0.2,0.6,3.5,1.2,'#c8e8ff'],
+    [30,68,1,0.25,0.75,4,0.8,'#fff'],
+    [45,20,1.5,0.4,1,2.2,0.3,'#ffe8c0'],
+    [55,82,0.9,0.2,0.7,3.8,1.5,'#fff'],
+    [70,45,1.1,0.3,0.85,3.2,0.7,'#c8e8ff'],
+    [82,10,0.8,0.2,0.6,4.5,2,'#fff'],
+    [88,60,1.4,0.35,0.9,2.5,0.4,'#fff'],
+    [93,38,1,0.25,0.7,3.6,1.1,'#ddf0ff'],
+    [15,90,0.9,0.2,0.65,4.2,1.8,'#fff'],
+    [25,55,1.2,0.3,0.8,3,0.6,'#fff'],
+    [38,78,0.7,0.15,0.55,5,2.3,'#c8e8ff'],
+    [50,30,1.3,0.35,0.9,2.8,0.2,'#fff'],
+    [62,92,0.8,0.2,0.6,4,1.4,'#fff'],
+    [75,70,1.1,0.3,0.78,3.4,0.9,'#fffbe8'],
+    [85,25,0.9,0.22,0.68,3.9,1.7,'#fff'],
+    [96,50,1.4,0.4,0.95,2.6,0.3,'#c8e8ff'],
+    [5,48,1,0.25,0.72,4.1,1.3,'#fff'],
+    [12,75,0.8,0.18,0.58,4.8,2.1,'#fff'],
+    [42,8,1.2,0.32,0.82,3.1,0.5,'#ddf0ff'],
+    [67,30,0.9,0.22,0.67,3.7,1,'#fff'],
+    [78,88,1.1,0.28,0.75,3.3,0.7,'#fff'],
+    [91,15,0.7,0.15,0.52,5.2,2.5,'#c8e8ff'],
+    [3,28,1.3,0.35,0.88,2.9,0.4,'#fff'],
+    [58,52,1,0.24,0.7,4.3,1.6,'#fffbe8'],
+  ];
+  stars.forEach(([left,top,size,minOp,maxOp,dur,delay,color]) => {
+    const s = document.createElement('span');
+    s.style.cssText = `
+      left:${left}%;top:${top}%;
+      width:${size}px;height:${size}px;
+      background:${color};
+      --min-op:${minOp};--max-op:${maxOp};
+      --dur:${dur}s;--delay:-${delay}s;
+      --sc:${1 + size * 0.15};
+    `;
+    sf.appendChild(s);
+  });
+</script>
+
+</body>
+</html>

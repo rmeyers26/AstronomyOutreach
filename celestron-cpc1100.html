@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Celestron CPC 1100 — Schmidt-Cassegrain Telescope</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    /* ── Design System ──────────────────────────── */
+    :root {
+      --space:       #050810;
+      --nebula:      #0b1428;
+      --star:        #e8dfc8;
+      --gold:        #c9a84c;
+      --gold-dim:    #7a6229;
+      --accent:      #4a90d9;
+      --accent-dim:  #1a3a5c;
+      --white:       #f4f0e8;
+      --muted:       #8a8070;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--space);
+      color: var(--star);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Starfield background ───────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 50% 10%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 35%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 15% 75%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 60% 45%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 55%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 40% 90%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 25% 40%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(2px 2px at 75% 15%, rgba(201,168,76,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 5% 50%, rgba(74,144,217,0.3) 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Layout ─────────────────────────────────── */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 60px 40px 80px;
+    }
+
+    /* ── Header / Hero ──────────────────────────── */
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: 40px;
+      border-bottom: 1px solid var(--gold-dim);
+      padding-bottom: 40px;
+      margin-bottom: 48px;
+      animation: fadeUp 0.9s ease both;
+    }
+
+    .brand-line {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--white);
+      letter-spacing: -1px;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .tagline {
+      margin-top: 16px;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    /* Badge */
+    .badge {
+      text-align: center;
+      padding: 20px 28px;
+      border: 1px solid var(--gold-dim);
+      background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(201,168,76,0.02));
+    }
+
+    .badge-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.2rem;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .badge-unit {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-top: 4px;
+    }
+
+    /* ── Overview ───────────────────────────────── */
+    .overview {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+      animation: fadeUp 0.9s 0.1s ease both;
+    }
+
+    .overview-text p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 300;
+      color: var(--star);
+      line-height: 1.8;
+      margin-bottom: 14px;
+    }
+
+    /* ── Section headings ───────────────────────── */
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+
+    /* ── Specs Grid ─────────────────────────────── */
+    .specs {
+      animation: fadeUp 0.9s 0.2s ease both;
+    }
+
+    .spec-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(201,168,76,0.12);
+      gap: 12px;
+    }
+
+    .spec-item:last-child { border-bottom: none; }
+
+    .spec-key {
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 400;
+      flex-shrink: 0;
+    }
+
+    .spec-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      color: var(--white);
+      text-align: right;
+    }
+
+    /* ── Features Strip ─────────────────────────── */
+    .features-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin: 48px 0;
+      animation: fadeUp 0.9s 0.3s ease both;
+    }
+
+    .feature-card {
+      background: linear-gradient(160deg, rgba(74,144,217,0.06), rgba(11,20,40,0.8));
+      border: 1px solid var(--accent-dim);
+      padding: 28px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s ease;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .feature-card:hover { border-color: var(--accent); }
+    .feature-card:hover::before { opacity: 1; }
+
+    .feature-icon {
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .feature-title {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .feature-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      color: var(--star);
+      line-height: 1.65;
+      font-weight: 300;
+    }
+
+    /* ── Bottom 2-col ───────────────────────────── */
+    .bottom-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      animation: fadeUp 0.9s 0.4s ease both;
+    }
+
+    /* Ideal Targets */
+    .targets-list {
+      list-style: none;
+    }
+
+    .targets-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      color: var(--star);
+    }
+
+    .targets-list li::before {
+      content: '◈';
+      color: var(--gold);
+      font-size: 0.65rem;
+      flex-shrink: 0;
+    }
+
+    /* Who it's for */
+    .audience-card {
+      background: linear-gradient(135deg, rgba(201,168,76,0.07), transparent);
+      border: 1px solid var(--gold-dim);
+      padding: 28px 24px;
+      height: 100%;
+    }
+
+    .audience-card p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      color: var(--star);
+      line-height: 1.75;
+      font-weight: 300;
+      margin-bottom: 16px;
+    }
+
+    .audience-card p:last-child { margin-bottom: 0; }
+
+    /* ── Footer strip ───────────────────────────── */
+    footer {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(201,168,76,0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: fadeUp 0.9s 0.5s ease both;
+    }
+
+    .footer-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 300;
+      color: var(--gold);
+      letter-spacing: 2px;
+    }
+
+    .footer-note {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    /* ── Decorative horizontal rule ─────────────── */
+    .rule {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 40px 0;
+    }
+
+    .rule-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+    }
+
+    .rule-dot {
+      width: 6px;
+      height: 6px;
+      border: 1px solid var(--gold);
+      transform: rotate(45deg);
+      background: transparent;
+    }
+
+    /* ── Optics Explainer ───────────────────────── */
+    .optics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 16px;
+      margin-bottom: 48px;
+      animation: fadeUp 0.9s 0.45s ease both;
+    }
+
+    .optic-card {
+      background: linear-gradient(160deg, rgba(201,168,76,0.06), rgba(5,8,16,0.9));
+      border: 1px solid var(--gold-dim);
+      padding: 26px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-color 0.3s ease;
+    }
+
+    .optic-card:hover { border-color: var(--gold); }
+
+    .optic-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 4px;
+    }
+
+    .optic-icon {
+      font-size: 1.6rem;
+      flex-shrink: 0;
+    }
+
+    .optic-title {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    .optic-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--white);
+      margin-top: 2px;
+    }
+
+    .optic-q {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .optic-body {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.92rem;
+      color: var(--star);
+      line-height: 1.7;
+      font-weight: 300;
+      flex: 1;
+    }
+
+    .optic-example {
+      background: rgba(201,168,76,0.06);
+      border-left: 2px solid var(--gold-dim);
+      padding: 10px 12px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.88rem;
+      color: var(--star);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    .optic-ex-label {
+      display: block;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 4px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 500;
+    }
+
+    .optic-formula {
+      background: rgba(74,144,217,0.07);
+      border: 1px solid var(--accent-dim);
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.8;
+      font-family: 'Rajdhani', sans-serif;
+      letter-spacing: 0.5px;
+    }
+
+    .optic-formula-ex {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .optic-formula strong { color: var(--white); }
+
+    /* f/ratio scale bar */
+    .optic-scale { margin-top: auto; }
+
+    .scale-bar {
+      position: relative;
+      height: 6px;
+      background: linear-gradient(90deg, var(--accent-dim), var(--gold-dim));
+      border-radius: 3px;
+      margin-bottom: 8px;
+    }
+
+    .scale-fill {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 63%; /* f/10 on a f/4–f/15 scale */
+      border-radius: 3px;
+    }
+
+    .scale-marker {
+      position: absolute;
+      top: -4px;
+      left: 63%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 14px;
+      background: var(--gold);
+      border-radius: 1px;
+    }
+
+    .scale-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 9px;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      font-family: 'Rajdhani', sans-serif;
+    }
+
+    .scale-labels span:nth-child(2) { color: var(--gold); font-weight: 500; }
+
+    /* Example rows inside optic cards */
+    .examples-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .ex-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      background: rgba(255,255,255,0.03);
+      border-radius: 2px;
+      padding: 8px 10px;
+    }
+
+    .ex-emoji {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .ex-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.88rem;
+      color: var(--star);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    .ex-text strong {
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    /* ── Animations ─────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Responsive ─────────────────────────────── */
+    @media (max-width: 700px) {
+      .page { padding: 40px 24px 60px; }
+      header { grid-template-columns: 1fr; }
+      .overview { grid-template-columns: 1fr; }
+      .features-strip { grid-template-columns: 1fr; }
+      .bottom-cols { grid-template-columns: 1fr; }
+      .optics-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ─── Header ───────────────────────────────── -->
+  <header>
+    <div>
+      <p class="brand-line">Celestron · Schmidt-Cassegrain</p>
+      <h1>CPC <em>1100</em></h1>
+      <p class="tagline">11-Inch Computerised GoTo Telescope</p>
+    </div>
+    <div class="badge">
+      <div class="badge-num">280mm</div>
+      <span class="badge-unit">Aperture</span>
+    </div>
+  </header>
+
+  <!-- ─── Overview + Quick Specs ───────────────── -->
+  <div class="overview">
+    <div class="overview-text">
+      <p class="section-label">Overview</p>
+      <p>
+        The Celestron CPC 1100 is a flagship consumer Schmidt-Cassegrain telescope,
+        combining an 11-inch (280 mm) aperture with an integrated GPS-enabled
+        computerised mount. It is built for serious amateur astronomers who demand
+        high resolution, portability, and automated alignment.
+      </p>
+      <p>
+        Its dual-fork alt-azimuth mount and NexStar+ hand controller give observers
+        access to a database of over 40,000 celestial objects — from planetary detail
+        to faint deep-sky galaxies — with one-touch GoTo slewing.
+      </p>
+    </div>
+
+    <div class="specs">
+      <p class="section-label">Key Specifications</p>
+      <div class="spec-item">
+        <span class="spec-key">Optical Design</span>
+        <span class="spec-val">Schmidt-Cassegrain</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-key">Aperture</span>
+        <span class="spec-val">280 mm (11 in)</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-key">Focal Length</span>
+        <span class="spec-val">2,800 mm</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-key">Focal Ratio</span>
+        <span class="spec-val">f/10</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-key">Mount Type</span>
+        <span class="spec-val">Alt-Az Dual Fork</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-key">Tracking</span>
+        <span class="spec-val">Computerised GoTo</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-key">Database</span>
+        <span class="spec-val">40,000+ objects</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-key">Limiting Magnitude</span>
+        <span class="spec-val">~14.7 (visual)</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-key">Weight (OTA + Mount)</span>
+        <span class="spec-val">~24 kg (53 lbs)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule"><div class="rule-line"></div><div class="rule-dot"></div><div class="rule-line"></div></div>
+
+  <!-- ─── Feature Cards ────────────────────────── -->
+  <p class="section-label">Core Technologies</p>
+  <div class="features-strip">
+
+    <div class="feature-card">
+      <span class="feature-icon">🛰️</span>
+      <p class="feature-title">GPS Auto-Alignment</p>
+      <p class="feature-desc">
+        Built-in GPS acquires your exact location and time at power-on,
+        enabling fully automated sky alignment without manual star-hopping.
+        SkyAlign can align using any three bright objects.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">🌀</span>
+      <p class="feature-title">StarBright XLT Coatings</p>
+      <p class="feature-desc">
+        Celestron's proprietary multi-layer optical coatings increase light
+        transmission to over 97.4% per surface, delivering exceptional contrast
+        and true colour fidelity across all wavelengths.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">📡</span>
+      <p class="feature-title">NexStar+ Hand Controller</p>
+      <p class="feature-icon-large"></p>
+      <p class="feature-desc">
+        The backlit 4-inch LCD hand controller features guided tours, real-time
+        sky data, and compatibility with Celestron's WiFi module for smartphone
+        control via the SkySafari or Celestron apps.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">🔭</span>
+      <p class="feature-title">Schmidt-Cassegrain Optics</p>
+      <p class="feature-desc">
+        The SCT design folds a long focal length into a compact tube using a
+        corrector plate, primary mirror, and convex secondary — ideal for
+        planetary observing and astrophotography alike.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">📸</span>
+      <p class="feature-title">Astrophotography Ready</p>
+      <p class="feature-desc">
+        The 9.25-inch rear thread accepts standard camera adapters and T-rings.
+        Add a wedge for polar alignment and the CPC 1100 becomes a capable
+        long-exposure imaging platform.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-icon">⚡</span>
+      <p class="feature-title">AllStar Polar Alignment</p>
+      <p class="feature-desc">
+        Celestron's AllStar routine provides a streamlined polar alignment
+        procedure directly from the hand controller, removing the need for
+        a polar scope or separate alignment tools.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="rule"><div class="rule-line"></div><div class="rule-dot"></div><div class="rule-line"></div></div>
+
+  <!-- ─── Bottom: Targets + Audience ──────────── -->
+  <div class="bottom-cols">
+
+    <div>
+      <p class="section-label">Ideal Observing Targets</p>
+      <ul class="targets-list">
+        <li>Planets — Saturn's rings, Jupiter's cloud bands</li>
+        <li>Lunar surface detail and crater mapping</li>
+        <li>Globular clusters (M13, Omega Centauri)</li>
+        <li>Galaxies (Andromeda, Virgo Cluster)</li>
+        <li>Planetary nebulae and supernova remnants</li>
+        <li>Binary and double stars</li>
+        <li>Faint comets and solar system bodies</li>
+        <li>Wide deep-sky fields (with reducer)</li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="audience-card">
+        <p class="section-label">Who It's For</p>
+        <p>
+          The CPC 1100 is designed for the dedicated amateur astronomer who
+          has outgrown smaller instruments and wants observatory-class performance
+          in a portable package. Its computerised mount removes the barrier of
+          manual star navigation.
+        </p>
+        <p>
+          It is equally at home at a dark-sky site or in an urban backyard, and
+          transitions gracefully into astrophotography when paired with a focal
+          reducer and equatorial wedge. Expect a learning curve — but a
+          profoundly rewarding one.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="rule"><div class="rule-line"></div><div class="rule-dot"></div><div class="rule-line"></div></div>
+
+  <!-- ─── Optics Explainer ─────────────────────── -->
+  <p class="section-label">Understanding the Optics</p>
+  <div class="optics-grid">
+
+    <!-- APERTURE CARD -->
+    <div class="optic-card">
+      <div class="optic-header">
+        <span class="optic-icon">🪣</span>
+        <div>
+          <p class="optic-title">Aperture</p>
+          <p class="optic-value">280 mm · 11 inches</p>
+        </div>
+      </div>
+      <p class="optic-q">What does it do?</p>
+      <p class="optic-body">
+        Aperture is the diameter of the main mirror — basically, how wide the
+        telescope's "eye" opens. The bigger the eye, the more light it catches,
+        and the more detail you can see.
+      </p>
+
+      <p class="optic-q">Everyday analogies</p>
+      <div class="examples-list">
+        <div class="ex-row">
+          <span class="ex-emoji">🪣</span>
+          <span class="ex-text"><strong>Rain bucket:</strong> A wide bucket collects more rainwater than a narrow cup in the same storm. More aperture = more light collected from the same patch of sky.</span>
+        </div>
+        <div class="ex-row">
+          <span class="ex-emoji">👁️</span>
+          <span class="ex-text"><strong>Your pupils:</strong> In a dark room, your pupils open wide to let in more light. The CPC 1100's 11" mirror is like having a pupil the size of a dinner plate.</span>
+        </div>
+        <div class="ex-row">
+          <span class="ex-emoji">🔦</span>
+          <span class="ex-text"><strong>Flashlights:</strong> A wide flashlight beam lights up more area than a narrow one. More aperture = more sky "lit up" for your eye to see.</span>
+        </div>
+      </div>
+
+      <div class="optic-example">
+        <span class="optic-ex-label">🪐 Saturn comparison</span>
+        A cheap 4" telescope shows Saturn as a blurry oval with rings.
+        The CPC 1100's 11" mirror reveals the <em>Cassini Division</em> — a
+        real gap between Saturn's rings — plus dark cloud belts on the planet itself.
+        That's what more aperture buys you.
+      </div>
+    </div>
+
+    <!-- FOCAL LENGTH CARD -->
+    <div class="optic-card">
+      <div class="optic-header">
+        <span class="optic-icon">📏</span>
+        <div>
+          <p class="optic-title">Focal Length</p>
+          <p class="optic-value">2,800 mm</p>
+        </div>
+      </div>
+      <p class="optic-q">What does it do?</p>
+      <p class="optic-body">
+        Focal length is the distance light travels inside the telescope from the
+        mirror to where the image forms. The longer the journey, the more the
+        image gets stretched — meaning higher magnification (zoom).
+      </p>
+
+      <p class="optic-q">Everyday analogies</p>
+      <div class="examples-list">
+        <div class="ex-row">
+          <span class="ex-emoji">🛋️</span>
+          <span class="ex-text"><strong>TV distance:</strong> Sitting 2 feet from a TV makes it look huge. Sitting 20 feet away makes it look tiny. Focal length is like that distance — longer = bigger image.</span>
+        </div>
+        <div class="ex-row">
+          <span class="ex-emoji">📷</span>
+          <span class="ex-text"><strong>Camera zoom lens:</strong> When you slide a zoom lens out, the barrel gets longer — that's increasing the focal length. The photo zooms in. Same idea here.</span>
+        </div>
+        <div class="ex-row">
+          <span class="ex-emoji">🎯</span>
+          <span class="ex-text"><strong>Hallway trick:</strong> Draw a tiny dot on the far wall of a very long hallway. From down the hall it looks bigger than it does up close. More focal length = more magnification of tiny objects far away.</span>
+        </div>
+      </div>
+
+      <div class="optic-formula">
+        <strong>The magnification formula:</strong><br/>
+        Magnification = Focal Length ÷ Eyepiece focal length<br/>
+        <span class="optic-formula-ex">2,800 ÷ 25mm eyepiece = <strong>112×</strong></span><br/>
+        <span class="optic-formula-ex">2,800 ÷ 10mm eyepiece = <strong>280×</strong></span><br/>
+        <span style="font-size:0.82rem; color: var(--muted);">Swap eyepieces to change the zoom — no moving parts in the telescope itself.</span>
+      </div>
+    </div>
+
+    <!-- FOCAL RATIO CARD -->
+    <div class="optic-card">
+      <div class="optic-header">
+        <span class="optic-icon">⚗️</span>
+        <div>
+          <p class="optic-title">Focal Ratio</p>
+          <p class="optic-value">f/10</p>
+        </div>
+      </div>
+      <p class="optic-q">What does it do?</p>
+      <p class="optic-body">
+        Focal ratio = focal length ÷ aperture. For the CPC 1100:
+        2,800 ÷ 280 = <strong>f/10</strong>. It tells you how "zoomed in"
+        the telescope naturally is before you even pick an eyepiece.
+        Low number = wide and bright. High number = narrow and zoomed.
+      </p>
+
+      <p class="optic-q">Everyday analogies</p>
+      <div class="examples-list">
+        <div class="ex-row">
+          <span class="ex-emoji">🧃</span>
+          <span class="ex-text"><strong>Juice funnel:</strong> A wide, short funnel pours juice fast (f/4). A narrow, tall funnel pours slowly and in a thin stream (f/10). "Fast" scopes gather light quickly; "slow" scopes zoom in tighter.</span>
+        </div>
+        <div class="ex-row">
+          <span class="ex-emoji">🚿</span>
+          <span class="ex-text"><strong>Shower head:</strong> Wide spray = covers a big area, low pressure (fast ratio). Narrow jet = covers a small area, high pressure (slow ratio). Same water, different focus.</span>
+        </div>
+        <div class="ex-row">
+          <span class="ex-emoji">📸</span>
+          <span class="ex-text"><strong>Phone camera:</strong> Portrait mode (blurry background, tight zoom) is like f/10. Landscape mode (wide, everything sharp) is like f/4. The CPC 1100 is built for "portrait mode" of planets.</span>
+        </div>
+      </div>
+
+      <div class="optic-scale">
+        <div class="scale-bar">
+          <div class="scale-fill"></div>
+          <div class="scale-marker"></div>
+        </div>
+        <div class="scale-labels">
+          <span>f/4 — Fast · Wide</span>
+          <span>f/10 ← CPC 1100</span>
+          <span>f/15 — Slow · Narrow</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ─── Footer ───────────────────────────────── -->
+  <footer>
+    <div class="footer-brand">Celestron</div>
+    <div class="footer-note">CPC 1100 · Schmidt-Cassegrain · GoTo Series</div>
+    <div class="footer-note">celestron.com</div>
+  </footer>
+
+</div>
+</body>
+</html>

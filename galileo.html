@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Galileo Galilei — Father of Modern Science</title>
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+
+    /* ═══════════════════════════════════════════════
+       DESIGN SYSTEM
+       Aesthetic: Renaissance manuscript meets
+       editorial broadsheet. Aged parchment tones,
+       deep ink blacks, cardinal red accents.
+       Serif-heavy, column-driven, classical gravity.
+    ═══════════════════════════════════════════════ */
+    :root {
+      --parchment:   #f2e8d0;
+      --parchment2:  #e8d8b4;
+      --ink:         #1a1208;
+      --ink-mid:     #2e2010;
+      --ink-faint:   #4a3820;
+      --cardinal:    #8b1a1a;
+      --gold:        #9a7c30;
+      --gold-light:  #c4a84a;
+      --sepia:       #6b4f2a;
+      --sepia-light: #a07848;
+      --card-bg:     rgba(26,18,8,0.04);
+      --card-bdr:    rgba(139,26,26,0.2);
+      --text-main:   #2a1c08;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--parchment);
+      color: var(--text-main);
+      font-family: 'Crimson Pro', serif;
+      font-size: 16px;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════════════════════════════════
+       PARCHMENT TEXTURE + VIGNETTE
+    ═══════════════════════════════════════════════ */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        /* aged grain texture via layered radial gradients */
+        radial-gradient(ellipse at 20% 30%, rgba(160,120,60,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 70%, rgba(100,70,30,0.07) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 10%, rgba(200,170,100,0.06) 0%, transparent 50%),
+        /* vignette edges */
+        radial-gradient(ellipse at center, transparent 55%, rgba(60,30,0,0.18) 100%);
+    }
+
+    /* Subtle horizontal rule lines like old manuscript paper */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image: repeating-linear-gradient(
+        180deg,
+        transparent,
+        transparent 31px,
+        rgba(139,26,26,0.04) 31px,
+        rgba(139,26,26,0.04) 32px
+      );
+    }
+
+    /* ═══════════════════════════════════════════════
+       LAYOUT
+    ═══════════════════════════════════════════════ */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 64px 48px 96px;
+    }
+
+    /* ═══════════════════════════════════════════════
+       MASTHEAD / HEADER
+    ═══════════════════════════════════════════════ */
+    .masthead {
+      text-align: center;
+      border-top: 3px double var(--cardinal);
+      border-bottom: 3px double var(--cardinal);
+      padding: 40px 20px 36px;
+      margin-bottom: 52px;
+      position: relative;
+      animation: fadeIn 1s ease both;
+    }
+
+    /* Decorative corner flourishes */
+    .masthead::before,
+    .masthead::after {
+      content: '✦';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--cardinal);
+      font-size: 1.2rem;
+      opacity: 0.5;
+    }
+    .masthead::before { left: 24px; }
+    .masthead::after  { right: 24px; }
+
+    .masthead-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--sepia);
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.6rem, 6vw, 5rem);
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: 2px;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .masthead-sub {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      color: var(--cardinal);
+      margin-bottom: 18px;
+    }
+
+    .masthead-dates {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 4px;
+      color: var(--sepia-light);
+    }
+
+    /* ═══════════════════════════════════════════════
+       SECTION LABELS
+    ═══════════════════════════════════════════════ */
+    .section-label {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--cardinal);
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    /* ═══════════════════════════════════════════════
+       INTRO — 3-COLUMN BROADSHEET
+    ═══════════════════════════════════════════════ */
+    .broadsheet {
+      display: grid;
+      grid-template-columns: 1fr 2px 1.6fr 2px 1fr;
+      gap: 32px;
+      margin-bottom: 52px;
+      animation: fadeIn 1s 0.1s ease both;
+    }
+
+    .col-divider {
+      background: var(--cardinal);
+      opacity: 0.2;
+      align-self: stretch;
+    }
+
+    .bio-col p {
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: var(--text-main);
+      margin-bottom: 12px;
+    }
+
+    /* Pull quote in centre column */
+    .pull-quote {
+      text-align: center;
+      padding: 20px 16px;
+    }
+
+    .pq-mark {
+      font-family: 'IM Fell English', serif;
+      font-size: 5rem;
+      color: var(--cardinal);
+      opacity: 0.25;
+      line-height: 0.6;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .pq-text {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      color: var(--ink);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .pq-attr {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: 3px;
+      color: var(--sepia);
+    }
+
+    .bio-facts {
+      border-top: 1px solid rgba(139,26,26,0.2);
+      padding-top: 16px;
+      margin-top: 8px;
+    }
+
+    .bio-fact-row {
+      display: flex;
+      gap: 10px;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(139,26,26,0.08);
+      font-size: 0.85rem;
+    }
+
+    .bio-fact-key {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--sepia-light);
+      width: 80px;
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+
+    .bio-fact-val {
+      color: var(--text-main);
+      font-size: 0.88rem;
+    }
+
+    /* ═══════════════════════════════════════════════
+       DECORATIVE RULE
+    ═══════════════════════════════════════════════ */
+    .ornament {
+      text-align: center;
+      color: var(--cardinal);
+      opacity: 0.4;
+      font-size: 1.1rem;
+      letter-spacing: 12px;
+      margin: 40px 0;
+    }
+
+    .rule-line-pair {
+      border-top: 1px solid rgba(139,26,26,0.25);
+      border-bottom: 1px solid rgba(139,26,26,0.25);
+      height: 6px;
+      margin: 36px 0;
+    }
+
+    /* ═══════════════════════════════════════════════
+       DISCOVERIES — TIMELINE CARDS
+    ═══════════════════════════════════════════════ */
+    .discoveries-section {
+      animation: fadeIn 1s 0.15s ease both;
+      margin-bottom: 52px;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .timeline-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      border-left: 3px solid var(--cardinal);
+      padding: 24px 22px;
+      position: relative;
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    .timeline-card:hover {
+      background: rgba(139,26,26,0.04);
+      border-left-color: var(--gold);
+    }
+
+    .timeline-year {
+      font-family: 'Cinzel', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--cardinal);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .timeline-title {
+      font-family: 'IM Fell English', serif;
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .timeline-desc {
+      font-size: 0.88rem;
+      color: var(--text-main);
+      line-height: 1.75;
+      margin-bottom: 10px;
+      opacity: 0.88;
+    }
+
+    .timeline-analogy {
+      font-size: 0.82rem;
+      color: var(--cardinal);
+      border-top: 1px solid rgba(139,26,26,0.15);
+      padding-top: 8px;
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    /* ═══════════════════════════════════════════════
+       MIDDLE SCHOOL CONCEPTS
+    ═══════════════════════════════════════════════ */
+    .concepts-section {
+      animation: fadeIn 1s 0.2s ease both;
+      margin-bottom: 52px;
+    }
+
+    .ms-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .ms-badge {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: rgba(139,26,26,0.08);
+      border: 1px solid rgba(139,26,26,0.3);
+      color: var(--cardinal);
+      padding: 3px 10px;
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .concept-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 26px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: background 0.3s;
+    }
+
+    .concept-card:hover {
+      background: rgba(139,26,26,0.05);
+    }
+
+    .concept-icon { font-size: 2rem; }
+
+    .concept-title {
+      font-family: 'IM Fell English', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--ink);
+    }
+
+    .concept-def {
+      font-size: 0.86rem;
+      line-height: 1.75;
+      color: var(--text-main);
+      border-left: 2px solid var(--cardinal);
+      padding-left: 10px;
+      opacity: 0.88;
+    }
+
+    .analogy-label {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--sepia-light);
+    }
+
+    .analogy-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .analogy-list li {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      font-size: 0.83rem;
+      color: var(--text-main);
+      line-height: 1.6;
+      opacity: 0.85;
+    }
+
+    .analogy-list li span:first-child { flex-shrink: 0; }
+    .analogy-list li strong { color: var(--cardinal); }
+
+    /* ═══════════════════════════════════════════════
+       THE TRIAL — DRAMATIC SECTION
+    ═══════════════════════════════════════════════ */
+    .trial-section {
+      animation: fadeIn 1s 0.25s ease both;
+      margin-bottom: 52px;
+      background: rgba(26,18,8,0.04);
+      border: 1px solid rgba(139,26,26,0.25);
+      border-top: 3px solid var(--cardinal);
+      padding: 36px 36px;
+    }
+
+    .trial-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 20px;
+    }
+
+    .trial-text p {
+      font-size: 0.92rem;
+      line-height: 1.85;
+      margin-bottom: 12px;
+      color: var(--text-main);
+    }
+
+    .verdict-box {
+      background: rgba(139,26,26,0.06);
+      border: 1px solid rgba(139,26,26,0.25);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .verdict-title {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--cardinal);
+    }
+
+    .verdict-quote {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--ink);
+      line-height: 1.7;
+      border-left: 2px solid var(--cardinal);
+      padding-left: 14px;
+    }
+
+    .verdict-outcome {
+      font-size: 0.83rem;
+      color: var(--text-main);
+      line-height: 1.7;
+      opacity: 0.85;
+    }
+
+    .ms-trial-box {
+      margin-top: 16px;
+      background: rgba(154,124,48,0.07);
+      border: 1px solid rgba(154,124,48,0.25);
+      padding: 16px 18px;
+    }
+
+    .ms-trial-label {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .ms-trial-text {
+      font-size: 0.83rem;
+      line-height: 1.7;
+      color: var(--text-main);
+      font-style: italic;
+    }
+
+    /* ═══════════════════════════════════════════════
+       LEGACY + WHY IT MATTERS
+    ═══════════════════════════════════════════════ */
+    .legacy-section {
+      animation: fadeIn 1s 0.3s ease both;
+      margin-bottom: 52px;
+    }
+
+    .legacy-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .legacy-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: background 0.3s;
+    }
+
+    .legacy-card:hover { background: rgba(139,26,26,0.04); }
+
+    .legacy-icon { font-size: 1.8rem; }
+
+    .legacy-title {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--cardinal);
+    }
+
+    .legacy-body {
+      font-size: 0.85rem;
+      line-height: 1.75;
+      color: var(--text-main);
+      opacity: 0.87;
+    }
+
+    /* ═══════════════════════════════════════════════
+       FAST FACTS STRIP
+    ═══════════════════════════════════════════════ */
+    .facts-strip {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      border: 1px solid rgba(139,26,26,0.2);
+      margin-bottom: 52px;
+      animation: fadeIn 1s 0.05s ease both;
+    }
+
+    .fact-box {
+      background: var(--card-bg);
+      padding: 18px 14px;
+      text-align: center;
+      border-right: 1px solid rgba(139,26,26,0.15);
+      transition: background 0.3s;
+    }
+
+    .fact-box:last-child { border-right: none; }
+    .fact-box:hover { background: rgba(139,26,26,0.05); }
+
+    .fact-num {
+      font-family: 'Cinzel', serif;
+      font-size: 1.6rem;
+      color: var(--cardinal);
+      font-weight: 700;
+      line-height: 1.1;
+      display: block;
+    }
+
+    .fact-label {
+      font-size: 0.78rem;
+      color: var(--sepia);
+      margin-top: 5px;
+      line-height: 1.4;
+    }
+
+    /* ═══════════════════════════════════════════════
+       CONNECTIONS TO TODAY
+    ═══════════════════════════════════════════════ */
+    .today-section {
+      animation: fadeIn 1s 0.32s ease both;
+      margin-bottom: 52px;
+    }
+
+    .today-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .today-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 22px 22px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .today-icon { font-size: 1.7rem; flex-shrink: 0; }
+
+    .today-title {
+      font-family: 'IM Fell English', serif;
+      font-size: 0.98rem;
+      font-style: italic;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .today-body {
+      font-size: 0.84rem;
+      line-height: 1.75;
+      color: var(--text-main);
+      opacity: 0.85;
+    }
+
+    .today-body strong { color: var(--cardinal); }
+
+    /* ═══════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════ */
+    footer {
+      margin-top: 64px;
+      border-top: 3px double var(--cardinal);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: fadeIn 1s 0.38s ease both;
+    }
+
+    .footer-name {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      color: var(--ink);
+      letter-spacing: 3px;
+    }
+
+    .footer-note {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      color: var(--sepia-light);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .footer-florin {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--cardinal);
+      opacity: 0.5;
+    }
+
+    /* ═══════════════════════════════════════════════
+       ANIMATIONS
+    ═══════════════════════════════════════════════ */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ═══════════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════════ */
+    @media (max-width: 740px) {
+      .page { padding: 36px 20px 64px; }
+      .broadsheet { grid-template-columns: 1fr; }
+      .col-divider { display: none; }
+      .facts-strip { grid-template-columns: repeat(3,1fr); }
+      .timeline { grid-template-columns: 1fr; }
+      .concept-grid { grid-template-columns: 1fr; }
+      .trial-grid { grid-template-columns: 1fr; }
+      .legacy-grid { grid-template-columns: 1fr; }
+      .today-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══════════════════════════════════
+       MASTHEAD
+  ═══════════════════════════════════ -->
+  <div class="masthead">
+    <p class="masthead-eyebrow">Pisa, Italy · Renaissance Astronomer · Physicist · Father of Modern Science</p>
+    <h1>Galileo Galilei</h1>
+    <p class="masthead-sub">"The man who dared to look — and believed what he saw."</p>
+    <p class="masthead-dates">15 February 1564 &nbsp;✦&nbsp; 8 January 1642</p>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       FAST FACTS
+  ═══════════════════════════════════ -->
+  <div class="facts-strip">
+    <div class="fact-box">
+      <span class="fact-num">77</span>
+      <p class="fact-label">Years lived — a long life for the 1500s</p>
+    </div>
+    <div class="fact-box">
+      <span class="fact-num">1609</span>
+      <p class="fact-label">First turned a telescope to the night sky</p>
+    </div>
+    <div class="fact-box">
+      <span class="fact-num">4</span>
+      <p class="fact-label">Moons of Jupiter he discovered</p>
+    </div>
+    <div class="fact-box">
+      <span class="fact-num">1633</span>
+      <p class="fact-label">Year the Inquisition put him on trial</p>
+    </div>
+    <div class="fact-box">
+      <span class="fact-num">350 yrs</span>
+      <p class="fact-label">Before the Catholic Church formally apologised (1992)</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       BROADSHEET INTRO
+  ═══════════════════════════════════ -->
+  <div class="broadsheet">
+
+    <!-- Left column: early life -->
+    <div class="bio-col">
+      <p class="section-label">Early Life</p>
+      <p>
+        Galileo was born in Pisa in 1564 — the same year William Shakespeare was
+        born in England and the great artist Michelangelo died. His father,
+        a musician and merchant, sent him to study medicine, but Galileo
+        was irresistibly drawn to mathematics and natural philosophy.
+      </p>
+      <p>
+        He became a professor at the University of Pisa at just 25, then moved
+        to Padua — where he spent the most productive 18 years of his career,
+        teaching and experimenting in secret, sharing his real ideas only
+        in private letters.
+      </p>
+      <div class="bio-facts">
+        <p class="section-label">Vital Records</p>
+        <div class="bio-fact-row">
+          <span class="bio-fact-key">Born</span>
+          <span class="bio-fact-val">Pisa, Duchy of Florence, 1564</span>
+        </div>
+        <div class="bio-fact-row">
+          <span class="bio-fact-key">Died</span>
+          <span class="bio-fact-val">Arcetri, near Florence, 1642</span>
+        </div>
+        <div class="bio-fact-row">
+          <span class="bio-fact-key">Fields</span>
+          <span class="bio-fact-val">Astronomy, Physics, Mathematics</span>
+        </div>
+        <div class="bio-fact-row">
+          <span class="bio-fact-key">Known for</span>
+          <span class="bio-fact-val">Telescope observations, laws of motion, scientific method</span>
+        </div>
+        <div class="bio-fact-row">
+          <span class="bio-fact-key">Tried by</span>
+          <span class="bio-fact-val">Roman Inquisition, 1633</span>
+        </div>
+        <div class="bio-fact-row">
+          <span class="bio-fact-key">Sentence</span>
+          <span class="bio-fact-val">House arrest for the rest of his life</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-divider"></div>
+
+    <!-- Centre column: pull quote + portrait space -->
+    <div class="pull-quote">
+      <span class="pq-mark">"</span>
+      <p class="pq-text">
+        In questions of science, the authority of a thousand is not worth
+        the humble reasoning of a single individual.
+      </p>
+      <p class="pq-attr">— Galileo Galilei</p>
+
+      <div style="margin: 28px 0; border-top: 1px solid rgba(139,26,26,0.2); border-bottom: 1px solid rgba(139,26,26,0.2); padding: 20px 0;">
+        <!-- Telescope SVG illustration -->
+        <svg viewBox="0 0 180 120" width="180" height="120" style="margin:0 auto; display:block; opacity:0.85;">
+          <!-- Stars -->
+          <circle cx="20"  cy="15"  r="1.2" fill="#9a7c30" opacity="0.7"/>
+          <circle cx="50"  cy="8"   r="0.8" fill="#9a7c30" opacity="0.5"/>
+          <circle cx="90"  cy="20"  r="1"   fill="#9a7c30" opacity="0.6"/>
+          <circle cx="130" cy="10"  r="1.5" fill="#9a7c30" opacity="0.8"/>
+          <circle cx="160" cy="25"  r="0.8" fill="#9a7c30" opacity="0.5"/>
+          <circle cx="10"  cy="45"  r="0.7" fill="#9a7c30" opacity="0.4"/>
+          <circle cx="170" cy="50"  r="1"   fill="#9a7c30" opacity="0.5"/>
+          <!-- Jupiter circle -->
+          <circle cx="148" cy="38" r="12" fill="none" stroke="#8b1a1a" stroke-width="1" stroke-dasharray="2 2" opacity="0.5"/>
+          <circle cx="148" cy="38" r="8" fill="#c97c3a" opacity="0.5"/>
+          <ellipse cx="148" cy="38" rx="8" ry="3" fill="none" stroke="#7a3e1a" stroke-width="1" opacity="0.6"/>
+          <!-- Moon dots around Jupiter -->
+          <circle cx="133" cy="35" r="2" fill="#e8d8b4" opacity="0.8"/>
+          <circle cx="162" cy="40" r="1.5" fill="#e8d8b4" opacity="0.7"/>
+          <circle cx="140" cy="50" r="1.5" fill="#e8d8b4" opacity="0.6"/>
+          <circle cx="158" cy="28" r="1.2" fill="#e8d8b4" opacity="0.7"/>
+          <!-- Telescope body -->
+          <rect x="10" y="68" width="120" height="14" rx="3" fill="#4a3820" opacity="0.85"/>
+          <rect x="12" y="70" width="116" height="10" rx="2" fill="#6b4f2a" opacity="0.5"/>
+          <!-- Telescope tube detail lines -->
+          <line x1="40" y1="68" x2="40" y2="82" stroke="#2e2010" stroke-width="0.8" opacity="0.4"/>
+          <line x1="70" y1="68" x2="70" y2="82" stroke="#2e2010" stroke-width="0.8" opacity="0.4"/>
+          <line x1="100" y1="68" x2="100" y2="82" stroke="#2e2010" stroke-width="0.8" opacity="0.4"/>
+          <!-- Eyepiece -->
+          <rect x="125" y="65" width="18" height="20" rx="3" fill="#4a3820"/>
+          <circle cx="143" cy="75" r="7" fill="#1a1208" stroke="#9a7c30" stroke-width="1.5"/>
+          <circle cx="143" cy="75" r="4" fill="#0d0a05" opacity="0.8"/>
+          <!-- Objective end -->
+          <rect x="8" y="63" width="10" height="24" rx="2" fill="#2e2010"/>
+          <circle cx="13" cy="75" r="5" fill="#1a1208" stroke="#9a7c30" stroke-width="1.5"/>
+          <!-- Stand -->
+          <line x1="55" y1="82" x2="40" y2="112" stroke="#4a3820" stroke-width="3" stroke-linecap="round"/>
+          <line x1="75" y1="82" x2="75" y2="112" stroke="#4a3820" stroke-width="3" stroke-linecap="round"/>
+          <line x1="95" y1="82" x2="110" y2="112" stroke="#4a3820" stroke-width="3" stroke-linecap="round"/>
+          <line x1="30" y1="112" x2="120" y2="112" stroke="#4a3820" stroke-width="2" stroke-linecap="round"/>
+          <!-- Dashed sightline to Jupiter -->
+          <line x1="143" y1="68" x2="148" y2="48" stroke="#8b1a1a" stroke-width="0.8" stroke-dasharray="3 2" opacity="0.5"/>
+        </svg>
+        <p style="font-family:'IM Fell English',serif; font-style:italic; font-size:0.78rem; color:var(--sepia); text-align:center; margin-top:8px; letter-spacing:1px;">Galileo's refractor telescope, c. 1610</p>
+      </div>
+
+      <span class="pq-mark" style="font-size:3rem; line-height:0.4; display:block; transform:rotate(180deg); margin-top:8px;">"</span>
+      <p class="pq-text" style="margin-top:10px;">
+        And yet it moves.
+      </p>
+      <p class="pq-attr">— Attributed to Galileo, after his trial</p>
+    </div>
+
+    <div class="col-divider"></div>
+
+    <!-- Right column: character + context -->
+    <div class="bio-col">
+      <p class="section-label">The Man & His World</p>
+      <p>
+        Galileo lived in an age when the Church held enormous power over what
+        people were allowed to believe. The official view — backed by ancient
+        authority — was that Earth sat motionless at the centre of the universe,
+        and everything in the sky revolved around it.
+      </p>
+      <p>
+        Galileo's observations told a different story. He saw moons orbiting
+        Jupiter, phases of Venus, and mountains on the Moon — all of which
+        made no sense if everything circled a stationary Earth.
+      </p>
+      <p>
+        He was charming, argumentative, and fearless — until the Inquisition
+        made him recant. He spent his final years under house arrest, blind,
+        but still dictating scientific papers to students who visited secretly.
+        He never stopped working.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="rule-line-pair"></div>
+
+  <!-- ═══════════════════════════════════
+       KEY DISCOVERIES TIMELINE
+  ═══════════════════════════════════ -->
+  <div class="discoveries-section">
+    <p class="section-label">Major Discoveries &amp; Contributions</p>
+    <div class="timeline">
+
+      <div class="timeline-card">
+        <p class="timeline-year">1583</p>
+        <p class="timeline-title">The Pendulum &amp; Equal-Time Swings</p>
+        <p class="timeline-desc">
+          Watching a chandelier sway in Pisa Cathedral, Galileo noticed that
+          each swing took the same amount of time — regardless of how wide the
+          arc was. This principle became the basis for pendulum clocks and
+          changed how humanity measured time.
+        </p>
+        <p class="timeline-analogy">
+          🎢 Middle school analogy: A swing on a playground takes the same
+          time to go back and forth whether you push it a little or a lot.
+          Galileo was the first to realise this wasn't a coincidence — it was a law of nature.
+        </p>
+      </div>
+
+      <div class="timeline-card">
+        <p class="timeline-year">1589</p>
+        <p class="timeline-title">Falling Objects — Disproving Aristotle</p>
+        <p class="timeline-desc">
+          Aristotle (350 BC) taught that heavier objects fall faster than
+          light ones. Galileo dropped two cannonballs of different masses
+          from the Leaning Tower of Pisa and showed they hit the ground
+          at the same time. Two thousand years of "fact" — overturned in a single experiment.
+        </p>
+        <p class="timeline-analogy">
+          🏀 Middle school analogy: Drop a basketball and a tennis ball from
+          the same height at the same time. They land together. Try it at
+          home — you're repeating one of the most important experiments in history.
+        </p>
+      </div>
+
+      <div class="timeline-card">
+        <p class="timeline-year">1609</p>
+        <p class="timeline-title">Improving the Telescope</p>
+        <p class="timeline-desc">
+          Galileo didn't invent the telescope — Dutch lens-makers had created a
+          simple version — but he dramatically improved it, making a device with
+          20× magnification instead of 3×. He was the first person to
+          systematically turn one toward the sky and write down what he saw.
+        </p>
+        <p class="timeline-analogy">
+          📱 Middle school analogy: Someone invented the first camera phone,
+          but Galileo upgraded it from blurry 2MP to sharp 40MP — then pointed
+          it at space and actually looked. The tool existed; he made it powerful.
+        </p>
+      </div>
+
+      <div class="timeline-card">
+        <p class="timeline-year">1610</p>
+        <p class="timeline-title">The Four Moons of Jupiter</p>
+        <p class="timeline-desc">
+          In January 1610, Galileo observed four points of light near Jupiter
+          that moved from night to night. He realised they were moons orbiting
+          Jupiter — not Earth. This was devastating proof that not everything
+          in the universe revolves around us. We now call them the Galilean Moons.
+        </p>
+        <p class="timeline-analogy">
+          🌀 Middle school analogy: Imagine believing you were the centre of
+          everything, then seeing proof that other things orbit each other
+          without caring about you at all. Galileo showed the universe was
+          indifferent to where Earth stood.
+        </p>
+      </div>
+
+      <div class="timeline-card">
+        <p class="timeline-year">1610</p>
+        <p class="timeline-title">Mountains on the Moon</p>
+        <p class="timeline-desc">
+          The accepted belief was that the Moon was a perfect, smooth sphere.
+          Galileo observed shadows and craters through his telescope and
+          concluded the Moon had mountains and valleys — like Earth.
+          The heavens were not perfect and unchanging. They were physical, real, and rugged.
+        </p>
+        <p class="timeline-analogy">
+          🌄 Middle school analogy: Imagine everyone insisting the Moon was
+          a billiard ball — smooth, perfect, untouchable. Galileo zoomed in
+          and found it looked more like the Rocky Mountains. The universe was
+          suddenly more like home.
+        </p>
+      </div>
+
+      <div class="timeline-card">
+        <p class="timeline-year">1632</p>
+        <p class="timeline-title">Dialogue Concerning the Two Chief World Systems</p>
+        <p class="timeline-desc">
+          Galileo published a book presenting arguments for and against
+          the heliocentric model (Sun at the centre). Written as a conversation,
+          it made the Church-backed "Earth at the centre" argument look foolish.
+          The Inquisition called him to Rome within a year. This book triggered his trial.
+        </p>
+        <p class="timeline-analogy">
+          📝 Middle school analogy: Imagine writing a school essay that's
+          officially "balanced" but clearly mocks one side — then getting called
+          to the principal's office. Galileo's book was that essay, and the
+          Inquisition was the principal. Except the stakes were his life.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ornament">✦ &nbsp; ✦ &nbsp; ✦</div>
+
+  <!-- ═══════════════════════════════════
+       KEY CONCEPTS — MIDDLE SCHOOL
+  ═══════════════════════════════════ -->
+  <div class="concepts-section">
+    <div class="ms-header">
+      <p class="section-label" style="margin:0;">Key Ideas Explained Simply</p>
+      <div class="ms-badge">🎒 Middle School Friendly</div>
+    </div>
+    <div class="concept-grid">
+
+      <div class="concept-card">
+        <span class="concept-icon">🔬</span>
+        <p class="concept-title">The Scientific Method</p>
+        <p class="concept-def">
+          Galileo's greatest invention wasn't a telescope — it was a way of
+          thinking. Observe. Form a hypothesis. Test it with an experiment.
+          Accept what the evidence shows, even if it contradicts authority.
+          This is the foundation of all modern science.
+        </p>
+        <p class="analogy-label">Analogies</p>
+        <ul class="analogy-list">
+          <li><span>🍕</span><span><strong>Pizza experiment:</strong> Don't just trust someone who says thin crust is crispier — bake both and find out yourself. That's science. Galileo refused to trust old books. He tested things himself.</span></li>
+          <li><span>🔦</span><span><strong>Darkness in a new room:</strong> You don't assume where the light switch is — you feel around until you find it. Galileo felt around in the dark of human ignorance until he found switches nobody knew existed.</span></li>
+          <li><span>👩‍⚖️</span><span><strong>Court of evidence:</strong> A good judge doesn't convict someone because one old authority said so — they look at evidence. Galileo treated nature like a court where only evidence got to speak.</span></li>
+        </ul>
+      </div>
+
+      <div class="concept-card">
+        <span class="concept-icon">🌍</span>
+        <p class="concept-title">Heliocentrism</p>
+        <p class="concept-def">
+          The idea that the Sun — not Earth — sits at the centre of the
+          solar system, and all planets (including Earth) orbit around it.
+          Copernicus proposed it in theory; Galileo provided the observational
+          evidence that made it almost undeniable.
+        </p>
+        <p class="analogy-label">Analogies</p>
+        <ul class="analogy-list">
+          <li><span>🎡</span><span><strong>Ferris wheel:</strong> From your seat on a Ferris wheel, it feels like everything else is moving and you're still. But you're the one moving around the centre. Earth feels still to us — but we're on the Ferris wheel.</span></li>
+          <li><span>🚗</span><span><strong>Driving at night:</strong> Sit in a parked car at night and watch another car pull away slowly — it feels like YOU are moving backward. Earth orbiting the Sun feels like the Sun moving across our sky.</span></li>
+          <li><span>🎪</span><span><strong>Crowd perspective:</strong> If you're in the middle of a revolving door, the world looks like it's spinning around you. The ancient world thought Earth was that middle. Galileo showed Earth was one of the doors.</span></li>
+        </ul>
+      </div>
+
+      <div class="concept-card">
+        <span class="concept-icon">📐</span>
+        <p class="concept-title">Inertia &amp; Motion</p>
+        <p class="concept-def">
+          Before Galileo, people believed things naturally "wanted" to stop
+          moving — and that you needed a constant force to keep anything going.
+          Galileo showed the opposite: objects keep moving unless something
+          stops them. Newton later formalised this as the First Law of Motion.
+        </p>
+        <p class="analogy-label">Analogies</p>
+        <ul class="analogy-list">
+          <li><span>⛸️</span><span><strong>Ice skating:</strong> Push off on ice and you keep gliding — because there's almost nothing to slow you down. Galileo realised friction and air were stopping things on Earth, not some natural desire to stop.</span></li>
+          <li><span>🛸</span><span><strong>Space probe:</strong> The Voyager spacecraft launched in 1977 is still cruising through space today — no engine running. That's inertia. Galileo was the first to really understand why.</span></li>
+          <li><span>🎳</span><span><strong>Bowling ball:</strong> Once you let go, the ball keeps rolling. It doesn't "want" to stop — the friction of the lane slows it. In space with no friction, it would roll forever.</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       THE TRIAL
+  ═══════════════════════════════════ -->
+  <div class="trial-section">
+    <p class="section-label">The Trial of 1633 — Science vs. Authority</p>
+    <div class="trial-grid">
+      <div class="trial-text">
+        <p>
+          In 1633, at the age of 68, Galileo was summoned to Rome to face the
+          Inquisition — the Church's tribunal for investigating heresy. His crime:
+          publishing a book that defended the heliocentric model of the solar
+          system, which contradicted Church doctrine.
+        </p>
+        <p>
+          The trial lasted months. Galileo, under threat of torture and execution,
+          was forced to publicly kneel and "abjure, curse and detest" his own
+          findings — to say in public that everything he had discovered was wrong.
+          He was 68, in poor health, and alone.
+        </p>
+        <p>
+          He was sentenced to house arrest for the remaining nine years of his
+          life. He went blind in 1638, but continued to work, dictating his final
+          masterwork <em>Two New Sciences</em> — smuggled out of Italy to be
+          published in Protestant Holland.
+        </p>
+        <div class="ms-trial-box">
+          <span class="ms-trial-label">🎒 Middle school perspective</span>
+          <p class="ms-trial-text">
+            Imagine being forced to stand in front of your whole school and say
+            2 + 2 = 5 — when you know it equals 4 — or face serious punishment.
+            That's essentially what they made Galileo do. He said the words they
+            demanded. But he kept working in secret until the day he died.
+            The truth, he believed, would outlast any trial.
+          </p>
+        </div>
+      </div>
+
+      <div class="verdict-box">
+        <p class="verdict-title">The Inquisition's Verdict</p>
+        <p class="verdict-quote">
+          "We pronounce, judge, and declare that you, Galileo... have rendered
+          yourself vehemently suspected of heresy — namely, of having believed
+          and held the doctrine which is false and contrary to the Sacred and
+          Divine Scriptures, that the Sun is the centre of the world."
+        </p>
+        <p class="verdict-outcome">
+          <strong>Sentence:</strong> House arrest in Arcetri, near Florence.
+          All his books placed on the Index of Forbidden Books. He was forbidden
+          from publishing further works.
+        </p>
+        <p class="verdict-outcome">
+          <strong>1992 — 350 years later:</strong> Pope John Paul II formally
+          acknowledged that the Church had erred in its condemnation of Galileo,
+          calling it a "tragic mutual incomprehension."
+        </p>
+        <p class="verdict-outcome">
+          <strong>History's verdict:</strong> Galileo was right. The Church was
+          wrong. And the moons of Jupiter, named in his honour, orbit on —
+          indifferent to the opinions of any tribunal on Earth.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="ornament">✦ &nbsp; ✦ &nbsp; ✦</div>
+
+  <!-- ═══════════════════════════════════
+       LEGACY
+  ═══════════════════════════════════ -->
+  <div class="legacy-section">
+    <p class="section-label">Why Galileo Still Matters</p>
+    <div class="legacy-grid">
+
+      <div class="legacy-card">
+        <span class="legacy-icon">🔭</span>
+        <p class="legacy-title">He invented observational astronomy</p>
+        <p class="legacy-body">Before Galileo, astronomers theorised from armchairs. He pointed instruments at the sky and let reality answer the questions. Every astronomer since — including those operating the James Webb Space Telescope today — follows his method.</p>
+      </div>
+
+      <div class="legacy-card">
+        <span class="legacy-icon">⚖️</span>
+        <p class="legacy-title">He proved evidence beats authority</p>
+        <p class="legacy-body">The lesson of Galileo's trial isn't that the Church was evil — it's that any authority, however powerful, cannot change physical reality. Facts are not votes. Truth is not determined by who shouts loudest. That principle shapes every courtroom, every lab, and every classroom today.</p>
+      </div>
+
+      <div class="legacy-card">
+        <span class="legacy-icon">🚀</span>
+        <p class="legacy-title">His discoveries made spaceflight possible</p>
+        <p class="legacy-body">Galileo's laws of motion were the foundation Newton built calculus and gravity on. Newton's work made orbital mechanics possible. Orbital mechanics put humans on the Moon. Every rocket ever launched owes its trajectory mathematics to a man who lived 400 years ago and was imprisoned for looking through a tube of glass.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       CONNECTIONS TO TODAY
+  ═══════════════════════════════════ -->
+  <div class="today-section">
+    <p class="section-label">Galileo's Fingerprints on the Modern World</p>
+    <div class="today-grid">
+
+      <div class="today-card">
+        <span class="today-icon">🛰️</span>
+        <div>
+          <p class="today-title">The GPS in Your Pocket</p>
+          <p class="today-body">
+            GPS satellites use Einstein's theory of relativity to stay accurate —
+            but Einstein built on Newton, and Newton built on Galileo's laws of
+            motion. Every time your phone tells you where you are, a chain of
+            discovery traces back to <strong>a man with a homemade telescope in 1609.</strong>
+          </p>
+        </div>
+      </div>
+
+      <div class="today-card">
+        <span class="today-icon">🌌</span>
+        <div>
+          <p class="today-title">The Galilean Moons — Still Being Studied</p>
+          <p class="today-body">
+            NASA's Europa Clipper spacecraft launched in 2024 is heading
+            to the moon Galileo discovered in 1610. Scientists believe Europa's
+            hidden ocean might harbour life. <strong>Galileo spotted it with a homemade telescope.
+            We're now sending a $5 billion spacecraft to investigate.</strong>
+          </p>
+        </div>
+      </div>
+
+      <div class="today-card">
+        <span class="today-icon">⏱️</span>
+        <div>
+          <p class="today-title">Pendulums &amp; Precise Timekeeping</p>
+          <p class="today-body">
+            Galileo's pendulum discovery led directly to the pendulum clock —
+            the most accurate timekeeper for nearly 300 years. Accurate clocks
+            made navigation possible, which made global trade possible.
+            <strong>Galileo watching a chandelier swing changed how the world kept time.</strong>
+          </p>
+        </div>
+      </div>
+
+      <div class="today-card">
+        <span class="today-icon">🧪</span>
+        <div>
+          <p class="today-title">The Scientific Method — Used in Every Lab</p>
+          <p class="today-body">
+            Every science fair project, every pharmaceutical trial, every
+            physics experiment uses the framework Galileo established:
+            observe, hypothesise, test, repeat. <strong>When you write a hypothesis
+            in science class, you are following a process Galileo invented.</strong>
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════ -->
+  <footer>
+    <div class="footer-name">Galileo Galilei</div>
+    <div class="footer-florin">E pur si muove — "And yet it moves."</div>
+    <div class="footer-note">Pisa · Padua · Florence · 1564–1642</div>
+  </footer>
+
+</div>
+</body>
+</html>
