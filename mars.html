@@ -39,7 +39,7 @@
       background: var(--void);
       color: var(--cream);
       font-family: 'Cormorant Garamond', serif;
-      font-size: 16px;
+      font-size: 18px;
       line-height: 1.78;
       overflow-x: hidden;
     }
@@ -68,7 +68,7 @@
       color: rgba(240,216,184,0.72);
       text-decoration: none;
       font-family: 'Rajdhani', sans-serif;
-      font-size: 13px;
+      font-size: 15px;
       letter-spacing: 0.03em;
       white-space: nowrap;
       flex-shrink: 0;
@@ -177,7 +177,7 @@
 
     .eyebrow {
       font-family: 'Space Mono', monospace;
-      font-size: 9px;
+      font-size: 11px;
       letter-spacing: 5px;
       text-transform: uppercase;
       color: var(--ochre);
@@ -235,7 +235,7 @@
     ═══════════════════════════════════════════════ */
     .section-label {
       font-family: 'Space Mono', monospace;
-      font-size: 9px;
+      font-size: 11px;
       letter-spacing: 5px;
       text-transform: uppercase;
       color: var(--ochre);
@@ -278,7 +278,7 @@
 
     .fact-unit {
       font-family: 'Space Mono', monospace;
-      font-size: 8px;
+      font-size: 11px;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--muted);
@@ -320,7 +320,7 @@
 
     .dt-head {
       font-family: 'Space Mono', monospace;
-      font-size: 9px;
+      font-size: 11px;
       letter-spacing: 4px;
       text-transform: uppercase;
       color: var(--ochre);
@@ -338,7 +338,7 @@
     }
 
     .dt-row:last-child { border-bottom: none; }
-    .dt-key { color: var(--muted); font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; }
+    .dt-key { color: var(--muted); font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
     .dt-val { color: var(--cream); font-family: 'Rajdhani', sans-serif; font-weight: 400; letter-spacing: 1px; }
 
     /* ═══════════════════════════════════════════════
@@ -425,7 +425,7 @@
 
     .gs-key {
       font-family: 'Space Mono', monospace;
-      font-size: 8px;
+      font-size: 11px;
       letter-spacing: 1px;
       color: var(--muted);
       text-transform: uppercase;
@@ -457,7 +457,7 @@
 
     .ms-badge {
       font-family: 'Space Mono', monospace;
-      font-size: 9px;
+      font-size: 11px;
       letter-spacing: 2px;
       text-transform: uppercase;
       background: rgba(192,56,24,0.1);
@@ -506,7 +506,7 @@
 
     .analogy-label {
       font-family: 'Space Mono', monospace;
-      font-size: 9px;
+      font-size: 11px;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--ochre);
@@ -581,7 +581,7 @@
 
     .mc-agency {
       font-family: 'Space Mono', monospace;
-      font-size: 8px;
+      font-size: 11px;
       letter-spacing: 2px;
       color: var(--muted);
       margin-bottom: 8px;
@@ -632,7 +632,7 @@
 
     .ms-label {
       font-family: 'Space Mono', monospace;
-      font-size: 9px;
+      font-size: 11px;
       letter-spacing: 3px;
       text-transform: uppercase;
       color: var(--ochre);
@@ -661,7 +661,7 @@
       font-size: 0.82rem;
     }
 
-    .cl-key { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; }
+    .cl-key { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; }
     .cl-val { font-family: 'Rajdhani', sans-serif; color: var(--cream); letter-spacing: 1px; }
 
     .compare-track {
@@ -755,7 +755,7 @@
 
     .footer-note {
       font-family: 'Space Mono', monospace;
-      font-size: 9px;
+      font-size: 11px;
       color: var(--muted);
       letter-spacing: 2px;
       text-transform: uppercase;
@@ -789,6 +789,14 @@
     @media (min-width: 600px) {
       .site-nav { padding: 0 1.5rem; gap: 2px; }
       .site-nav a { padding: 6px 14px; }
+    }
+
+    /* ══════════════════════════════════════
+       MOBILE FONT BOOST (≤ 480 px phones)
+    ══════════════════════════════════════ */
+    @media (max-width: 480px) {
+      body { font-size: 19px; }
+      .site-nav a { font-size: 15px; }
     }
   </style>
 </head>

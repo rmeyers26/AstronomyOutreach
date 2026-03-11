@@ -31,7 +31,7 @@
       background: var(--surface);
       color: var(--corona);
       font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
+      font-size: 17px;
       line-height: 1.65;
       overflow-x: hidden;
     }
@@ -127,7 +127,7 @@
     }
 
     .eyebrow {
-      font-size: 10px;
+      font-size: 12px;
       letter-spacing: 5px;
       text-transform: uppercase;
       color: var(--solar);
@@ -189,7 +189,7 @@
        SECTION LABELS
     ══════════════════════════════════════════════ */
     .section-label {
-      font-size: 10px;
+      font-size: 12px;
       letter-spacing: 4px;
       text-transform: uppercase;
       color: var(--solar);
@@ -230,7 +230,7 @@
     }
 
     .fact-unit {
-      font-size: 9px;
+      font-size: 11px;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--muted);
@@ -239,7 +239,7 @@
     }
 
     .fact-label {
-      font-size: 11px;
+      font-size: 13px;
       color: var(--corona);
       margin-top: 6px;
       opacity: 0.8;
@@ -285,7 +285,7 @@
     }
 
     .layer-name {
-      font-size: 12px;
+      font-size: 14px;
       letter-spacing: 1px;
       text-transform: uppercase;
       color: var(--solar);
@@ -335,7 +335,7 @@
     }
 
     .ms-badge {
-      font-size: 9px;
+      font-size: 11px;
       letter-spacing: 2px;
       text-transform: uppercase;
       background: rgba(255,111,0,0.2);
@@ -397,7 +397,7 @@
     }
 
     .analogy-label {
-      font-size: 9px;
+      font-size: 11px;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--solar);
@@ -445,7 +445,7 @@
     }
 
     .compare-topic {
-      font-size: 10px;
+      font-size: 12px;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--muted);
@@ -472,7 +472,7 @@
     }
 
     .compare-lbl {
-      font-size: 9px;
+      font-size: 11px;
       letter-spacing: 1px;
       text-transform: uppercase;
       color: var(--muted);
@@ -523,7 +523,7 @@
     .event-icon { font-size: 1.6rem; margin-bottom: 10px; display: block; }
 
     .event-name {
-      font-size: 11px;
+      font-size: 13px;
       letter-spacing: 1.5px;
       text-transform: uppercase;
       color: var(--red);
@@ -570,7 +570,7 @@
     .why-icon { font-size: 1.8rem; flex-shrink: 0; }
 
     .why-title {
-      font-size: 11px;
+      font-size: 13px;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--solar);
@@ -606,7 +606,7 @@
     }
 
     .footer-note {
-      font-size: 11px;
+      font-size: 13px;
       color: var(--muted);
       letter-spacing: 1.5px;
       text-transform: uppercase;
@@ -660,7 +660,7 @@
     .site-nav a {
       color: rgba(255,255,255,0.60);
       text-decoration: none;
-      font-size: 12px;
+      font-size: 14px;
       white-space: nowrap;
       flex-shrink: 0;
       padding: 6px 10px;
@@ -682,9 +682,17 @@
     }
     @media (min-width: 600px) {
       .site-nav { padding: 0 1.5rem; gap: 2px; }
-      .site-nav a { font-size: 13px; padding: 6px 14px; }
+      .site-nav a { font-size: 15px; padding: 6px 14px; }
     }
 
+
+    /* ══════════════════════════════════════
+       MOBILE FONT BOOST (≤ 480 px phones)
+    ══════════════════════════════════════ */
+    @media (max-width: 480px) {
+      body { font-size: 18px; }
+      .site-nav a { font-size: 15px; }
+    }
   </style>
 </head>
 <body>

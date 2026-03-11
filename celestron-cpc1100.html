@@ -25,7 +25,7 @@
       background: var(--space);
       color: var(--star);
       font-family: 'Rajdhani', sans-serif;
-      font-size: 16px;
+      font-size: 18px;
       line-height: 1.6;
       overflow-x: hidden;
     }
@@ -75,7 +75,7 @@
 
     .brand-line {
       font-family: 'Rajdhani', sans-serif;
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 500;
       letter-spacing: 4px;
       text-transform: uppercase;
@@ -99,7 +99,7 @@
 
     .tagline {
       margin-top: 16px;
-      font-size: 13px;
+      font-size: 15px;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--muted);
@@ -123,7 +123,7 @@
     }
 
     .badge-unit {
-      font-size: 10px;
+      font-size: 12px;
       letter-spacing: 3px;
       text-transform: uppercase;
       color: var(--muted);
@@ -151,7 +151,7 @@
 
     /* ── Section headings ───────────────────────── */
     .section-label {
-      font-size: 10px;
+      font-size: 12px;
       letter-spacing: 4px;
       text-transform: uppercase;
       color: var(--gold);
@@ -176,7 +176,7 @@
     .spec-item:last-child { border-bottom: none; }
 
     .spec-key {
-      font-size: 11px;
+      font-size: 13px;
       letter-spacing: 1.5px;
       text-transform: uppercase;
       color: var(--muted);
@@ -230,7 +230,7 @@
     }
 
     .feature-title {
-      font-size: 11px;
+      font-size: 13px;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--accent);
@@ -316,7 +316,7 @@
     }
 
     .footer-note {
-      font-size: 11px;
+      font-size: 13px;
       color: var(--muted);
       letter-spacing: 1.5px;
       text-transform: uppercase;
@@ -379,7 +379,7 @@
     }
 
     .optic-title {
-      font-size: 11px;
+      font-size: 13px;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--gold);
@@ -394,7 +394,7 @@
     }
 
     .optic-q {
-      font-size: 10px;
+      font-size: 12px;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--muted);
@@ -423,7 +423,7 @@
 
     .optic-ex-label {
       display: block;
-      font-size: 9px;
+      font-size: 11px;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--gold);
@@ -482,7 +482,7 @@
     .scale-labels {
       display: flex;
       justify-content: space-between;
-      font-size: 9px;
+      font-size: 11px;
       letter-spacing: 0.5px;
       color: var(--muted);
       font-family: 'Rajdhani', sans-serif;
@@ -567,7 +567,7 @@
     .site-nav a {
       color: rgba(255,255,255,0.60);
       text-decoration: none;
-      font-size: 12px;
+      font-size: 14px;
       white-space: nowrap;
       flex-shrink: 0;
       padding: 6px 10px;
@@ -589,9 +589,17 @@
     }
     @media (min-width: 600px) {
       .site-nav { padding: 0 1.5rem; gap: 2px; }
-      .site-nav a { font-size: 13px; padding: 6px 14px; }
+      .site-nav a { font-size: 15px; padding: 6px 14px; }
     }
 
+
+    /* ══════════════════════════════════════
+       MOBILE FONT BOOST (≤ 480 px phones)
+    ══════════════════════════════════════ */
+    @media (max-width: 480px) {
+      body { font-size: 19px; }
+      .site-nav a { font-size: 15px; }
+    }
   </style>
 </head>
 <body>
