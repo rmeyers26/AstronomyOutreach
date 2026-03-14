@@ -595,6 +595,28 @@
       opacity: 0.85;
     }
 
+    .mission-card.active-mission { border-left-color: var(--ochre); }
+    .mission-card.future-mission { border-left-color: #4a9060; }
+
+    .mission-group { margin-bottom: 4px; }
+
+    .mission-group-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 400;
+      padding: 8px 14px;
+      display: inline-block;
+      margin-bottom: 2px;
+    }
+
+    .mission-group-label.past   { color: var(--muted);  background: rgba(255,255,255,0.04); }
+    .mission-group-label.active { color: var(--ochre);  background: rgba(216,112,64,0.1); }
+    .mission-group-label.future { color: #4a9060;       background: rgba(74,144,96,0.1); }
+
+
+
     /* ═══════════════════════════════════════════════
        ATMOSPHERE + LIFE SECTION
     ═══════════════════════════════════════════════ */
@@ -1124,8 +1146,11 @@
 
   <!-- ══════════════════ MISSIONS ══════════════════ -->
   <div class="missions-section">
-    <p class="section-label">Mars Exploration — Key Missions</p>
-    <div class="missions-grid">
+    <p class="section-label">Mars Exploration — Past, Present &amp; Future</p>
+
+    <div class="mission-group">
+      <span class="mission-group-label past">Past Missions &amp; Active Rovers</span>
+      <div class="missions-grid">
 
       <div class="mission-card">
         <span class="mc-year">1976</span>
@@ -1169,7 +1194,33 @@
         <p class="mc-desc">China's first Mars mission — orbiter, lander, and rover in a single launch. Zhurong rover operated for over a year, becoming only the second country to successfully operate a Mars rover.</p>
       </div>
 
+      </div>
     </div>
+
+    <div class="mission-group">
+      <span class="mission-group-label future">Upcoming Missions</span>
+      <div class="missions-grid">
+        <div class="mission-card future-mission">
+          <span class="mc-year">~2028</span>
+          <p class="mc-name">Tianwen-3</p>
+          <span class="mc-agency">CNSA · China</span>
+          <p class="mc-desc">China's first Mars sample-return mission. Aims to land on Mars, collect at least 500 g of surface and subsurface material, and return it to Earth by 2031 — joining NASA's parallel sample-return campaign.</p>
+        </div>
+        <div class="mission-card future-mission">
+          <span class="mc-year">~2028</span>
+          <p class="mc-name">Rosalind Franklin Rover</p>
+          <span class="mc-agency">ESA / NASA</span>
+          <p class="mc-desc">ExoMars rover carrying a 2-metre drill — the deepest ever on Mars. Will drill beneath the radiation-blasted surface to search for organic molecules and potential biosignatures protected underground.</p>
+        </div>
+        <div class="mission-card future-mission">
+          <span class="mc-year">2030s</span>
+          <p class="mc-name">Mars Sample Return</p>
+          <span class="mc-agency">NASA / ESA</span>
+          <p class="mc-desc">The most ambitious robotic space mission ever planned. Will retrieve the rock samples already collected by Perseverance and return them to Earth for lab analysis — the first Martian material on Earth since meteorites fell naturally.</p>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- ══════════════════ LIFE + ATMOSPHERE ══════════════════ -->

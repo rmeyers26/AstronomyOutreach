@@ -992,6 +992,7 @@
       .poster-footer { grid-template-columns: 1fr; text-align: center; gap: 16px; }
       .footer-source { text-align: center; }
       .banner { padding: 10px 24px; flex-wrap: wrap; gap: 8px; }
+      .missions-grid { grid-template-columns: 1fr; }
     }
 
     /* ══════════════════════════════════════
@@ -1000,6 +1001,90 @@
     @media (max-width: 480px) {
       body { font-size: 19px; }
       .site-nav a { font-size: 15px; }
+    }
+
+    /* ══════════════════════════════════════════════
+       MISSIONS SECTION
+    ══════════════════════════════════════════════ */
+    .missions-section {
+      margin-bottom: 52px;
+    }
+
+    .mission-group { margin-bottom: 4px; }
+
+    .mission-group-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 500;
+      padding: 8px 14px;
+      display: inline-block;
+      margin-bottom: 2px;
+    }
+
+    .mission-group-label.past   { color: var(--tan);   background: rgba(255,255,255,0.04); }
+    .mission-group-label.active { color: var(--gold);  background: rgba(232,168,32,0.1); }
+    .mission-group-label.future { color: var(--red2);  background: rgba(224,48,32,0.1); }
+
+    .missions-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-bottom: 2px;
+    }
+
+    .mission-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-left: 3px solid var(--slate);
+      padding: 20px 18px;
+      transition: border-left-color 0.3s, background 0.3s;
+    }
+
+    .mission-card.active-mission { border-left-color: var(--gold); }
+    .mission-card.future-mission { border-left-color: var(--red); }
+    .mission-card:hover { background: rgba(232,168,32,0.05); }
+
+    .mc-year {
+      font-family: 'Special Elite', serif;
+      font-size: 1.2rem;
+      color: var(--gold2);
+      display: block;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .mc-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .mc-agency {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--tan);
+      margin-bottom: 8px;
+      display: block;
+      text-transform: uppercase;
+    }
+
+    .mc-desc {
+      font-size: 0.84rem;
+      line-height: 1.65;
+      color: var(--cream2);
+      opacity: 0.85;
+    }
+
+    .missions-section .section-label-ms {
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
+      font-weight: 500;
     }
   </style>
 </head>
@@ -1495,6 +1580,104 @@
         <p class="mb-body">The Giant Impact hypothesis reshaped our understanding of how all planets form. <strong>The Moon is the best-studied example of planetary formation by collision</strong> anywhere in the known universe — our window into how solar systems are built.</p>
       </div>
     </div>
+  </div>
+
+  <!-- ══════════════════════
+       MISSIONS
+  ══════════════════════ -->
+  <div class="missions-section">
+    <p class="section-label-ms">Lunar Exploration — Past, Present &amp; Future</p>
+
+    <div class="mission-group">
+      <span class="mission-group-label past">Historic Missions</span>
+      <div class="missions-grid">
+        <div class="mission-card">
+          <span class="mc-year">1959</span>
+          <p class="mc-name">Luna 2 — First to the Moon</p>
+          <span class="mc-agency">Soviet Union</span>
+          <p class="mc-desc">The first spacecraft to reach the Moon, crash-landing into its surface. Proved it was possible to send a spacecraft to another world — a pivotal moment in the Space Race that changed everything that followed.</p>
+        </div>
+        <div class="mission-card">
+          <span class="mc-year">1966</span>
+          <p class="mc-name">Luna 9 — First Soft Landing</p>
+          <span class="mc-agency">Soviet Union</span>
+          <p class="mc-desc">First spacecraft to survive landing on the Moon and transmit photos from the surface. Proved the lunar surface was solid enough to support a lander — ending fears that spacecraft would sink into deep dust.</p>
+        </div>
+        <div class="mission-card">
+          <span class="mc-year">1969–1972</span>
+          <p class="mc-name">Apollo 11–17 (6 Landings)</p>
+          <span class="mc-agency">NASA</span>
+          <p class="mc-desc">Twelve astronauts walked on the Moon across six missions. Returned 382 kg of lunar samples still being studied today. Apollo 11 (1969) was first; Apollo 17 (1972) remains the last crewed lunar landing to date.</p>
+        </div>
+        <div class="mission-card">
+          <span class="mc-year">1994</span>
+          <p class="mc-name">Clementine</p>
+          <span class="mc-agency">US DoD / NASA</span>
+          <p class="mc-desc">First spacecraft to map the entire lunar surface. Provided early radar evidence of water ice in permanently shadowed craters near the poles — a discovery that changed the Moon's strategic value for future exploration.</p>
+        </div>
+        <div class="mission-card">
+          <span class="mc-year">2008</span>
+          <p class="mc-name">Chandrayaan-1</p>
+          <span class="mc-agency">ISRO · India</span>
+          <p class="mc-desc">India's first lunar mission. Its Moon Impact Probe was the first Indian spacecraft to land on the Moon. Instruments on board confirmed the presence of water molecules in the lunar soil — a landmark discovery.</p>
+        </div>
+        <div class="mission-card">
+          <span class="mc-year">2019</span>
+          <p class="mc-name">Chang'e 4 — Far-Side Landing</p>
+          <span class="mc-agency">CNSA · China</span>
+          <p class="mc-desc">First spacecraft to land on the far side of the Moon — a region never seen from Earth and previously unreachable without a relay satellite. The Yutu-2 rover is still operational, the longest-lived lunar rover in history.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-group">
+      <span class="mission-group-label active">Active Now</span>
+      <div class="missions-grid">
+        <div class="mission-card active-mission">
+          <span class="mc-year">2009–</span>
+          <p class="mc-name">Lunar Reconnaissance Orbiter</p>
+          <span class="mc-agency">NASA</span>
+          <p class="mc-desc">In continuous operation for over 15 years — the longest-running lunar mission. Has produced the most detailed map of the lunar surface ever made, imaging boulders the size of a car, and located the Apollo landing sites.</p>
+        </div>
+        <div class="mission-card active-mission">
+          <span class="mc-year">2023</span>
+          <p class="mc-name">Chandrayaan-3</p>
+          <span class="mc-agency">ISRO · India</span>
+          <p class="mc-desc">Successfully landed near the lunar south pole — a world first. Confirmed the presence of sulphur and other elements in south-polar soil. Made India the fourth nation to soft-land on the Moon and the first to reach the south pole.</p>
+        </div>
+        <div class="mission-card active-mission">
+          <span class="mc-year">2024</span>
+          <p class="mc-name">Chang'e 6 — Far-Side Sample Return</p>
+          <span class="mc-agency">CNSA · China</span>
+          <p class="mc-desc">The first mission ever to return samples from the Moon's far side — 1,935 g of ancient material from the South Pole–Aitken Basin, one of the largest impact craters in the solar system. Scientists expect these rocks to reveal secrets of early lunar and planetary formation.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-group">
+      <span class="mission-group-label future">Upcoming</span>
+      <div class="missions-grid">
+        <div class="mission-card future-mission">
+          <span class="mc-year">2026</span>
+          <p class="mc-name">Artemis II — Crewed Flyby</p>
+          <span class="mc-agency">NASA · CSA</span>
+          <p class="mc-desc">Four astronauts — Reid Wiseman, Victor Glover, Christina Koch, and Canada's Jeremy Hansen — will fly around the Moon on a free-return trajectory. The first crewed lunar mission since Apollo 17 in 1972. Not a landing, but humanity's return to cislunar space.</p>
+        </div>
+        <div class="mission-card future-mission">
+          <span class="mc-year">2026</span>
+          <p class="mc-name">Chang'e 7</p>
+          <span class="mc-agency">CNSA · China</span>
+          <p class="mc-desc">A comprehensive south-pole mission comprising an orbiter, lander, rover, and a small "hopper" that can fly into permanently shadowed craters to search directly for water ice — an essential resource for future lunar bases.</p>
+        </div>
+        <div class="mission-card future-mission">
+          <span class="mc-year">Late 2020s</span>
+          <p class="mc-name">Artemis III — Crewed Landing</p>
+          <span class="mc-agency">NASA</span>
+          <p class="mc-desc">The first crewed lunar landing since Apollo 17. Will land near the south pole, where water ice in permanently shadowed craters could support a long-term human presence. Uses SpaceX Starship as the lunar lander.</p>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- ══════════════════════
