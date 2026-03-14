@@ -706,6 +706,8 @@
       .moons-grid { grid-template-columns: 1fr; }
       .wows-grid { grid-template-columns: 1fr; }
       footer { flex-direction: column; gap: 12px; text-align: center; }
+      .missions-grid { grid-template-columns: 1fr; }
+      .obs-section .missions-grid { grid-template-columns: 1fr; }
     }
 
     @media (min-width: 600px) {
@@ -719,6 +721,81 @@
     @media (max-width: 480px) {
       body { font-size: 19px; }
       .site-nav a { font-size: 15px; }
+    }
+
+    /* ══════════════════════════════════════════════
+       MISSIONS SECTION
+    ══════════════════════════════════════════════ */
+    .missions-section {
+      animation: riseUp 1s 0.38s ease both;
+      margin-bottom: 52px;
+    }
+
+    .mission-group { margin-bottom: 4px; }
+
+    .mission-group-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 500;
+      padding: 8px 14px;
+      display: inline-block;
+      margin-bottom: 2px;
+    }
+
+    .mission-group-label.past   { color: var(--muted);  background: rgba(255,255,255,0.04); }
+    .mission-group-label.future { color: var(--gold);   background: rgba(212,168,75,0.12); }
+
+    .missions-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-bottom: 2px;
+    }
+
+    .mission-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      border-left: 3px solid var(--muted);
+      padding: 20px 18px;
+      transition: border-left-color 0.3s, background 0.3s;
+    }
+
+    .mission-card.future-mission { border-left-color: var(--gold); }
+    .mission-card:hover { background: rgba(212,168,75,0.06); }
+
+    .mc-year {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--gold2);
+      display: block;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .mc-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--ivory);
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .mc-agency {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      display: block;
+      text-transform: uppercase;
+    }
+
+    .mc-desc {
+      font-size: 0.84rem;
+      line-height: 1.65;
+      color: var(--ivory);
+      opacity: 0.85;
     }
   </style>
 </head>
@@ -1143,6 +1220,63 @@
       </div>
 
     </div>
+  </div>
+
+
+  <div class="rule"><div class="rule-line"></div><div class="rule-diamond"></div><div class="rule-line"></div></div>
+
+  <!-- ══════════════════ MISSIONS ══════════════════ -->
+  <div class="missions-section">
+    <p class="section-label">Saturn Missions — Past &amp; Future</p>
+
+    <div class="mission-group">
+      <span class="mission-group-label past">Past Missions</span>
+      <div class="missions-grid">
+        <div class="mission-card">
+          <span class="mc-year">1979</span>
+          <p class="mc-name">Pioneer 11</p>
+          <span class="mc-agency">NASA</span>
+          <p class="mc-desc">The first spacecraft to reach Saturn, arriving just four years after Jupiter. Flew within 21,000 km of the cloud tops, discovered the F ring, and revealed that Saturn's magnetic field is almost perfectly aligned with its rotation axis — still unexplained today.</p>
+        </div>
+        <div class="mission-card">
+          <span class="mc-year">1980</span>
+          <p class="mc-name">Voyager 1</p>
+          <span class="mc-agency">NASA</span>
+          <p class="mc-desc">Flew past Saturn and made the first detailed study of Titan's thick atmosphere, finding it rich in nitrogen and organic compounds. Revealed that Saturn's rings are made of countless individual ringlets. After the flyby, Voyager 1 was flung out of the solar system — it is now in interstellar space.</p>
+        </div>
+        <div class="mission-card">
+          <span class="mc-year">1981</span>
+          <p class="mc-name">Voyager 2</p>
+          <span class="mc-agency">NASA</span>
+          <p class="mc-desc">Followed Voyager 1 through the Saturn system, studying the moons Enceladus, Hyperion, and Iapetus in detail. Unlike Voyager 1, its trajectory allowed it to continue to Uranus and Neptune — the only spacecraft ever to visit those planets.</p>
+        </div>
+        <div class="mission-card">
+          <span class="mc-year">2004–2017</span>
+          <p class="mc-name">Cassini–Huygens</p>
+          <span class="mc-agency">NASA / ESA</span>
+          <p class="mc-desc">Thirteen years orbiting Saturn — the longest mission to the outer solar system. Discovered geysers of water vapour erupting from Enceladus (a potential habitat for life), watched seasons change on Titan, and mapped the rings in exquisite detail. Ended with a deliberate plunge into Saturn's atmosphere to prevent contaminating its moons.</p>
+        </div>
+        <div class="mission-card">
+          <span class="mc-year">2005</span>
+          <p class="mc-name">Huygens Probe</p>
+          <span class="mc-agency">ESA (carried by Cassini)</span>
+          <p class="mc-desc">Detached from Cassini and parachuted through Titan's thick orange haze for 2.5 hours, landing on a frozen landscape of ice pebbles. The only landing ever achieved in the outer solar system. Recorded winds, measured pressure, and sent back 350 images of an alien world with rivers, lakes, and rain — of liquid methane.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-group">
+      <span class="mission-group-label future">Upcoming</span>
+      <div class="missions-grid">
+        <div class="mission-card future-mission">
+          <span class="mc-year">2034 arrival</span>
+          <p class="mc-name">Dragonfly</p>
+          <span class="mc-agency">NASA · launching 2028</span>
+          <p class="mc-desc">A rotorcraft-lander destined for Titan's surface. Will fly from site to site like a drone — travelling tens of kilometres per day — studying the organic chemistry on an alien world where conditions may mirror early Earth. Dragonfly is searching for clues about the origin of life itself.</p>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <footer>

@@ -777,6 +777,8 @@
       .find-grid { grid-template-columns: 1fr; }
       .wows-grid { grid-template-columns: 1fr; }
       footer { flex-direction: column; gap: 12px; text-align: center; }
+      .missions-grid { grid-template-columns: 1fr; }
+      .obs-section .missions-grid { grid-template-columns: 1fr; }
     }
 
     /* ══════════════════════════════════════
@@ -835,6 +837,81 @@
     @media (max-width: 480px) {
       body { font-size: 18px; }
       .site-nav a { font-size: 15px; }
+    }
+
+    /* ══════════════════════════════════════════════
+       SPACE OBSERVATORIES SECTION
+    ══════════════════════════════════════════════ */
+    .obs-section {
+      animation: riseUp 1s 0.38s ease both;
+      margin-bottom: 52px;
+    }
+
+    .mission-group { margin-bottom: 4px; }
+
+    .mission-group-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 500;
+      padding: 8px 14px;
+      display: inline-block;
+      margin-bottom: 2px;
+    }
+
+    .mission-group-label.past   { color: var(--muted);  background: rgba(255,255,255,0.04); }
+    .mission-group-label.active { color: var(--teal);   background: rgba(26,154,160,0.1); }
+
+    .missions-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-bottom: 2px;
+    }
+
+    .mission-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      border-left: 3px solid var(--muted);
+      padding: 20px 18px;
+      transition: border-left-color 0.3s, background 0.3s;
+    }
+
+    .mission-card.active-mission { border-left-color: var(--teal); }
+    .mission-card:hover { background: rgba(26,154,160,0.06); }
+
+    .mc-year {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--teal);
+      display: block;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .mc-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--frost);
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .mc-agency {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      display: block;
+      text-transform: uppercase;
+    }
+
+    .mc-desc {
+      font-size: 0.84rem;
+      line-height: 1.65;
+      color: var(--frost);
+      opacity: 0.85;
     }
   </style>
 </head>
@@ -1528,6 +1605,74 @@
       </div>
 
     </div>
+  </div>
+
+
+  <div class="rule"><div class="rule-line"></div><div class="rule-cross"></div><div class="rule-line"></div></div>
+
+  <!-- ═══════════════════════════════════
+       SPACE OBSERVATORIES
+  ═══════════════════════════════════ -->
+  <div class="obs-section">
+    <p class="section-label">Space Observatories — Studying Orion</p>
+    <p style="font-size:0.88rem; color:var(--frost-dim); opacity:0.8; margin-bottom:20px; line-height:1.7;">
+      No spacecraft has been sent to Orion — it is a constellation 1,350 light-years away. But space telescopes have transformed our understanding of the Orion Nebula (M42) and the stellar nursery within it.
+    </p>
+
+    <div class="mission-group">
+      <span class="mission-group-label past">Past Observatories</span>
+      <div class="missions-grid">
+        <div class="mission-card">
+          <span class="mc-year">1983</span>
+          <p class="mc-name">IRAS — Infrared Astronomical Satellite</p>
+          <span class="mc-agency">NASA / ESA / NIVR</span>
+          <p class="mc-desc">The first space infrared telescope. Mapped the Orion Molecular Cloud in thermal infrared, revealing the full extent of the dust-shrouded star-forming region invisible to optical telescopes — the first time astronomers saw the stellar nursery whole.</p>
+        </div>
+        <div class="mission-card">
+          <span class="mc-year">1999</span>
+          <p class="mc-name">Chandra X-ray Observatory</p>
+          <span class="mc-agency">NASA</span>
+          <p class="mc-desc">Captured Orion in X-ray light, revealing that young stars in the Trapezium Cluster are violent X-ray sources — thousands of times more active than our Sun. X-rays strip away gas around forming planets, affecting how solar systems develop.</p>
+        </div>
+        <div class="mission-card">
+          <span class="mc-year">2003–2020</span>
+          <p class="mc-name">Spitzer Space Telescope</p>
+          <span class="mc-agency">NASA</span>
+          <p class="mc-desc">Peered through the dust of the Orion Nebula in infrared, revealing hundreds of protostars embedded too deep to see in visible light. Discovered protoplanetary discs (proplyds) — solar systems in the making — surrounding infant stars in the Trapezium region.</p>
+        </div>
+        <div class="mission-card">
+          <span class="mc-year">1990–2025</span>
+          <p class="mc-name">Hubble Space Telescope</p>
+          <span class="mc-agency">NASA / ESA</span>
+          <p class="mc-desc">Produced the most iconic images of the Orion Nebula in visible and ultraviolet light, resolving the Trapezium Cluster in stunning detail. Imaged over 150 protoplanetary discs — proplyds — many of which are being evaporated by the intense UV radiation of the Trapezium stars.</p>
+        </div>
+        <div class="mission-card">
+          <span class="mc-year">2009–2013</span>
+          <p class="mc-name">Herschel Space Observatory</p>
+          <span class="mc-agency">ESA</span>
+          <p class="mc-desc">Mapped the Orion Molecular Cloud in far-infrared and submillimetre light, tracing cold dust filaments where the next generation of stars will form. Revealed the intricate web of gas threads that channel material into star-forming clumps.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-group">
+      <span class="mission-group-label active">Active Now</span>
+      <div class="missions-grid">
+        <div class="mission-card active-mission">
+          <span class="mc-year">2021–</span>
+          <p class="mc-name">James Webb Space Telescope (JWST)</p>
+          <span class="mc-agency">NASA / ESA / CSA</span>
+          <p class="mc-desc">Has captured the most detailed images of the Orion Nebula ever made — revealing structures 10× finer than Hubble. Discovered around 40 pairs of free-floating rogue planets (Jupiter-mass binary objects, or JuMBOs) — objects that challenge our understanding of star formation. JWST's infrared vision penetrates dust to show embryonic solar systems in unprecedented clarity.</p>
+        </div>
+        <div class="mission-card active-mission">
+          <span class="mc-year">2019–</span>
+          <p class="mc-name">TESS — Transiting Exoplanet Survey Satellite</p>
+          <span class="mc-agency">NASA</span>
+          <p class="mc-desc">Though primarily a planet-hunter, TESS has monitored the variability of young stars in the Orion OB1 association — tracking starspot activity and flares in stars similar to our early Sun, helping scientists understand the environment in which planets form.</p>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- ═══════════════════════════════════
