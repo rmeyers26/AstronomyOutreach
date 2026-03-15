@@ -634,6 +634,8 @@
       .events-grid { grid-template-columns: repeat(2,1fr); }
       .why-grid { grid-template-columns: 1fr; }
       footer { flex-direction: column; gap: 12px; text-align: center; }
+      .missions-grid { grid-template-columns: 1fr; }
+      .obs-section .missions-grid { grid-template-columns: 1fr; }
     }
 
     /* ══════════════════════════════════════
@@ -692,6 +694,90 @@
     @media (max-width: 480px) {
       body { font-size: 18px; }
       .site-nav a { font-size: 15px; }
+    }
+
+    /* ══════════════════════════════════════════════
+       MISSIONS SECTION
+    ══════════════════════════════════════════════ */
+    .missions-section {
+      animation: riseUp 1s 0.38s ease both;
+      margin-bottom: 52px;
+    }
+
+    .missions-tabs {
+      display: flex;
+      gap: 2px;
+      margin-bottom: 2px;
+    }
+
+    .mission-group { margin-bottom: 4px; }
+
+    .mission-group-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 500;
+      padding: 8px 14px;
+      display: inline-block;
+      margin-bottom: 2px;
+    }
+
+    .mission-group-label.past   { color: var(--muted); background: rgba(255,255,255,0.04); }
+    .mission-group-label.active { color: var(--plasma); background: rgba(255,204,2,0.1); }
+    .mission-group-label.future { color: var(--solar);  background: rgba(255,152,0,0.12); }
+
+    .missions-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-bottom: 2px;
+    }
+
+    .mission-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      border-left: 3px solid var(--muted);
+      padding: 20px 18px;
+      transition: border-left-color 0.3s, background 0.3s;
+    }
+
+    .mission-card.active-mission  { border-left-color: var(--plasma); }
+    .mission-card.future-mission  { border-left-color: var(--solar); }
+
+    .mission-card:hover { background: rgba(255,152,0,0.07); }
+
+    .mc-year {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--plasma);
+      display: block;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .mc-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--corona);
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .mc-agency {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      display: block;
+      text-transform: uppercase;
+    }
+
+    .mc-desc {
+      font-size: 0.84rem;
+      line-height: 1.65;
+      color: var(--corona);
+      opacity: 0.85;
     }
   </style>
 </head>
@@ -1064,6 +1150,89 @@
         <p class="why-body">The Sun is the only star close enough to study in detail. Everything we know about how all other stars in the universe work, we learned first by studying the Sun.</p>
       </div>
     </div>
+  </div>
+
+
+  <div class="rule"><div class="rule-line"></div><div class="rule-sun"></div><div class="rule-line"></div></div>
+
+  <!-- ═══════════════════════════════════════════
+       MISSIONS
+  ═══════════════════════════════════════════ -->
+  <div class="missions-section">
+    <p class="section-label">Solar Missions — Past, Present &amp; Future</p>
+
+    <div class="mission-group">
+      <span class="mission-group-label past">Past Missions</span>
+      <div class="missions-grid">
+        <div class="mission-card">
+          <span class="mc-year">1990</span>
+          <p class="mc-name">Ulysses</p>
+          <span class="mc-agency">ESA / NASA</span>
+          <p class="mc-desc">First spacecraft to study the Sun from a high solar latitude, orbiting over the poles. Measured the solar wind and magnetic field across the full heliosphere for 18 years.</p>
+        </div>
+        <div class="mission-card">
+          <span class="mc-year">1995</span>
+          <p class="mc-name">SOHO</p>
+          <span class="mc-agency">ESA / NASA</span>
+          <p class="mc-desc">Solar and Heliospheric Observatory — the longest-running solar spacecraft. Has discovered over 4,000 comets and transformed our understanding of the solar corona and solar wind.</p>
+        </div>
+        <div class="mission-card">
+          <span class="mc-year">2006</span>
+          <p class="mc-name">STEREO</p>
+          <span class="mc-agency">NASA</span>
+          <p class="mc-desc">Two spacecraft positioned on opposite sides of the Sun, providing the first-ever stereoscopic (3D) view of solar eruptions. STEREO-A remains active as an early-warning sentinel.</p>
+        </div>
+        <div class="mission-card">
+          <span class="mc-year">2006</span>
+          <p class="mc-name">Hinode</p>
+          <span class="mc-agency">JAXA / NASA / ESA</span>
+          <p class="mc-desc">Japanese mission studying the Sun's magnetic field and its role in driving solar flares. Revealed the structure of the photosphere and corona in unprecedented detail.</p>
+        </div>
+        <div class="mission-card">
+          <span class="mc-year">2010</span>
+          <p class="mc-name">SDO — Solar Dynamics Observatory</p>
+          <span class="mc-agency">NASA</span>
+          <p class="mc-desc">Captures a full-disc image of the Sun every 12 seconds in multiple wavelengths. Has produced over 425 million images, tracking sunspots, flares, and coronal loops in stunning detail.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-group">
+      <span class="mission-group-label active">Active Now</span>
+      <div class="missions-grid">
+        <div class="mission-card active-mission">
+          <span class="mc-year">2018</span>
+          <p class="mc-name">Parker Solar Probe</p>
+          <span class="mc-agency">NASA</span>
+          <p class="mc-desc">The fastest spacecraft ever built — reaching 692,000 km/h (430,000 mph). Has dipped inside the Sun's corona to just 6.1 million km from the surface, directly sampling the solar wind at its source.</p>
+        </div>
+        <div class="mission-card active-mission">
+          <span class="mc-year">2020</span>
+          <p class="mc-name">Solar Orbiter</p>
+          <span class="mc-agency">ESA / NASA</span>
+          <p class="mc-desc">First spacecraft to image the Sun's poles. Carries 10 instruments simultaneously measuring the solar environment and photographing the surface in extraordinary resolution. Revealed "campfire" mini-flares across the Sun's surface.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-group">
+      <span class="mission-group-label future">Upcoming</span>
+      <div class="missions-grid">
+        <div class="mission-card future-mission">
+          <span class="mc-year">2025</span>
+          <p class="mc-name">PUNCH</p>
+          <span class="mc-agency">NASA</span>
+          <p class="mc-desc">Polarimeter to UNify the Corona and Heliosphere — four small satellites working together to image the solar wind from the Sun all the way to Earth's orbit, bridging inner corona and heliosphere observations.</p>
+        </div>
+        <div class="mission-card future-mission">
+          <span class="mc-year">~2031</span>
+          <p class="mc-name">Vigil</p>
+          <span class="mc-agency">ESA</span>
+          <p class="mc-desc">A space-weather sentinel to be stationed at the L5 Lagrange point — 60° behind Earth in its orbit. Will provide several days of advance warning before solar storms hit Earth, protecting satellites and power grids.</p>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- ═══════════════════════════════════════════
