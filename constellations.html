@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Constellations – Astronomy Outreach</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #03050e;
+      --surface: #0a0f24;
+      --card-bg: #0e1530;
+      --text: #d8dff0;
+      --text-muted: #7a8aaa;
+      --accent-spring: #58c040;
+      --accent-summer: #f0a830;
+      --accent-fall:   #d05828;
+      --accent-winter: #48a8e0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      line-height: 1.65;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Star field ── */
+    #starfield {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: var(--min-op, 0.3); }
+      50%       { opacity: var(--max-op, 1); }
+    }
+
+    .star-dot {
+      position: absolute;
+      border-radius: 50%;
+      background: white;
+      animation: twinkle var(--dur, 3s) ease-in-out var(--delay, 0s) infinite;
+    }
+
+    /* ── Navigation ── */
+    .site-nav-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(3, 5, 14, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .site-nav::-webkit-scrollbar { display: none; }
+
+    .site-nav a {
+      display: flex;
+      align-items: center;
+      gap: 0.4em;
+      padding: 0.85rem 0.9rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      white-space: nowrap;
+      transition: color 0.2s;
+      border-bottom: 2px solid transparent;
+    }
+
+    .site-nav a:hover { color: var(--text); }
+
+    .site-nav a.active {
+      color: #fff;
+      border-bottom-color: var(--accent-winter);
+    }
+
+    .site-nav a span { display: inline; }
+
+    /* ── Page wrapper ── */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 1.25rem 4rem;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      text-align: center;
+      padding: 4rem 1rem 2.5rem;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ── Season tab bar ── */
+    .season-tabs {
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 2.5rem;
+    }
+
+    .season-tabs::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      flex: 1 0 auto;
+      padding: 0.85rem 1.5rem;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      color: var(--text-muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+      white-space: nowrap;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .tab-btn:hover { color: var(--text); }
+
+    .tab-btn[aria-selected="true"].spring { color: var(--accent-spring); border-bottom-color: var(--accent-spring); }
+    .tab-btn[aria-selected="true"].summer { color: var(--accent-summer); border-bottom-color: var(--accent-summer); }
+    .tab-btn[aria-selected="true"].fall   { color: var(--accent-fall);   border-bottom-color: var(--accent-fall);   }
+    .tab-btn[aria-selected="true"].winter { color: var(--accent-winter); border-bottom-color: var(--accent-winter); }
+
+    /* ── Season panels ── */
+    .season-panel { display: none; }
+    .season-panel.active { display: block; }
+
+    /* ── Constellation block ── */
+    .constellation {
+      margin-bottom: 3rem;
+    }
+
+    .constellation + .constellation {
+      padding-top: 3rem;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .const-header { margin-bottom: 1rem; }
+
+    .const-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.15;
+    }
+
+    .const-header .latin {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-top: 0.1rem;
+      display: block;
+    }
+
+    .const-desc {
+      font-size: 0.97rem;
+      color: var(--text-muted);
+      max-width: 72ch;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── Accent stripe per season ── */
+    .season-panel[data-season="spring"] .const-header h2 { color: var(--accent-spring); }
+    .season-panel[data-season="summer"] .const-header h2 { color: var(--accent-summer); }
+    .season-panel[data-season="fall"]   .const-header h2 { color: var(--accent-fall);   }
+    .season-panel[data-season="winter"] .const-header h2 { color: var(--accent-winter); }
+
+    /* ── Flashcard grid ── */
+    .flashcard-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    @media (min-width: 700px) {
+      .flashcard-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    /* ── Flip card ── */
+    .flip-card {
+      perspective: 1000px;
+      min-height: 180px;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .flip-card:hover .flip-inner {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.5);
+    }
+
+    .flip-card.flipped .flip-inner {
+      transform: rotateY(180deg) !important;
+    }
+
+    .flip-card.flipped:hover .flip-inner {
+      transform: rotateY(180deg) translateY(-4px) !important;
+    }
+
+    .flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 180px;
+      transition: transform 0.5s cubic-bezier(0.4, 0.2, 0.2, 1), box-shadow 0.25s;
+      transform-style: preserve-3d;
+      border-radius: 10px;
+    }
+
+    .flip-front,
+    .flip-back {
+      position: absolute;
+      inset: 0;
+      border-radius: 10px;
+      padding: 1rem;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .flip-front {
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.07);
+      justify-content: space-between;
+    }
+
+    .flip-back {
+      transform: rotateY(180deg);
+      justify-content: flex-start;
+    }
+
+    /* Back tint per season */
+    .season-panel[data-season="spring"] .flip-back {
+      background: color-mix(in srgb, var(--accent-spring) 12%, var(--card-bg));
+      border: 1px solid color-mix(in srgb, var(--accent-spring) 30%, transparent);
+    }
+    .season-panel[data-season="summer"] .flip-back {
+      background: color-mix(in srgb, var(--accent-summer) 12%, var(--card-bg));
+      border: 1px solid color-mix(in srgb, var(--accent-summer) 30%, transparent);
+    }
+    .season-panel[data-season="fall"] .flip-back {
+      background: color-mix(in srgb, var(--accent-fall) 12%, var(--card-bg));
+      border: 1px solid color-mix(in srgb, var(--accent-fall) 30%, transparent);
+    }
+    .season-panel[data-season="winter"] .flip-back {
+      background: color-mix(in srgb, var(--accent-winter) 12%, var(--card-bg));
+      border: 1px solid color-mix(in srgb, var(--accent-winter) 30%, transparent);
+    }
+
+    .flip-topic {
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      margin-bottom: 0.5rem;
+    }
+
+    .season-panel[data-season="spring"] .flip-topic { color: var(--accent-spring); }
+    .season-panel[data-season="summer"] .flip-topic { color: var(--accent-summer); }
+    .season-panel[data-season="fall"]   .flip-topic { color: var(--accent-fall);   }
+    .season-panel[data-season="winter"] .flip-topic { color: var(--accent-winter); }
+
+    .flip-question {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text);
+      flex: 1;
+      line-height: 1.45;
+    }
+
+    .flip-hint {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+      font-style: italic;
+    }
+
+    .flip-answer-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.45rem;
+    }
+
+    .flip-answer-detail {
+      font-size: 0.82rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* ── Footer ── */
+    .site-footer {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin-top: 2rem;
+    }
+
+    /* ── Responsive ── */
+    @media (min-width: 1000px) {
+      .page { padding-left: 0; padding-right: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Star field -->
+<div id="starfield" aria-hidden="true"></div>
+
+<!-- Navigation -->
+<div class="site-nav-wrapper">
+  <nav class="site-nav" aria-label="Site navigation">
+    <a href="index.html">🏠 <span>Home</span></a>
+    <a href="our-sun.html">☀️ <span>Our Sun</span></a>
+    <a href="jupiter.html">🪐 <span>Jupiter</span></a>
+    <a href="mars.html">🔴 <span>Mars</span></a>
+    <a href="saturn.html">🪐 <span>Saturn</span></a>
+    <a href="orion.html">⭐ <span>Orion</span></a>
+    <a href="constellations.html" class="active">✦ <span>Constellations</span></a>
+    <a href="galileo.html">🔭 <span>Galileo</span></a>
+    <a href="moon-retro.html">🌕 <span>Moon Retro</span></a>
+    <a href="celestron-cpc1100.html">📡 <span>Telescope</span></a>
+  </nav>
+</div>
+
+<!-- Main content -->
+<div class="page">
+
+  <!-- Hero -->
+  <header class="hero">
+    <h1>Constellations</h1>
+    <p>Explore the night sky season by season</p>
+  </header>
+
+  <!-- Season tab bar -->
+  <div class="season-tabs" role="tablist" aria-label="Seasons">
+    <button class="tab-btn spring" role="tab" aria-selected="true"  aria-controls="panel-spring" id="tab-spring">🌱 Spring</button>
+    <button class="tab-btn summer" role="tab" aria-selected="false" aria-controls="panel-summer" id="tab-summer">☀️ Summer</button>
+    <button class="tab-btn fall"   role="tab" aria-selected="false" aria-controls="panel-fall"   id="tab-fall">🍂 Fall</button>
+    <button class="tab-btn winter" role="tab" aria-selected="false" aria-controls="panel-winter" id="tab-winter">❄️ Winter</button>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       SPRING
+  ════════════════════════════════════════ -->
+  <section class="season-panel active" id="panel-spring" data-season="spring" role="tabpanel" aria-labelledby="tab-spring">
+
+    <!-- Leo -->
+    <div class="constellation">
+      <div class="const-header">
+        <h2>Leo</h2>
+        <span class="latin">The Lion</span>
+      </div>
+      <p class="const-desc">One of the few constellations that genuinely resembles its namesake. The backwards question-mark "Sickle" traces the lion's mane while the triangle of stars below forms his haunches.</p>
+      <div class="flashcard-grid">
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Brightest Star">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Brightest Star</span>
+              <p class="flip-question">What is the brightest star in Leo, and what does it mark on the lion?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-name">Regulus</p>
+              <p class="flip-answer-detail">Blue-white star at the lion's heart. 79 light-years away. Its name means "little king" in Latin.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Mythology">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Mythology</span>
+              <p class="flip-question">What Greek myth explains Leo's place in the sky?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Leo is the Nemean Lion — the terrifying beast slain by Hercules as his very first labor. Zeus immortalized the fierce creature by placing it among the stars.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: How to Find">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">How to Find</span>
+              <p class="flip-question">How do you use the Big Dipper to locate Leo?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Reverse the Big Dipper's pointer stars southward instead of north toward Polaris. Look for the backwards question-mark "Sickle" asterism — that's the lion's mane.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Key Facts">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Key Facts</span>
+              <p class="flip-question">Name a famous deep-sky treasure hidden inside Leo.</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">The Leo Triplet — three interacting galaxies (M65, M66, NGC 3628) visible through binoculars. Leo is a zodiac constellation best seen in April.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Virgo -->
+    <div class="constellation">
+      <div class="const-header">
+        <h2>Virgo</h2>
+        <span class="latin">The Maiden</span>
+      </div>
+      <p class="const-desc">The second-largest constellation in the sky, Virgo holds the spike of wheat (Spica) in her left hand. She is linked to harvest and the changing of seasons.</p>
+      <div class="flashcard-grid">
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Brightest Star">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Brightest Star</span>
+              <p class="flip-question">What is the brightest star in Virgo, and how does it help you navigate the spring sky?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-name">Spica</p>
+              <p class="flip-answer-detail">Blue-white binary star, 250 light-years away. It's the 15th brightest star in the sky and the anchor of the "Spring Triangle" asterism.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Mythology">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Mythology</span>
+              <p class="flip-question">Which goddess does Virgo represent in Greek mythology?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Virgo is Demeter, goddess of the harvest. When her daughter Persephone descends to the underworld each autumn, Demeter grieves and withdraws — bringing winter.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: How to Find">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">How to Find</span>
+              <p class="flip-question">What famous mnemonic helps you arc from the Big Dipper to Spica?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">"Arc to Arcturus, then speed on to Spica." Follow the curved arc of the Big Dipper's handle outward — two long hops bring you right to bright Spica.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Key Facts">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Key Facts</span>
+              <p class="flip-question">What extraordinary galaxy cluster lurks behind Virgo?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">The Virgo Cluster — over 1,300 galaxies packed into a region of sky. It is the heart of our local supercluster of galaxies, about 65 million light-years away.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Boötes -->
+    <div class="constellation">
+      <div class="const-header">
+        <h2>Boötes</h2>
+        <span class="latin">The Herdsman</span>
+      </div>
+      <p class="const-desc">A kite-shaped constellation anchored by Arcturus, one of the brightest stars in the entire sky. Boötes herds the bears Ursa Major and Ursa Minor around the celestial pole.</p>
+      <div class="flashcard-grid">
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Brightest Star">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Brightest Star</span>
+              <p class="flip-question">What is Arcturus, and why is it special for northern-hemisphere observers?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-name">Arcturus</p>
+              <p class="flip-answer-detail">An orange giant, just 37 light-years away. It is the brightest star in the northern celestial hemisphere and the 4th brightest star in the entire night sky.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Mythology">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Mythology</span>
+              <p class="flip-question">Who is the herdsman Boötes said to represent?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Most often Arcas — the son of Zeus and Callisto — who nearly killed his mother (transformed into a bear) while hunting. Zeus placed them both in the sky to prevent tragedy.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: How to Find">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">How to Find</span>
+              <p class="flip-question">How does the Big Dipper's handle lead you to Boötes?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">"Arc to Arcturus" — follow the sweeping curve of the Big Dipper's handle outward. The bright orange star you reach first is Arcturus, heart of Boötes.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Key Facts">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Key Facts</span>
+              <p class="flip-question">What is unusual about Arcturus's journey through the galaxy?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Arcturus is a high-velocity star moving in a different direction than most local stars, suggesting it originated in a dwarf galaxy absorbed by the Milky Way long ago.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Corvus -->
+    <div class="constellation">
+      <div class="const-header">
+        <h2>Corvus</h2>
+        <span class="latin">The Crow</span>
+      </div>
+      <p class="const-desc">A small but distinctive quadrilateral of four stars low in the spring sky. Despite its modest size, Corvus's compact trapezoid shape makes it surprisingly easy to identify.</p>
+      <div class="flashcard-grid">
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Brightest Star">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Brightest Star</span>
+              <p class="flip-question">What is the brightest star in Corvus?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-name">Gienah</p>
+              <p class="flip-answer-detail">A blue-white giant about 165 light-years away. Its name comes from Arabic for "the right wing of the crow."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Mythology">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Mythology</span>
+              <p class="flip-question">Why did Apollo punish the crow in the Corvus myth?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Apollo sent his sacred crow to fetch water. The crow stopped to wait for figs to ripen, then lied and blamed a water snake for the delay. Apollo banished the bird to the sky, forever thirsty beside the cup (Crater).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: How to Find">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">How to Find</span>
+              <p class="flip-question">How do you locate tiny Corvus in the spring sky?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Find bright Spica in Virgo, then look west (right). The small, lopsided quadrilateral of four stars sitting just south of the sky highway is Corvus.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Key Facts">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Key Facts</span>
+              <p class="flip-question">What famous pair of colliding galaxies lies near Corvus?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">The Antennae Galaxies (NGC 4038/4039) — two spiral galaxies in the midst of a violent collision, stretching tidal tails of stars across space. A striking target through telescopes.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ════════════════════════════════════════
+       SUMMER
+  ════════════════════════════════════════ -->
+  <section class="season-panel" id="panel-summer" data-season="summer" role="tabpanel" aria-labelledby="tab-summer">
+
+    <!-- Scorpius -->
+    <div class="constellation">
+      <div class="const-header">
+        <h2>Scorpius</h2>
+        <span class="latin">The Scorpion</span>
+      </div>
+      <p class="const-desc">One of the few constellations that truly looks like its namesake — a sweeping curve of bright stars ending in a curved stinger tail. Best seen hugging the southern horizon on summer nights.</p>
+      <div class="flashcard-grid">
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Brightest Star">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Brightest Star</span>
+              <p class="flip-question">What gives Scorpius's heart its distinctive red color?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-name">Antares</p>
+              <p class="flip-answer-detail">A red supergiant about 550 light-years away, so large it would swallow Mars's orbit. Its name means "rival of Mars" because of its ruddy color.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Mythology">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Mythology</span>
+              <p class="flip-question">Why are Orion and Scorpius placed on opposite sides of the sky?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">In Greek myth, the goddess Gaia sent the scorpion to slay the boastful hunter Orion. The gods honored both by placing them in the sky — but forever on opposite horizons so they never meet again.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: How to Find">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">How to Find</span>
+              <p class="flip-question">Where and when should you look for Scorpius?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Look low along the southern horizon on summer evenings. Find Antares — the bright, distinctly reddish star — then trace the arc of stars curving into the scorpion's tail.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Key Facts">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Key Facts</span>
+              <p class="flip-question">What makes the region around Scorpius extraordinary through binoculars?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Scorpius lies along the Milky Way, packed with open star clusters. M6 (Butterfly Cluster) and M7 (Ptolemy Cluster) are among the finest in the sky — easily visible without a telescope.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Cygnus -->
+    <div class="constellation">
+      <div class="const-header">
+        <h2>Cygnus</h2>
+        <span class="latin">The Swan</span>
+      </div>
+      <p class="const-desc">A large, cross-shaped constellation known as the Northern Cross. Cygnus flies south along the bright Milky Way, with the brilliant star Deneb marking the tail.</p>
+      <div class="flashcard-grid">
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Brightest Star">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Brightest Star</span>
+              <p class="flip-question">Why is Deneb extraordinary despite appearing less bright than its Summer Triangle partners?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-name">Deneb</p>
+              <p class="flip-answer-detail">A white supergiant roughly 2,600 light-years away — one of the most luminous stars known. If it were as close as Vega (25 ly), it would cast shadows at night.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Mythology">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Mythology</span>
+              <p class="flip-question">What two myths explain Cygnus in the sky?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Most often, Zeus transformed himself into a swan to court Leda. Alternatively, Cygnus is Orpheus — the legendary musician who was transformed into a swan after his death and placed beside his lyre (Lyra).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: How to Find">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">How to Find</span>
+              <p class="flip-question">How does the Summer Triangle help you find Cygnus?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Deneb is one of the three stars of the Summer Triangle (with Vega and Altair). It marks the top of the Northern Cross asterism — a large cross of stars lying along the Milky Way.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Key Facts">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Key Facts</span>
+              <p class="flip-question">What famous black hole and nebula are hidden inside Cygnus?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Cygnus X-1 is one of the most studied black holes, first confirmed in the 1970s. The North America Nebula (NGC 7000) glows in the shape of the continent just east of Deneb.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Lyra -->
+    <div class="constellation">
+      <div class="const-header">
+        <h2>Lyra</h2>
+        <span class="latin">The Lyre</span>
+      </div>
+      <p class="const-desc">A small but unmistakable constellation anchored by dazzling Vega. The tiny parallelogram of stars below Vega represents the frame of the ancient instrument of Orpheus.</p>
+      <div class="flashcard-grid">
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Brightest Star">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Brightest Star</span>
+              <p class="flip-question">What makes Vega one of the most significant stars in astronomy?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-name">Vega</p>
+              <p class="flip-answer-detail">A blue-white star only 25 light-years away and the 5th brightest in the night sky. Vega was the first star ever photographed (1850) and will be our north pole star in about 12,000 years.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Mythology">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Mythology</span>
+              <p class="flip-question">Whose instrument does Lyra represent, and what became of it?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">The lyre of Orpheus, the greatest musician who ever lived. When Orpheus was killed by the Maenads, the gods retrieved his lyre and placed it in the heavens as an eternal tribute to his art.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: How to Find">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">How to Find</span>
+              <p class="flip-question">How do you locate Lyra on a summer night?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Vega is the brightest star high overhead on summer evenings and the topmost point of the Summer Triangle. Below Vega, spot the small parallelogram of fainter stars — that is the lyre itself.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Key Facts">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Key Facts</span>
+              <p class="flip-question">What famous nebula can you find inside Lyra with a telescope?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">The Ring Nebula (M57) — a perfect smoke-ring of glowing gas, the shell ejected by a dying star. It sits between the bottom two stars of the lyre's parallelogram and is a classic telescope target.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Aquila -->
+    <div class="constellation">
+      <div class="const-header">
+        <h2>Aquila</h2>
+        <span class="latin">The Eagle</span>
+      </div>
+      <p class="const-desc">The eagle of Zeus, flying along the Milky Way. Altair, its blazing eye, is the nearest of the Summer Triangle stars and one of the fastest-rotating bright stars known.</p>
+      <div class="flashcard-grid">
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Brightest Star">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Brightest Star</span>
+              <p class="flip-question">What is remarkable about Altair's rotation speed?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-name">Altair</p>
+              <p class="flip-answer-detail">Just 17 light-years away, Altair spins so fast (once every 9 hours vs. the Sun's 25 days) that it bulges at the equator — it's 20% wider than tall. Directly imaged by telescopes in 2006.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Mythology">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Mythology</span>
+              <p class="flip-question">What two roles does the eagle play in Greek mythology?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Aquila carries Zeus's thunderbolts, ready to deliver divine punishment. In another tale, it is the eagle that daily tore out Prometheus's liver — punishment for stealing fire and giving it to humanity.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: How to Find">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">How to Find</span>
+              <p class="flip-question">Which Summer Triangle star belongs to Aquila, and what helps confirm it?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Altair is the southernmost point of the Summer Triangle. Confirm it by the two flanking stars — Tarazed (brighter, orange) and Alshain (fainter) — one on each side, forming a distinctive trio.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Key Facts">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Key Facts</span>
+              <p class="flip-question">What does Altair's proximity mean for observers?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">At 17 light-years, Altair is one of the closest bright stars visible to the naked eye. The light entering your eye tonight left Altair in 2009. It lies in a rich stretch of the Milky Way.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ════════════════════════════════════════
+       FALL
+  ════════════════════════════════════════ -->
+  <section class="season-panel" id="panel-fall" data-season="fall" role="tabpanel" aria-labelledby="tab-fall">
+
+    <!-- Pegasus -->
+    <div class="constellation">
+      <div class="const-header">
+        <h2>Pegasus</h2>
+        <span class="latin">The Winged Horse</span>
+      </div>
+      <p class="const-desc">The Great Square of Pegasus dominates the fall sky — four stars forming a nearly perfect square visible even in light-polluted skies. Only the front half of the horse is depicted in the stars.</p>
+      <div class="flashcard-grid">
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Brightest Star">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Brightest Star</span>
+              <p class="flip-question">What is the brightest star in Pegasus and where is it?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-name">Enif</p>
+              <p class="flip-answer-detail">An orange supergiant about 690 light-years away, marking the horse's nose. Its name is Arabic for "the nose." Despite being Epsilon (ε) Pegasi, it outshines all other stars in the constellation.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Mythology">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Mythology</span>
+              <p class="flip-question">How was Pegasus born, and what hero rode him?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Pegasus sprang from the blood of Medusa when Perseus beheaded her. The hero Bellerophon later tamed Pegasus with a golden bridle and rode him to slay the fire-breathing Chimera.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: How to Find">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">How to Find</span>
+              <p class="flip-question">How do you use the Great Square to navigate the fall sky?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">The Great Square of Pegasus — four stars in a large, nearly perfect square — is the anchor of the fall sky. Find it high overhead in October. It's larger than you expect; about the size of your fist at arm's length.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Key Facts">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Key Facts</span>
+              <p class="flip-question">What lies nearby that a naked eye can find on a dark night?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">The globular cluster M15 lies just northwest of Enif — one of the most densely packed star clusters known, with over 100,000 stars. On a clear dark night, it's visible to the naked eye as a fuzzy point.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Andromeda -->
+    <div class="constellation">
+      <div class="const-header">
+        <h2>Andromeda</h2>
+        <span class="latin">The Chained Princess</span>
+      </div>
+      <p class="const-desc">A constellation of two arcing chains of stars stretching from the Great Square of Pegasus. It contains the most distant object visible to the naked eye — the Andromeda Galaxy.</p>
+      <div class="flashcard-grid">
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Brightest Star">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Brightest Star</span>
+              <p class="flip-question">Which star anchors both Andromeda and the Great Square of Pegasus?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-name">Alpheratz</p>
+              <p class="flip-answer-detail">A blue subgiant about 97 light-years away. It sits at the top-left corner of the Great Square while also marking Andromeda's head — shared by both constellations officially until 1930.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Mythology">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Mythology</span>
+              <p class="flip-question">Why was Andromeda chained to the rocks?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Her mother, Queen Cassiopeia, boasted that Andromeda was more beautiful than the sea nymphs. Poseidon was furious and sent the sea monster Cetus to ravage the coast. Only sacrificing Andromeda could appease him — until Perseus arrived.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: How to Find">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">How to Find</span>
+              <p class="flip-question">How do you star-hop from the Great Square to the Andromeda Galaxy?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">From Alpheratz (top-left of Great Square), follow two stars northeast, then turn slightly north. The Andromeda Galaxy (M31) appears as an elongated fuzzy patch — larger than the full Moon in actual sky size.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Key Facts">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Key Facts</span>
+              <p class="flip-question">What is so astonishing about the light from the Andromeda Galaxy?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">M31 is 2.5 million light-years away — the light you see tonight left before modern humans existed on Earth. It is the farthest thing visible to the naked eye and is approaching us at 110 km/s. In ~4.5 billion years it will collide with the Milky Way.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Perseus -->
+    <div class="constellation">
+      <div class="const-header">
+        <h2>Perseus</h2>
+        <span class="latin">The Hero</span>
+      </div>
+      <p class="const-desc">The legendary hero flies between Cassiopeia and Auriga, holding aloft the severed head of Medusa (marked by the "Demon Star" Algol). Perseus is rich with star clusters and mythology.</p>
+      <div class="flashcard-grid">
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Brightest Star">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Brightest Star</span>
+              <p class="flip-question">What is the brightest star in Perseus, and what does it mark?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-name">Mirfak</p>
+              <p class="flip-answer-detail">A yellow-white supergiant about 590 light-years away, marking Perseus's torso. It is surrounded by a loose cluster of young stars (the Alpha Persei Cluster) visible through binoculars.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Mythology">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Mythology</span>
+              <p class="flip-question">What three heroic deeds is Perseus famous for?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Perseus slew the Gorgon Medusa (using a mirrored shield to avoid her petrifying gaze), rescued Andromeda from the sea monster Cetus, and used Medusa's severed head to turn Cetus to stone.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: How to Find">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">How to Find</span>
+              <p class="flip-question">What makes Algol a uniquely interesting star to observe over time?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Algol (β Per) is the "Demon Star" — an eclipsing binary that visibly dims by over a full magnitude every 2.87 days as the fainter companion passes in front. Watch it for a few nights and see it change.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Key Facts">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Key Facts</span>
+              <p class="flip-question">What spectacular pair of star clusters lies at Perseus's sword hand?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">The Double Cluster (NGC 869 and NGC 884) — two open clusters side by side, each containing hundreds of young blue-white stars. They are one of the most beautiful binocular objects in the entire sky.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Cassiopeia -->
+    <div class="constellation">
+      <div class="const-header">
+        <h2>Cassiopeia</h2>
+        <span class="latin">The Queen</span>
+      </div>
+      <p class="const-desc">The unmistakable W or M shape near the north pole makes Cassiopeia one of the easiest constellations to find. It is circumpolar — never setting from most of the Northern Hemisphere.</p>
+      <div class="flashcard-grid">
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Brightest Star">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Brightest Star</span>
+              <p class="flip-question">What is the brightest star in Cassiopeia?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-name">Schedar</p>
+              <p class="flip-answer-detail">An orange giant about 230 light-years away marking the queen's breast. Its name comes from Arabic for "the breast." The constellation's brightness shifts as Gamma Cassiopeiae (an eruptive variable) fluctuates.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Mythology">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Mythology</span>
+              <p class="flip-question">What was Queen Cassiopeia's fatal flaw?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Vanity. She boasted that she and her daughter Andromeda were more beautiful than the Nereids (sea nymphs). Poseidon, outraged on behalf of the nymphs, punished Ethiopia — and as further humiliation, placed Cassiopeia in the sky forever spinning around the pole.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: How to Find">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">How to Find</span>
+              <p class="flip-question">How does Cassiopeia serve as a year-round navigation aid?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Cassiopeia's W shape sits on the opposite side of Polaris from the Big Dipper. When the Dipper is low or hidden, use Cassiopeia to find the North Star — draw a line from the middle of the W and it points toward Polaris.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Key Facts">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Key Facts</span>
+              <p class="flip-question">What exploded in Cassiopeia in 1572 and astonished astronomers?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Tycho's Star — a supernova so bright it was visible in daylight for weeks. Tycho Brahe's careful observations of this "new star" helped disprove the ancient belief that the heavens were unchanging and perfect.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ════════════════════════════════════════
+       WINTER
+  ════════════════════════════════════════ -->
+  <section class="season-panel" id="panel-winter" data-season="winter" role="tabpanel" aria-labelledby="tab-winter">
+
+    <!-- Orion -->
+    <div class="constellation">
+      <div class="const-header">
+        <h2>Orion</h2>
+        <span class="latin">The Hunter</span>
+      </div>
+      <p class="const-desc">The king of the winter sky and perhaps the most recognized constellation on Earth. Three equally-spaced belt stars flanked by red Betelgeuse and blue Rigel create an unmistakable hourglass pattern.</p>
+      <div class="flashcard-grid">
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Brightest Star">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Brightest Star</span>
+              <p class="flip-question">Which star is actually the brightest in Orion, despite not being "Alpha"?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-name">Rigel</p>
+              <p class="flip-answer-detail">A blue supergiant about 860 light-years away and 120,000 times more luminous than the Sun. It is designated Beta (β) Orionis but outshines the more famous Betelgeuse.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Mythology">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Mythology</span>
+              <p class="flip-question">Why do Orion and Scorpius never share the sky at the same time?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Orion was a great hunter who boasted no creature could defeat him. Gaia, the earth goddess, sent a scorpion that killed him. Zeus placed both in the sky but on opposite sides, so they perpetually chase each other — when one rises, the other sets.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: How to Find">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">How to Find</span>
+              <p class="flip-question">How do Orion's belt stars serve as a cosmic compass?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">The three belt stars (Alnitak, Alnilam, Mintaka) point in two directions: extend them left/east to find Sirius (the brightest star in the sky); extend them right/west to find Aldebaran and the V-shaped Hyades in Taurus.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Key Facts">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Key Facts</span>
+              <p class="flip-question">What stellar nursery hangs below Orion's belt as his "sword"?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">The Orion Nebula (M42) — a glowing cloud of gas and dust 1,344 light-years away where stars are being born right now. To the naked eye it is a fuzzy star in the sword; through binoculars, it is breathtaking.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Taurus -->
+    <div class="constellation">
+      <div class="const-header">
+        <h2>Taurus</h2>
+        <span class="latin">The Bull</span>
+      </div>
+      <p class="const-desc">A V-shaped cluster of stars forms the bull's face, with fiery Aldebaran glaring from its eye. Two iconic star clusters — the Hyades and Pleiades — make Taurus one of the richest constellations to explore.</p>
+      <div class="flashcard-grid">
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Brightest Star">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Brightest Star</span>
+              <p class="flip-question">What color is Aldebaran and what does it tell us about the star?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-name">Aldebaran</p>
+              <p class="flip-answer-detail">A red giant about 65 light-years away and 44 times the Sun's diameter. Its orange-red color signals it has exhausted its core hydrogen and expanded — a preview of our Sun's fate in 5 billion years.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Mythology">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Mythology</span>
+              <p class="flip-question">Which god disguised himself as a bull, and why?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Zeus transformed into a magnificent white bull to approach the Phoenician princess Europa on the beach. She climbed onto his back, and he swam across the sea to Crete — giving Europe its name. The bull was honored in the stars.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: How to Find">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">How to Find</span>
+              <p class="flip-question">How do Orion's belt stars lead you directly to Taurus?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Follow Orion's three belt stars rightward (westward). The V-shaped Hyades star cluster — the bull's face — comes into view, with orange Aldebaran as its eye. Continue further and you'll reach the Pleiades (Seven Sisters) cluster.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Key Facts">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Key Facts</span>
+              <p class="flip-question">What famous supernova remnant is hiding inside Taurus?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">The Crab Nebula (M1) — the gaseous remnant of a supernova witnessed and recorded by Chinese astronomers in 1054 AD. At its center spins a pulsar, a neutron star rotating 30 times per second.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Gemini -->
+    <div class="constellation">
+      <div class="const-header">
+        <h2>Gemini</h2>
+        <span class="latin">The Twins</span>
+      </div>
+      <p class="const-desc">Two parallel rows of stars stretch from a shared foot near Orion up to the brilliant twin heads of Castor and Pollux. Gemini sits in a rich stretch of the Milky Way.</p>
+      <div class="flashcard-grid">
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Brightest Star">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Brightest Star</span>
+              <p class="flip-question">Which twin star is actually brighter, and why is it surprising?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-name">Pollux</p>
+              <p class="flip-answer-detail">Pollux (β Gem) is slightly brighter than Castor (α Gem), which is unusual — typically the alpha star is the brightest. Pollux is an orange giant 34 light-years away and has a confirmed exoplanet orbiting it.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Mythology">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Mythology</span>
+              <p class="flip-question">What made the twin brothers Castor and Pollux inseparable even in death?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Castor was mortal (son of the king) while Pollux was immortal (son of Zeus). When Castor died in battle, Pollux was so grief-stricken that Zeus allowed them to share immortality — each spending alternate days on Olympus and in the underworld.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: How to Find">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">How to Find</span>
+              <p class="flip-question">How do you locate Gemini relative to Orion?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Gemini lies northeast of Orion. Find Betelgeuse (Orion's red shoulder) and continue that line northeast — you'll arrive at Castor and Pollux, the bright twin heads. They are noticeably different in color: Castor is white, Pollux is orange.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Key Facts">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Key Facts</span>
+              <p class="flip-question">What secret is hiding inside the star named Castor?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Castor appears as one star to the naked eye, but through a telescope it splits into two. Each of those two stars also has a companion, and there is a third pair of red dwarfs in the system. Castor is actually six stars orbiting each other.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Canis Major -->
+    <div class="constellation">
+      <div class="const-header">
+        <h2>Canis Major</h2>
+        <span class="latin">The Greater Dog</span>
+      </div>
+      <p class="const-desc">Orion's faithful hunting dog leaps along the southern winter sky, with Sirius — the single brightest star in the entire night sky — blazing at its collar like a jewel.</p>
+      <div class="flashcard-grid">
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Brightest Star">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Brightest Star</span>
+              <p class="flip-question">By how much does Sirius outshine the next brightest star?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-name">Sirius</p>
+              <p class="flip-answer-detail">At magnitude -1.46, Sirius is nearly twice as bright as Canopus (the second brightest). It is a white star only 8.6 light-years away — one of the Sun's closest neighbors. It has a white dwarf companion, Sirius B.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Mythology">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Mythology</span>
+              <p class="flip-question">How did Sirius influence ancient Egyptian civilization?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">The ancient Egyptians called Sirius "Sopdet." Its heliacal rising — first appearance above the horizon just before sunrise — announced the annual flooding of the Nile, which fertilized crops. Sirius effectively started the Egyptian calendar year.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: How to Find">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">How to Find</span>
+              <p class="flip-question">How does Orion's belt act as a pointer to Sirius?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">Follow Orion's three belt stars downward and to the left (eastward and south). The first brilliant star you reach — far brighter than anything nearby — is Sirius. You truly cannot miss it; it often flickers with rainbow colors near the horizon.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Key Facts">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="flip-topic">Key Facts</span>
+              <p class="flip-question">What are the "Dog Days of Summer" and why is Canis Major responsible?</p>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+            <div class="flip-back">
+              <p class="flip-answer-detail">The Romans noticed that the hottest stretch of summer (July–August) coincided with Sirius rising alongside the Sun. They believed Sirius added its heat to the Sun's — creating the "dies caniculares," the dog days. Now we know it's a coincidence of Earth's orbit.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+</div><!-- /page -->
+
+<footer class="site-footer">
+  <p>Astronomy Outreach &mdash; Exploring the universe, one constellation at a time.</p>
+</footer>
+
+<script>
+  // ── Star field ──────────────────────────────────────────────
+  (function () {
+    const sf = document.getElementById('starfield');
+    for (let i = 0; i < 40; i++) {
+      const star = document.createElement('div');
+      star.className = 'star-dot';
+      const size = Math.random() * 2.5 + 0.5;
+      const minOp = (Math.random() * 0.2 + 0.1).toFixed(2);
+      const maxOp = (Math.random() * 0.5 + 0.5).toFixed(2);
+      const dur   = (Math.random() * 4 + 2).toFixed(1);
+      const delay = (Math.random() * 6).toFixed(1);
+      star.style.cssText = [
+        `left:${(Math.random() * 100).toFixed(2)}%`,
+        `top:${(Math.random() * 100).toFixed(2)}%`,
+        `width:${size.toFixed(1)}px`,
+        `height:${size.toFixed(1)}px`,
+        `--min-op:${minOp}`,
+        `--max-op:${maxOp}`,
+        `--dur:${dur}s`,
+        `--delay:${delay}s`
+      ].join(';');
+      sf.appendChild(star);
+    }
+  })();
+
+  // ── Season tab switching ────────────────────────────────────
+  (function () {
+    const tabs   = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.season-panel');
+
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        const target = tab.getAttribute('aria-controls');
+
+        tabs.forEach(function (t) { t.setAttribute('aria-selected', 'false'); });
+        panels.forEach(function (p) { p.classList.remove('active'); });
+
+        tab.setAttribute('aria-selected', 'true');
+        document.getElementById(target).classList.add('active');
+      });
+    });
+  })();
+
+  // ── Flashcard flip ──────────────────────────────────────────
+  (function () {
+    document.querySelectorAll('.flip-card').forEach(function (card) {
+      function toggle() {
+        card.classList.toggle('flipped');
+        var flipped = card.classList.contains('flipped');
+        card.setAttribute('aria-pressed', flipped ? 'true' : 'false');
+      }
+
+      card.addEventListener('click', toggle);
+
+      card.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggle();
+        }
+      });
+    });
+  })();
+</script>
+</body>
+</html>
