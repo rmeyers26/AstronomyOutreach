@@ -21,6 +21,7 @@
       --accent-summer: #f0a830;
       --accent-fall:   #d05828;
       --accent-winter: #48a8e0;
+      --accent-all:    #9878d8;
     }
 
     html { scroll-behavior: smooth; }
@@ -167,6 +168,43 @@
     .tab-btn[aria-selected="true"].summer { color: var(--accent-summer); border-bottom-color: var(--accent-summer); }
     .tab-btn[aria-selected="true"].fall   { color: var(--accent-fall);   border-bottom-color: var(--accent-fall);   }
     .tab-btn[aria-selected="true"].winter { color: var(--accent-winter); border-bottom-color: var(--accent-winter); }
+    .tab-btn[aria-selected="true"].all    { color: var(--accent-all);    border-bottom-color: var(--accent-all);    }
+
+    /* All-88 panel back tint */
+    .season-panel[data-season="all"] .flip-topic { color: var(--accent-all); }
+    .season-panel[data-season="all"] .flip-back {
+      background: color-mix(in srgb, var(--accent-all) 12%, var(--card-bg));
+      border: 1px solid color-mix(in srgb, var(--accent-all) 30%, transparent);
+    }
+    .season-panel[data-season="all"] .const-header h2 { color: var(--accent-all); }
+
+    /* All-88 grid: tighter cards */
+    .all88-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media (min-width: 560px) {
+      .all88-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (min-width: 800px) {
+      .all88-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    .all88-grid .flip-card,
+    .all88-grid .flip-inner {
+      min-height: 140px;
+    }
+    .all88-grid .flip-question {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .all88-intro {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 72ch;
+      margin-bottom: 2rem;
+      line-height: 1.65;
+    }
 
     /* ── Season panels ── */
     .season-panel { display: none; }
@@ -395,6 +433,7 @@
     <button class="tab-btn summer" role="tab" aria-selected="false" aria-controls="panel-summer" id="tab-summer">☀️ Summer</button>
     <button class="tab-btn fall"   role="tab" aria-selected="false" aria-controls="panel-fall"   id="tab-fall">🍂 Fall</button>
     <button class="tab-btn winter" role="tab" aria-selected="false" aria-controls="panel-winter" id="tab-winter">❄️ Winter</button>
+    <button class="tab-btn all"    role="tab" aria-selected="false" aria-controls="panel-all"    id="tab-all">✦ All 88</button>
   </div>
 
   <!-- ════════════════════════════════════════
@@ -1462,6 +1501,195 @@
 
       </div>
     </div>
+
+  </section>
+
+  <!-- ════════════════════════════════════════
+       ALL 88 CONSTELLATIONS
+  ════════════════════════════════════════ -->
+  <section class="season-panel" id="panel-all" data-season="all" role="tabpanel" aria-labelledby="tab-all">
+
+    <p class="all88-intro">All 88 official constellations as recognised by the International Astronomical Union. Most northern constellations originate from Greek and Roman mythology; southern constellations are largely 17th–18th century European inventions. Click any card to reveal the pronunciation.</p>
+
+    <div class="flashcard-grid all88-grid">
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Andromeda"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">And</span><p class="flip-question">Andromeda</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">an-DROM-eh-duh</p><p class="flip-answer-detail">The Chained Princess</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Antlia"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Ant</span><p class="flip-question">Antlia</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">ANT-lih-uh</p><p class="flip-answer-detail">The Air Pump</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Apus"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Aps</span><p class="flip-question">Apus</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">AY-pus</p><p class="flip-answer-detail">The Bird of Paradise</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Aquarius"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Aqr</span><p class="flip-question">Aquarius</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">ack-KWAIR-ee-us</p><p class="flip-answer-detail">The Water Bearer</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Aquila"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Aql</span><p class="flip-question">Aquila</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">ACK-will-ah</p><p class="flip-answer-detail">The Eagle</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Ara"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Ara</span><p class="flip-question">Ara</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">AY-ruh</p><p class="flip-answer-detail">The Altar</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Aries"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Ari</span><p class="flip-question">Aries</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">AIR-eez</p><p class="flip-answer-detail">The Ram</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Auriga"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Aur</span><p class="flip-question">Auriga</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">or-EYE-gah</p><p class="flip-answer-detail">The Charioteer</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Boötes"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Boo</span><p class="flip-question">Boötes</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">boe-Oh-teez</p><p class="flip-answer-detail">The Herdsman</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Caelum"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Cae</span><p class="flip-question">Caelum</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">SEE-lum</p><p class="flip-answer-detail">The Chisel</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Camelopardalis"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Cam</span><p class="flip-question">Camelopardalis</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">ka-MEL-oh-PAR-da-lis</p><p class="flip-answer-detail">The Giraffe</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Cancer"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Can</span><p class="flip-question">Cancer</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">KAN-surr</p><p class="flip-answer-detail">The Crab</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Canes Venatici"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">CVn</span><p class="flip-question">Canes Venatici</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">Kay-neez ven-AT-iss-see</p><p class="flip-answer-detail">The Hunting Dogs</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Canis Major"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">CMa</span><p class="flip-question">Canis Major</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">Kay-nis MAY-jer</p><p class="flip-answer-detail">The Greater Dog</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Canis Minor"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">CMi</span><p class="flip-question">Canis Minor</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">Kay-nis MY-ner</p><p class="flip-answer-detail">The Lesser Dog</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Capricornus"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Cap</span><p class="flip-question">Capricornus</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">kap-rih-KORN-nus</p><p class="flip-answer-detail">The Sea Goat</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Carina"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Car</span><p class="flip-question">Carina</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">ka-REEN-uh</p><p class="flip-answer-detail">The Keel</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Cassiopeia"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Cas</span><p class="flip-question">Cassiopeia</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">kass-ee-oh-PEE-yah</p><p class="flip-answer-detail">The Queen</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Centaurus"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Cen</span><p class="flip-question">Centaurus</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">sen-TAW-rus</p><p class="flip-answer-detail">The Centaur</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Cepheus"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Cep</span><p class="flip-question">Cepheus</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">SEE-fee-us</p><p class="flip-answer-detail">The King</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Cetus"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Cet</span><p class="flip-question">Cetus</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">SEE-tuss</p><p class="flip-answer-detail">The Sea Monster</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Chamaeleon"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Cha</span><p class="flip-question">Chamaeleon</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">ka-MEEL-eon</p><p class="flip-answer-detail">The Chameleon</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Circinus"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Cir</span><p class="flip-question">Circinus</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">SUR-sin-us</p><p class="flip-answer-detail">The Drawing Compass</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Columba"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Col</span><p class="flip-question">Columba</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">ko-LUM-bah</p><p class="flip-answer-detail">The Dove</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Coma Berenices"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Com</span><p class="flip-question">Coma Berenices</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">KO-mah bear-en-EYE-sees</p><p class="flip-answer-detail">Berenice's Hair</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Corona Australis"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">CrA</span><p class="flip-question">Corona Australis</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">kor-OH-nah oss-TRAY-liss</p><p class="flip-answer-detail">The Southern Crown</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Corona Borealis"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">CrB</span><p class="flip-question">Corona Borealis</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">kor-OH-nah bo-ree-ALICE</p><p class="flip-answer-detail">The Northern Crown</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Corvus"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Crv</span><p class="flip-question">Corvus</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">CORE-vuss</p><p class="flip-answer-detail">The Crow</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Crater"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Crt</span><p class="flip-question">Crater</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">KRAY-turr</p><p class="flip-answer-detail">The Cup</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Crux"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Cru</span><p class="flip-question">Crux</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">KRUX</p><p class="flip-answer-detail">The Southern Cross</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Cygnus"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Cyg</span><p class="flip-question">Cygnus</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">SIG-nuss</p><p class="flip-answer-detail">The Swan</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Delphinus"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Del</span><p class="flip-question">Delphinus</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">del-FINE-uss</p><p class="flip-answer-detail">The Dolphin</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Dorado"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Dor</span><p class="flip-question">Dorado</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">dough-RAH-dough</p><p class="flip-answer-detail">The Swordfish</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Draco"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Dra</span><p class="flip-question">Draco</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">DRAY-ko</p><p class="flip-answer-detail">The Dragon</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Equuleus"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Equ</span><p class="flip-question">Equuleus</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">ek-KWOO-lee-us</p><p class="flip-answer-detail">The Little Horse</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Eridanus"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Eri</span><p class="flip-question">Eridanus</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">eh-RID-ah-nuss</p><p class="flip-answer-detail">The River</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Fornax"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">For</span><p class="flip-question">Fornax</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">for-NAX</p><p class="flip-answer-detail">The Furnace</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Gemini"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Gem</span><p class="flip-question">Gemini</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">JEM-in-eye</p><p class="flip-answer-detail">The Twins</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Grus"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Gru</span><p class="flip-question">Grus</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">GRUSS</p><p class="flip-answer-detail">The Crane</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Hercules"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Her</span><p class="flip-question">Hercules</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">HER-kyou-leez</p><p class="flip-answer-detail">The Hero</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Horologium"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Hor</span><p class="flip-question">Horologium</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">hor-o-LO-jee-um</p><p class="flip-answer-detail">The Clock</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Hydra"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Hya</span><p class="flip-question">Hydra</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">HIGH-druh</p><p class="flip-answer-detail">The Water Snake</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Hydrus"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Hyi</span><p class="flip-question">Hydrus</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">HIGH-drus</p><p class="flip-answer-detail">The Small Water Snake</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Indus"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Ind</span><p class="flip-question">Indus</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">IN-duss</p><p class="flip-answer-detail">The Indian</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Lacerta"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Lac</span><p class="flip-question">Lacerta</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">la-SIR-tah</p><p class="flip-answer-detail">The Lizard</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Leo"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Leo</span><p class="flip-question">Leo</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">LEE-oh</p><p class="flip-answer-detail">The Lion</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Leo Minor"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">LMi</span><p class="flip-question">Leo Minor</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">LEE-oh MY-ner</p><p class="flip-answer-detail">The Lesser Lion</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Lepus"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Lep</span><p class="flip-question">Lepus</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">LEE-puss</p><p class="flip-answer-detail">The Hare</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Libra"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Lib</span><p class="flip-question">Libra</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">LEE-brah</p><p class="flip-answer-detail">The Scales</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Lupus"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Lup</span><p class="flip-question">Lupus</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">LEW-puss</p><p class="flip-answer-detail">The Wolf</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Lynx"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Lyn</span><p class="flip-question">Lynx</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">LINKS</p><p class="flip-answer-detail">The Lynx</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Lyra"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Lyr</span><p class="flip-question">Lyra</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">LYE-ruh</p><p class="flip-answer-detail">The Lyre</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Mensa"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Men</span><p class="flip-question">Mensa</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">MEN-sah</p><p class="flip-answer-detail">Table Mountain</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Microscopium"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Mic</span><p class="flip-question">Microscopium</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">my-kro-SKO-pee-um</p><p class="flip-answer-detail">The Microscope</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Monoceros"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Mon</span><p class="flip-question">Monoceros</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">mon-OSS-er-us</p><p class="flip-answer-detail">The Unicorn</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Musca"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Mus</span><p class="flip-question">Musca</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">MUS-kah</p><p class="flip-answer-detail">The Fly</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Norma"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Nor</span><p class="flip-question">Norma</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">NOR-mah</p><p class="flip-answer-detail">The Carpenter's Square</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Octans"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Oct</span><p class="flip-question">Octans</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">AHK-tahnz</p><p class="flip-answer-detail">The Octant</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Ophiuchus"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Oph</span><p class="flip-question">Ophiuchus</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">off-ih-YOU-kuss</p><p class="flip-answer-detail">The Serpent Bearer</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Orion"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Ori</span><p class="flip-question">Orion</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">oh-RYE-un</p><p class="flip-answer-detail">The Hunter</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Pavo"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Pav</span><p class="flip-question">Pavo</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">PAH-vo</p><p class="flip-answer-detail">The Peacock</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Pegasus"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Peg</span><p class="flip-question">Pegasus</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">PEG-uh-suss</p><p class="flip-answer-detail">The Winged Horse</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Perseus"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Per</span><p class="flip-question">Perseus</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">PURR-see-us</p><p class="flip-answer-detail">The Hero</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Phoenix"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Phe</span><p class="flip-question">Phoenix</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">FEE-nix</p><p class="flip-answer-detail">The Phoenix</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Pictor"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Pic</span><p class="flip-question">Pictor</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">PICK-torr</p><p class="flip-answer-detail">The Painter's Easel</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Pisces"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Psc</span><p class="flip-question">Pisces</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">PIE-sees</p><p class="flip-answer-detail">The Fish</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Piscis Austrinus"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">PsA</span><p class="flip-question">Piscis Austrinus</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">PIE-siss oss-TRY-nus</p><p class="flip-answer-detail">The Southern Fish</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Puppis"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Pup</span><p class="flip-question">Puppis</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">PUPP-iss</p><p class="flip-answer-detail">The Stern</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Pyxis"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Pyx</span><p class="flip-question">Pyxis</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">PICK-siss</p><p class="flip-answer-detail">The Compass Box</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Reticulum"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Ret</span><p class="flip-question">Reticulum</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">ray-TIC-you-lum</p><p class="flip-answer-detail">The Net</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Sagitta"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Sge</span><p class="flip-question">Sagitta</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">sah-JIT-tah</p><p class="flip-answer-detail">The Arrow</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Sagittarius"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Sgr</span><p class="flip-question">Sagittarius</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">saj-ih-TAY-rih-us</p><p class="flip-answer-detail">The Archer</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Scorpius"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Sco</span><p class="flip-question">Scorpius</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">SKOR-pih-uss</p><p class="flip-answer-detail">The Scorpion</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Sculptor"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Scl</span><p class="flip-question">Sculptor</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">SKULPT-tor</p><p class="flip-answer-detail">The Sculptor</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Scutum"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Sct</span><p class="flip-question">Scutum</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">SKYOU-tum</p><p class="flip-answer-detail">The Shield</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Serpens"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Ser</span><p class="flip-question">Serpens</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">SIR-pens</p><p class="flip-answer-detail">The Serpent</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Sextans"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Sex</span><p class="flip-question">Sextans</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">SEX-tans</p><p class="flip-answer-detail">The Sextant</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Taurus"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Tau</span><p class="flip-question">Taurus</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">TAW-russ</p><p class="flip-answer-detail">The Bull</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Telescopium"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Tel</span><p class="flip-question">Telescopium</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">tell-ih-SKO-pee-um</p><p class="flip-answer-detail">The Telescope</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Triangulum"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Tri</span><p class="flip-question">Triangulum</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">try-ANGH-gu-lum</p><p class="flip-answer-detail">The Triangle</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Triangulum Australe"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">TrA</span><p class="flip-question">Triangulum Australe</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">try-ANGH-gu-lum oss-TRAY-lee</p><p class="flip-answer-detail">The Southern Triangle</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Tucana"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Tuc</span><p class="flip-question">Tucana</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">too-KAH-nah</p><p class="flip-answer-detail">The Toucan</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Ursa Major"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">UMa</span><p class="flip-question">Ursa Major</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">URR-sah MAY-jer</p><p class="flip-answer-detail">The Great Bear</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Ursa Minor"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">UMi</span><p class="flip-question">Ursa Minor</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">URR-sah MY-ner</p><p class="flip-answer-detail">The Little Bear</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Vela"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Vel</span><p class="flip-question">Vela</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">VEE-lah</p><p class="flip-answer-detail">The Sails</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Virgo"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Vir</span><p class="flip-question">Virgo</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">VER-go</p><p class="flip-answer-detail">The Virgin</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Volans"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Vol</span><p class="flip-question">Volans</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">VO-lanz</p><p class="flip-answer-detail">The Flying Fish</p></div></div></div>
+
+      <div class="flip-card" tabindex="0" role="button" aria-label="Vulpecula"><div class="flip-inner"><div class="flip-front"><span class="flip-topic">Vul</span><p class="flip-question">Vulpecula</p><span class="flip-hint">tap to flip</span></div><div class="flip-back"><p class="flip-answer-name">vul-PECK-you-lah</p><p class="flip-answer-detail">The Little Fox</p></div></div></div>
+
+    </div><!-- /all88-grid -->
 
   </section>
 
