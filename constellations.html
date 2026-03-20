@@ -190,7 +190,7 @@
     }
     .all88-grid .flip-card,
     .all88-grid .flip-inner {
-      min-height: 140px;
+      min-height: 210px;
     }
     .all88-grid .flip-question {
       font-family: 'Playfair Display', serif;
@@ -205,6 +205,58 @@
       margin-bottom: 2rem;
       line-height: 1.65;
     }
+
+    /* ── Constellation annotated photo (seasonal tabs) ── */
+    .const-photo {
+      margin-bottom: 1.5rem;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .const-photo img {
+      width: 100%;
+      max-height: 320px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .const-photo figcaption {
+      padding: 0.35rem 0.75rem;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-align: right;
+      font-style: italic;
+      background: rgba(0,0,0,0.25);
+    }
+
+    .const-photo figcaption a {
+      color: var(--text-muted);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    /* ── All-88 card image ── */
+    .card-constellation-img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+
+    /* NOIRLab link on All-88 card back */
+    .noirlab-link {
+      display: inline-block;
+      margin-top: 0.6rem;
+      font-size: 0.72rem;
+      color: var(--accent-all);
+      text-decoration: none;
+      opacity: 0.85;
+    }
+
+    .noirlab-link:hover { opacity: 1; text-decoration: underline; }
 
     /* ── Season panels ── */
     .season-panel { display: none; }
@@ -447,6 +499,10 @@
         <h2>Leo</h2>
         <span class="latin">The Lion</span>
       </div>
+      <figure class="const-photo">
+        <img src="https://storage.noirlab.edu/media/archives/images/screen/leo-ann.jpg" alt="Leo constellation annotated" loading="lazy" />
+        <figcaption>Image: <a href="https://noirlab.edu/public/education/constellations/leo/" target="_blank" rel="noopener noreferrer">NOIRLab</a> / Eckhard Slawik</figcaption>
+      </figure>
       <p class="const-desc">One of the few constellations that genuinely resembles its namesake. The backwards question-mark "Sickle" traces the lion's mane while the triangle of stars below forms his haunches.</p>
       <div class="flashcard-grid">
 
@@ -512,6 +568,10 @@
         <h2>Virgo</h2>
         <span class="latin">The Maiden</span>
       </div>
+      <figure class="const-photo">
+        <img src="https://storage.noirlab.edu/media/archives/images/screen/virgo-ann.jpg" alt="Virgo constellation annotated" loading="lazy" />
+        <figcaption>Image: <a href="https://noirlab.edu/public/education/constellations/virgo/" target="_blank" rel="noopener noreferrer">NOIRLab</a> / Eckhard Slawik</figcaption>
+      </figure>
       <p class="const-desc">The second-largest constellation in the sky, Virgo holds the spike of wheat (Spica) in her left hand. She is linked to harvest and the changing of seasons.</p>
       <div class="flashcard-grid">
 
@@ -577,6 +637,10 @@
         <h2>Boötes</h2>
         <span class="latin">The Herdsman</span>
       </div>
+      <figure class="const-photo">
+        <img src="https://storage.noirlab.edu/media/archives/images/screen/bootes-ann.jpg" alt="Boötes constellation annotated" loading="lazy" />
+        <figcaption>Image: <a href="https://noirlab.edu/public/education/constellations/bootes/" target="_blank" rel="noopener noreferrer">NOIRLab</a> / Eckhard Slawik</figcaption>
+      </figure>
       <p class="const-desc">A kite-shaped constellation anchored by Arcturus, one of the brightest stars in the entire sky. Boötes herds the bears Ursa Major and Ursa Minor around the celestial pole.</p>
       <div class="flashcard-grid">
 
@@ -642,6 +706,10 @@
         <h2>Corvus</h2>
         <span class="latin">The Crow</span>
       </div>
+      <figure class="const-photo">
+        <img src="https://storage.noirlab.edu/media/archives/images/screen/corvus-ann.jpg" alt="Corvus constellation annotated" loading="lazy" />
+        <figcaption>Image: <a href="https://noirlab.edu/public/education/constellations/corvus/" target="_blank" rel="noopener noreferrer">NOIRLab</a> / Eckhard Slawik</figcaption>
+      </figure>
       <p class="const-desc">A small but distinctive quadrilateral of four stars low in the spring sky. Despite its modest size, Corvus's compact trapezoid shape makes it surprisingly easy to identify.</p>
       <div class="flashcard-grid">
 
@@ -714,6 +782,10 @@
         <h2>Scorpius</h2>
         <span class="latin">The Scorpion</span>
       </div>
+      <figure class="const-photo">
+        <img src="https://storage.noirlab.edu/media/archives/images/screen/scorpius-ann.jpg" alt="Scorpius constellation annotated" loading="lazy" />
+        <figcaption>Image: <a href="https://noirlab.edu/public/education/constellations/scorpius/" target="_blank" rel="noopener noreferrer">NOIRLab</a> / Eckhard Slawik</figcaption>
+      </figure>
       <p class="const-desc">One of the few constellations that truly looks like its namesake — a sweeping curve of bright stars ending in a curved stinger tail. Best seen hugging the southern horizon on summer nights.</p>
       <div class="flashcard-grid">
 
@@ -779,6 +851,10 @@
         <h2>Cygnus</h2>
         <span class="latin">The Swan</span>
       </div>
+      <figure class="const-photo">
+        <img src="https://storage.noirlab.edu/media/archives/images/screen/cygnus-ann.jpg" alt="Cygnus constellation annotated" loading="lazy" />
+        <figcaption>Image: <a href="https://noirlab.edu/public/education/constellations/cygnus/" target="_blank" rel="noopener noreferrer">NOIRLab</a> / Eckhard Slawik</figcaption>
+      </figure>
       <p class="const-desc">A large, cross-shaped constellation known as the Northern Cross. Cygnus flies south along the bright Milky Way, with the brilliant star Deneb marking the tail.</p>
       <div class="flashcard-grid">
 
@@ -844,6 +920,10 @@
         <h2>Lyra</h2>
         <span class="latin">The Lyre</span>
       </div>
+      <figure class="const-photo">
+        <img src="https://storage.noirlab.edu/media/archives/images/screen/lyra-ann.jpg" alt="Lyra constellation annotated" loading="lazy" />
+        <figcaption>Image: <a href="https://noirlab.edu/public/education/constellations/lyra/" target="_blank" rel="noopener noreferrer">NOIRLab</a> / Eckhard Slawik</figcaption>
+      </figure>
       <p class="const-desc">A small but unmistakable constellation anchored by dazzling Vega. The tiny parallelogram of stars below Vega represents the frame of the ancient instrument of Orpheus.</p>
       <div class="flashcard-grid">
 
@@ -909,6 +989,10 @@
         <h2>Aquila</h2>
         <span class="latin">The Eagle</span>
       </div>
+      <figure class="const-photo">
+        <img src="https://storage.noirlab.edu/media/archives/images/screen/aquila-ann.jpg" alt="Aquila constellation annotated" loading="lazy" />
+        <figcaption>Image: <a href="https://noirlab.edu/public/education/constellations/aquila/" target="_blank" rel="noopener noreferrer">NOIRLab</a> / Eckhard Slawik</figcaption>
+      </figure>
       <p class="const-desc">The eagle of Zeus, flying along the Milky Way. Altair, its blazing eye, is the nearest of the Summer Triangle stars and one of the fastest-rotating bright stars known.</p>
       <div class="flashcard-grid">
 
@@ -981,6 +1065,10 @@
         <h2>Pegasus</h2>
         <span class="latin">The Winged Horse</span>
       </div>
+      <figure class="const-photo">
+        <img src="https://storage.noirlab.edu/media/archives/images/screen/pegasus-ann.jpg" alt="Pegasus constellation annotated" loading="lazy" />
+        <figcaption>Image: <a href="https://noirlab.edu/public/education/constellations/pegasus/" target="_blank" rel="noopener noreferrer">NOIRLab</a> / Eckhard Slawik</figcaption>
+      </figure>
       <p class="const-desc">The Great Square of Pegasus dominates the fall sky — four stars forming a nearly perfect square visible even in light-polluted skies. Only the front half of the horse is depicted in the stars.</p>
       <div class="flashcard-grid">
 
@@ -1046,6 +1134,10 @@
         <h2>Andromeda</h2>
         <span class="latin">The Chained Princess</span>
       </div>
+      <figure class="const-photo">
+        <img src="https://storage.noirlab.edu/media/archives/images/screen/andromeda-ann.jpg" alt="Andromeda constellation annotated" loading="lazy" />
+        <figcaption>Image: <a href="https://noirlab.edu/public/education/constellations/andromeda/" target="_blank" rel="noopener noreferrer">NOIRLab</a> / Eckhard Slawik</figcaption>
+      </figure>
       <p class="const-desc">A constellation of two arcing chains of stars stretching from the Great Square of Pegasus. It contains the most distant object visible to the naked eye — the Andromeda Galaxy.</p>
       <div class="flashcard-grid">
 
@@ -1111,6 +1203,10 @@
         <h2>Perseus</h2>
         <span class="latin">The Hero</span>
       </div>
+      <figure class="const-photo">
+        <img src="https://storage.noirlab.edu/media/archives/images/screen/perseus-ann.jpg" alt="Perseus constellation annotated" loading="lazy" />
+        <figcaption>Image: <a href="https://noirlab.edu/public/education/constellations/perseus/" target="_blank" rel="noopener noreferrer">NOIRLab</a> / Eckhard Slawik</figcaption>
+      </figure>
       <p class="const-desc">The legendary hero flies between Cassiopeia and Auriga, holding aloft the severed head of Medusa (marked by the "Demon Star" Algol). Perseus is rich with star clusters and mythology.</p>
       <div class="flashcard-grid">
 
@@ -1176,6 +1272,10 @@
         <h2>Cassiopeia</h2>
         <span class="latin">The Queen</span>
       </div>
+      <figure class="const-photo">
+        <img src="https://storage.noirlab.edu/media/archives/images/screen/cassiopeia-ann.jpg" alt="Cassiopeia constellation annotated" loading="lazy" />
+        <figcaption>Image: <a href="https://noirlab.edu/public/education/constellations/cassiopeia/" target="_blank" rel="noopener noreferrer">NOIRLab</a> / Eckhard Slawik</figcaption>
+      </figure>
       <p class="const-desc">The unmistakable W or M shape near the north pole makes Cassiopeia one of the easiest constellations to find. It is circumpolar — never setting from most of the Northern Hemisphere.</p>
       <div class="flashcard-grid">
 
@@ -1248,6 +1348,10 @@
         <h2>Orion</h2>
         <span class="latin">The Hunter</span>
       </div>
+      <figure class="const-photo">
+        <img src="https://storage.noirlab.edu/media/archives/images/screen/orion-ann.jpg" alt="Orion constellation annotated" loading="lazy" />
+        <figcaption>Image: <a href="https://noirlab.edu/public/education/constellations/orion/" target="_blank" rel="noopener noreferrer">NOIRLab</a> / Eckhard Slawik</figcaption>
+      </figure>
       <p class="const-desc">The king of the winter sky and perhaps the most recognized constellation on Earth. Three equally-spaced belt stars flanked by red Betelgeuse and blue Rigel create an unmistakable hourglass pattern.</p>
       <div class="flashcard-grid">
 
@@ -1313,6 +1417,10 @@
         <h2>Taurus</h2>
         <span class="latin">The Bull</span>
       </div>
+      <figure class="const-photo">
+        <img src="https://storage.noirlab.edu/media/archives/images/screen/taurus-ann.jpg" alt="Taurus constellation annotated" loading="lazy" />
+        <figcaption>Image: <a href="https://noirlab.edu/public/education/constellations/taurus/" target="_blank" rel="noopener noreferrer">NOIRLab</a> / Eckhard Slawik</figcaption>
+      </figure>
       <p class="const-desc">A V-shaped cluster of stars forms the bull's face, with fiery Aldebaran glaring from its eye. Two iconic star clusters — the Hyades and Pleiades — make Taurus one of the richest constellations to explore.</p>
       <div class="flashcard-grid">
 
@@ -1378,6 +1486,10 @@
         <h2>Gemini</h2>
         <span class="latin">The Twins</span>
       </div>
+      <figure class="const-photo">
+        <img src="https://storage.noirlab.edu/media/archives/images/screen/gemini-ann.jpg" alt="Gemini constellation annotated" loading="lazy" />
+        <figcaption>Image: <a href="https://noirlab.edu/public/education/constellations/gemini/" target="_blank" rel="noopener noreferrer">NOIRLab</a> / Eckhard Slawik</figcaption>
+      </figure>
       <p class="const-desc">Two parallel rows of stars stretch from a shared foot near Orion up to the brilliant twin heads of Castor and Pollux. Gemini sits in a rich stretch of the Milky Way.</p>
       <div class="flashcard-grid">
 
@@ -1443,6 +1555,10 @@
         <h2>Canis Major</h2>
         <span class="latin">The Greater Dog</span>
       </div>
+      <figure class="const-photo">
+        <img src="https://storage.noirlab.edu/media/archives/images/screen/canis-major-ann.jpg" alt="Canis Major constellation annotated" loading="lazy" />
+        <figcaption>Image: <a href="https://noirlab.edu/public/education/constellations/canismajor/" target="_blank" rel="noopener noreferrer">NOIRLab</a> / Eckhard Slawik</figcaption>
+      </figure>
       <p class="const-desc">Orion's faithful hunting dog leaps along the southern winter sky, with Sirius — the single brightest star in the entire night sky — blazing at its collar like a jewel.</p>
       <div class="flashcard-grid">
 
@@ -1740,6 +1856,129 @@
         tab.setAttribute('aria-selected', 'true');
         document.getElementById(target).classList.add('active');
       });
+    });
+  })();
+
+  // ── All-88 constellation images + NOIRLab links ─────────────
+  (function () {
+    var BASE_IMG = 'https://storage.noirlab.edu/media/archives/images/screen/';
+    var BASE_URL = 'https://noirlab.edu/public/education/constellations/';
+
+    // [imageFilename, noirlab-slug]
+    var constData = {
+      'Andromeda':           ['andromeda-ann.jpg',            'andromeda'],
+      'Antlia':              ['antlia-ann.jpg',               'antlia'],
+      'Apus':                ['apus-ann.jpg',                 'apus'],
+      'Aquarius':            ['aquarius-ann.jpg',             'aquarius'],
+      'Aquila':              ['aquila-ann.jpg',               'aquila'],
+      'Ara':                 ['ara-ann.jpg',                  'ara'],
+      'Aries':               ['aries-ann.jpg',                'aries'],
+      'Auriga':              ['auriga-ann.jpg',               'auriga'],
+      'Boötes':              ['bootes-ann.jpg',               'bootes'],
+      'Caelum':              ['caelum-ann.jpg',               'caelum'],
+      'Camelopardalis':      ['camelopardalis-ann.jpg',       'camelopardalis'],
+      'Cancer':              ['cancer-ann.jpg',               'cancer'],
+      'Canes Venatici':      ['canesVenatici-ann.jpg',        'canesvenatici'],
+      'Canis Major':         ['canis-major-ann.jpg',          'canismajor'],
+      'Canis Minor':         ['canis-minor-ann.jpg',          'canisminor'],
+      'Capricornus':         ['capricornus-ann.jpg',          'capricornus'],
+      'Carina':              ['carina-ann.jpg',               'carina'],
+      'Cassiopeia':          ['cassiopeia-ann.jpg',           'cassiopeia'],
+      'Centaurus':           ['centaurus-ann.jpg',            'centaurus'],
+      'Cepheus':             ['cepheus-ann.jpg',              'cepheus'],
+      'Cetus':               ['cetus-ann.jpg',                'cetus'],
+      'Chamaeleon':          ['chamaeleon-ann.jpg',           'chamaeleon'],
+      'Circinus':            ['circinus-ann.jpg',             'circinus'],
+      'Columba':             ['columba-ann.jpg',              'columba'],
+      'Coma Berenices':      ['coma-berenices-ann.jpg',       'comaberenices'],
+      'Corona Australis':    ['corona-australis-ann.jpg',     'coronaaustralis'],
+      'Corona Borealis':     ['coronaBorealis-ann.jpg',       'coronaborealis'],
+      'Corvus':              ['corvus-ann.jpg',               'corvus'],
+      'Crater':              ['crater-ann.jpg',               'crater'],
+      'Crux':                ['crux-ann.jpg',                 'crux'],
+      'Cygnus':              ['cygnus-ann.jpg',               'cygnus'],
+      'Delphinus':           ['delphinus-ann.jpg',            'delphinus'],
+      'Dorado':              ['dorado-ann.jpg',               'dorado'],
+      'Draco':               ['draco-ann.jpg',                'draco'],
+      'Equuleus':            ['equuleus-ann.jpg',             'equuleus'],
+      'Eridanus':            ['eridanus-ann.jpg',             'eridanus'],
+      'Fornax':              ['fornax-ann.jpg',               'fornax'],
+      'Gemini':              ['gemini-ann.jpg',               'gemini'],
+      'Grus':                ['grus-ann.jpg',                 'grus'],
+      'Hercules':            ['hercules-ann.jpg',             'hercules'],
+      'Horologium':          ['horologium-ann.jpg',           'horologium'],
+      'Hydra':               ['hydra-ann.jpg',                'hydra'],
+      'Hydrus':              ['hydrus-ann.jpg',               'hydrus'],
+      'Indus':               ['indus-ann.jpg',                'indus'],
+      'Lacerta':             ['lacerta-ann.jpg',              'lacerta'],
+      'Leo':                 ['leo-ann.jpg',                  'leo'],
+      'Leo Minor':           ['leo-minor-ann.jpg',            'leominor'],
+      'Lepus':               ['lepus-ann.jpg',                'lepus'],
+      'Libra':               ['libra-ann.jpg',                'libra'],
+      'Lupus':               ['lupus-ann.jpg',                'lupus'],
+      'Lynx':                ['lynx-ann.jpg',                 'lynx'],
+      'Lyra':                ['lyra-ann.jpg',                 'lyra'],
+      'Mensa':               ['mensa-ann.jpg',                'mensa'],
+      'Microscopium':        ['microscopium-ann.jpg',         'microscopium'],
+      'Monoceros':           ['monoceros-ann.jpg',            'monoceros'],
+      'Musca':               ['musca-ann.jpg',                'musca'],
+      'Norma':               ['norma-ann.jpg',                'norma'],
+      'Octans':              ['octans-ann.jpg',               'octans'],
+      'Ophiuchus':           ['ophiuchus-ann.jpg',            'ophiuchus'],
+      'Orion':               ['orion-ann.jpg',                'orion'],
+      'Pavo':                ['pavo-ann.jpg',                 'pavo'],
+      'Pegasus':             ['pegasus-ann.jpg',              'pegasus'],
+      'Perseus':             ['perseus-ann.jpg',              'perseus'],
+      'Phoenix':             ['phoenix-ann.jpg',              'phoenix'],
+      'Pictor':              ['pictor-ann.jpg',               'pictor'],
+      'Pisces':              ['pisces-ann.jpg',               'pisces'],
+      'Piscis Austrinus':    ['piscis-austrinus-ann.jpg',     'piscis-austrinus'],
+      'Puppis':              ['puppis-ann.jpg',               'puppis'],
+      'Pyxis':               ['pyxis-ann.jpg',               'pyxis'],
+      'Reticulum':           ['reticulum-ann.jpg',            'reticulum'],
+      'Sagitta':             ['sagitta-ann.jpg',              'sagitta'],
+      'Sagittarius':         ['sagittarius-ann.jpg',          'sagittarius'],
+      'Scorpius':            ['scorpius-ann.jpg',             'scorpius'],
+      'Sculptor':            ['sculptor-ann.jpg',             'sculptor'],
+      'Scutum':              ['scutum-ann.jpg',               'scutum'],
+      'Serpens':             ['serpens-ann.jpg',              'serpens'],
+      'Sextans':             ['sextans-ann.jpg',              'sextans'],
+      'Taurus':              ['taurus-ann.jpg',               'taurus'],
+      'Telescopium':         ['telescopium-ann.jpg',          'telescopium'],
+      'Triangulum':          ['triangulum-ann.jpg',           'triangulum'],
+      'Triangulum Australe': ['triangulum-australe-ann.jpg',  'triangulum-australe'],
+      'Tucana':              ['tucana-ann.jpg',               'tucana'],
+      'Ursa Major':          ['ursa-major-ann.jpg',           'ursa-major'],
+      'Ursa Minor':          ['ursa-minor-ann.jpg',           'ursa-minor'],
+      'Vela':                ['vela-ann.jpg',                 'vela'],
+      'Virgo':               ['virgo-ann.jpg',                'virgo'],
+      'Volans':              ['volans-ann.jpg',               'volans'],
+      'Vulpecula':           ['vulpecula-ann.jpg',            'vulpecula']
+    };
+
+    document.querySelectorAll('#panel-all .flip-card').forEach(function (card) {
+      var name = card.getAttribute('aria-label');
+      var data = constData[name];
+      if (!data) return;
+
+      // Inject annotated image at top of front face
+      var img = document.createElement('img');
+      img.src = BASE_IMG + data[0];
+      img.alt = name + ' constellation';
+      img.className = 'card-constellation-img';
+      img.loading = 'lazy';
+      var front = card.querySelector('.flip-front');
+      front.insertBefore(img, front.firstChild);
+
+      // Inject NOIRLab link into back face (click does not flip)
+      var link = document.createElement('a');
+      link.href = BASE_URL + data[1] + '/';
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.className = 'noirlab-link';
+      link.textContent = 'More on NOIRLab \u2197';
+      link.addEventListener('click', function (e) { e.stopPropagation(); });
+      card.querySelector('.flip-back').appendChild(link);
     });
   })();
 
