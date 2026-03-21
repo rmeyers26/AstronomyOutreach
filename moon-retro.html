@@ -662,6 +662,72 @@
     .cb-analogies li span:first-child { flex-shrink: 0; }
     .cb-analogies li strong { color: var(--cream); }
 
+    /* Tidal locking — two motions grid */
+    .tl-motions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 4px 0;
+    }
+    .tl-motion {
+      background: rgba(200,40,30,0.12);
+      border: 1px solid rgba(200,40,30,0.3);
+      border-radius: 4px;
+      padding: 14px;
+      text-align: center;
+    }
+    .tl-motion-icon { font-size: 1.5rem; display: block; margin-bottom: 4px; }
+    .tl-motion-label {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 0 0 2px;
+    }
+    .tl-motion-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      color: var(--gold2);
+      margin: 0;
+    }
+    .tl-motion-desc {
+      font-size: 0.78rem;
+      color: var(--tan);
+      margin: 4px 0 0;
+    }
+
+    /* Tidal locking — two months grid */
+    .tl-months {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 4px 0;
+    }
+    .tl-month {
+      background: var(--navy2);
+      border-left: 3px solid var(--gold);
+      padding: 12px 14px;
+      border-radius: 0 4px 4px 0;
+    }
+    .tl-month-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      color: var(--gold2);
+      margin: 0 0 6px;
+    }
+    .tl-month-desc {
+      font-size: 0.82rem;
+      color: var(--silver);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 520px) {
+      .tl-motions, .tl-months { grid-template-columns: 1fr; }
+    }
+
     /* ═══════════════════════════════════════════════
        ORIGIN — FULL-WIDTH DRAMATIC SECTION
     ═══════════════════════════════════════════════ */
@@ -1314,12 +1380,53 @@
       <div class="concept-block">
         <span class="cb-icon">🔒</span>
         <p class="cb-title">Tidal Locking</p>
-        <p class="cb-def">The Moon takes exactly 27.3 days to rotate AND 27.3 days to orbit Earth. This is called tidal locking — Earth's gravity gradually slowed the Moon's spin over billions of years until it was perfectly synchronised with its orbit. We always see the same face.</p>
-        <p class="cb-analogy-head">Analogies</p>
+
+        <p class="cb-def">The Moon actually does <strong>two things at the same time</strong>: it <strong>orbits Earth</strong> (travels around it) and <strong>rotates on its own axis</strong> (spins, just like Earth does). What makes the Moon special is that both motions take exactly the same amount of time — so the same face always points towards us.</p>
+
+        <div class="tl-motions">
+          <div class="tl-motion">
+            <span class="tl-motion-icon">🔄</span>
+            <p class="tl-motion-label">Rotation</p>
+            <p class="tl-motion-val">27.3 days</p>
+            <p class="tl-motion-desc">One full spin on its own axis</p>
+          </div>
+          <div class="tl-motion">
+            <span class="tl-motion-icon">🌍</span>
+            <p class="tl-motion-label">Orbit</p>
+            <p class="tl-motion-val">27.3 days</p>
+            <p class="tl-motion-desc">One full trip around Earth</p>
+          </div>
+        </div>
+
+        <p class="cb-def">Because these are equal, the same hemisphere always faces Earth. If the Moon did <em>not</em> rotate at all, we would gradually see all sides as it went around us — but it does rotate, just in perfect step with its orbit.</p>
+
+        <p class="cb-analogy-head">Two Different "Months"</p>
+        <div class="tl-months">
+          <div class="tl-month">
+            <p class="tl-month-name">Sidereal Month · 27.3 days</p>
+            <p class="tl-month-desc">How long the Moon takes to orbit Earth relative to the stars — its true orbital period.</p>
+          </div>
+          <div class="tl-month">
+            <p class="tl-month-name">Synodic Month · 29.5 days</p>
+            <p class="tl-month-desc">Full moon to full moon. Slightly longer because Earth is also moving around the Sun — the Moon must travel a little extra to line up again.</p>
+          </div>
+        </div>
+
+        <p class="cb-analogy-head">Near Side vs Far Side</p>
         <ul class="cb-analogies">
-          <li><span>🚶</span><span><strong>Walking in a circle:</strong> Walk in a circle around a friend while always facing them — you are rotating, but they only ever see your face. That's the Moon's relationship with Earth.</span></li>
+          <li><span>🌕</span><span><strong>Near side</strong> — the hemisphere we always see. All six Apollo landings took place here.</span></li>
+          <li><span>🌑</span><span><strong>Far side</strong> — permanently faces away from Earth, but it is <em>not</em> permanently dark. It receives just as much sunlight as the near side — it simply never faces us.</span></li>
+          <li><span>🎵</span><span><strong>"Dark side" is a myth:</strong> The phrase is popular (thanks in part to a famous album) but astronomically wrong. Both sides receive sunlight equally over the course of a lunar month.</span></li>
+        </ul>
+
+        <p class="cb-analogy-head">How Did Tidal Locking Happen?</p>
+        <p class="cb-def">Earth's gravity creates a slight tidal bulge in the Moon. Over billions of years, the drag from that bulge gradually slowed the Moon's spin until rotation and orbit perfectly matched. Once locked, it stays locked. In fact, most large moons in the solar system are tidally locked to their parent planet for exactly the same reason.</p>
+
+        <p class="cb-analogy-head">Visualise It</p>
+        <ul class="cb-analogies">
+          <li><span>🚶</span><span><strong>Walking in a circle:</strong> Walk around a friend while always facing them — you are rotating as you go, but they only ever see your face. That is exactly what the Moon is doing around Earth.</span></li>
           <li><span>🧲</span><span><strong>Magnetic snap:</strong> Like a clasp that locks two pieces in perfect alignment, Earth's gravity has locked the Moon's rotation — and held it there for billions of years.</span></li>
-          <li><span>🌀</span><span><strong>Spinning top:</strong> Flick a top — it wobbles, then gradually settles into a stable spin. The early Moon "wobbled," then Earth's gravity settled it into a locked, stable rotation.</span></li>
+          <li><span>🌀</span><span><strong>Spinning top settling down:</strong> Flick a top — it wobbles, then gradually settles into a stable spin. The early Moon wobbled, then Earth's gravity settled it into a locked, stable rotation that has not changed since.</span></li>
         </ul>
       </div>
 
