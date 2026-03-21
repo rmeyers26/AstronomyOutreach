@@ -1967,6 +1967,7 @@
       img.alt = name + ' constellation';
       img.className = 'card-constellation-img';
       img.loading = 'lazy';
+      img.onerror = function () { this.style.display = 'none'; };
       var front = card.querySelector('.flip-front');
       front.insertBefore(img, front.firstChild);
 
