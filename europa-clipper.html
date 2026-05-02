@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Europa Clipper — NASA's Ocean World Mission</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Rajdhani:wght@300;400;500;600&family=Space+Mono&display=swap" rel="stylesheet"/>
+  <style>
+
+    /* ═══════════════════════════════════════════════
+       DESIGN SYSTEM — EUROPA CLIPPER
+       Palette: cryogenic ice blue, subsurface ocean
+       teal, deep space void. Every element echoes
+       the fractured ice shell and hidden ocean of
+       Jupiter's moon Europa.
+    ═══════════════════════════════════════════════ */
+    :root {
+      --void:        #03060f;
+      --deep:        #060c1a;
+      --midnight:    #0a1428;
+      --atmos:       #0d1e38;
+      --ice:         #1e8ab4;
+      --ice2:        #28a0cc;
+      --ocean:       #0e6080;
+      --teal:        #1ab8c8;
+      --frost:       #a0d8ef;
+      --pale:        #cce8f4;
+      --muted:       #3a6880;
+      --card-bg:     rgba(6,12,26,0.88);
+      --card-bdr:    rgba(30,138,180,0.22);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--void);
+      color: var(--pale);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      line-height: 1.78;
+      overflow-x: hidden;
+    }
+
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: rgba(6,12,26,0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(30,138,180,0.22);
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      gap: 4px;
+      padding: 0 8px;
+      height: 52px;
+    }
+
+    .site-nav::-webkit-scrollbar { display: none; }
+
+    .site-nav a {
+      color: rgba(204,232,244,0.72);
+      text-decoration: none;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 15px;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding: 6px 10px;
+      border-radius: 20px;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s, background 0.2s, border-color 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      min-height: 36px;
+    }
+
+    .site-nav a:hover,
+    .site-nav a:focus-visible {
+      color: var(--pale);
+      background: rgba(30,138,180,0.10);
+    }
+
+    .site-nav a.active {
+      color: var(--pale);
+      background: rgba(30,138,180,0.14);
+      border-color: rgba(40,160,204,0.38);
+    }
+
+    /* ═══════════════════ CRYO BACKGROUND ═══════════════════ */
+    .cryo-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    /* Ice fracture striations */
+    .cryo-bg::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 40%;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 22px,
+        rgba(30,138,180,0.03) 22px,
+        rgba(30,138,180,0.03) 24px
+      );
+    }
+
+    /* Ocean glow from below */
+    .cryo-bg::after {
+      content: '';
+      position: absolute;
+      top: -10%;
+      left: -20%;
+      width: 80vw;
+      height: 80vw;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        rgba(30,138,180,0.08) 0%,
+        rgba(14,96,128,0.04) 40%,
+        transparent 70%
+      );
+      animation: cryoGlow 18s ease-in-out infinite alternate;
+    }
+
+    @keyframes cryoGlow {
+      from { opacity: 0.5; transform: scale(1); }
+      to   { opacity: 1;   transform: scale(1.1); }
+    }
+
+    /* ═══════════════════════════════════════════════
+       LAYOUT
+    ═══════════════════════════════════════════════ */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 60px 44px 96px;
+    }
+
+    /* ═══════════════════════════════════════════════
+       HEADER
+    ═══════════════════════════════════════════════ */
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: center;
+      padding-bottom: 48px;
+      margin-bottom: 52px;
+      border-bottom: 1px solid rgba(30,138,180,0.25);
+      animation: riseUp 1s ease both;
+    }
+
+    .eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(3.2rem, 9vw, 7.5rem);
+      font-weight: 300;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: var(--pale);
+      line-height: 0.88;
+      text-shadow: 0 0 80px rgba(30,138,180,0.35);
+    }
+
+    .h1-sub {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 2.2vw, 1.3rem);
+      font-weight: 300;
+      letter-spacing: 2px;
+      color: var(--frost);
+      margin-top: 14px;
+      text-shadow: none;
+    }
+
+    /* ═══════════════════════════════════════════════
+       EUROPA SVG ORB
+    ═══════════════════════════════════════════════ */
+    .europa-wrap {
+      width: 180px;
+      height: 180px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .europa-wrap svg {
+      overflow: visible;
+      animation: europaFloat 9s ease-in-out infinite alternate;
+      filter: drop-shadow(0 0 28px rgba(30,138,180,0.45));
+    }
+
+    @keyframes europaFloat {
+      from { transform: translateY(0); }
+      to   { transform: translateY(-9px); }
+    }
+
+    /* ═══════════════════════════════════════════════
+       SECTION LABELS
+    ═══════════════════════════════════════════════ */
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 18px;
+    }
+
+    /* ═══════════════════════════════════════════════
+       FAST FACTS
+    ═══════════════════════════════════════════════ */
+    .facts-strip {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2px;
+      margin-bottom: 52px;
+      animation: riseUp 1s 0.07s ease both;
+    }
+
+    .fact-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 20px 14px;
+      text-align: center;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .fact-box:hover {
+      border-color: var(--ice);
+      background: rgba(30,138,180,0.07);
+    }
+
+    .fact-num {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.9rem;
+      font-weight: 300;
+      letter-spacing: 2px;
+      color: var(--frost);
+      line-height: 1.05;
+      display: block;
+    }
+
+    .fact-unit {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .fact-label {
+      font-size: 0.8rem;
+      font-style: italic;
+      color: var(--ocean);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    /* ═══════════════════════════════════════════════
+       INTRO COLUMNS
+    ═══════════════════════════════════════════════ */
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 48px;
+      margin-bottom: 52px;
+      animation: riseUp 1s 0.1s ease both;
+    }
+
+    .intro-text p {
+      font-size: 0.97rem;
+      line-height: 1.88;
+      margin-bottom: 14px;
+      color: var(--pale);
+      opacity: 0.92;
+    }
+
+    .data-table {
+      border: 1px solid var(--card-bdr);
+      background: var(--card-bg);
+    }
+
+    .dt-head {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--teal);
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--card-bdr);
+      background: rgba(30,138,180,0.07);
+    }
+
+    .dt-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 9px 16px;
+      border-bottom: 1px solid rgba(30,138,180,0.07);
+      font-size: 0.86rem;
+    }
+
+    .dt-row:last-child { border-bottom: none; }
+    .dt-key { color: var(--muted); font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+    .dt-val { color: var(--pale); font-family: 'Rajdhani', sans-serif; font-weight: 400; letter-spacing: 1px; }
+
+    /* ═══════════════════════════════════════════════
+       DIVIDER
+    ═══════════════════════════════════════════════ */
+    .rule {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 44px 0;
+    }
+
+    .rule-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(30,138,180,0.4), transparent);
+    }
+
+    .rule-diamond {
+      width: 8px; height: 8px;
+      background: var(--ice);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+      box-shadow: 0 0 10px rgba(30,138,180,0.6);
+    }
+
+    /* ═══════════════════════════════════════════════
+       INSTRUMENTS SECTION
+    ═══════════════════════════════════════════════ */
+    .geo-section {
+      animation: riseUp 1s 0.13s ease both;
+      margin-bottom: 52px;
+    }
+
+    .geo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+    }
+
+    .geo-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      border-top: 2px solid var(--ice);
+      padding: 26px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-top-color 0.3s;
+    }
+
+    .geo-card:hover { border-top-color: var(--teal); }
+
+    .geo-icon { font-size: 2rem; }
+
+    .geo-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-size: 1.05rem;
+      color: var(--frost);
+    }
+
+    .geo-body {
+      font-size: 0.87rem;
+      line-height: 1.78;
+      color: var(--pale);
+      opacity: 0.88;
+    }
+
+    .geo-body strong { color: var(--pale); opacity: 1; }
+
+    .geo-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--ice);
+      background: rgba(30,138,180,0.1);
+      border: 1px solid rgba(30,138,180,0.2);
+      padding: 2px 8px;
+      display: inline-block;
+      align-self: flex-start;
+    }
+
+    /* ═══════════════════════════════════════════════
+       MISSIONS TIMELINE
+    ═══════════════════════════════════════════════ */
+    .missions-section {
+      animation: riseUp 1s 0.19s ease both;
+      margin-bottom: 52px;
+    }
+
+    .missions-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .mission-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      border-left: 3px solid var(--ice);
+      padding: 20px 18px;
+      transition: border-left-color 0.3s, background 0.3s;
+    }
+
+    .mission-card:hover {
+      border-left-color: var(--teal);
+      background: rgba(30,138,180,0.06);
+    }
+
+    .mc-year {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 300;
+      letter-spacing: 3px;
+      color: var(--teal);
+      display: block;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .mc-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      color: var(--pale);
+      margin-bottom: 4px;
+    }
+
+    .mc-agency {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .mc-desc {
+      font-size: 0.84rem;
+      line-height: 1.65;
+      color: var(--pale);
+      opacity: 0.85;
+    }
+
+    .mission-card.active-mission { border-left-color: var(--teal); }
+    .mission-card.future-mission { border-left-color: #4a9060; }
+
+    .mission-group { margin-bottom: 4px; }
+
+    .mission-group-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 400;
+      padding: 8px 14px;
+      display: inline-block;
+      margin-bottom: 2px;
+    }
+
+    .mission-group-label.past   { color: var(--muted);  background: rgba(255,255,255,0.04); }
+    .mission-group-label.active { color: var(--teal);   background: rgba(26,184,200,0.1); }
+    .mission-group-label.future { color: #4a9060;       background: rgba(74,144,96,0.1); }
+
+    /* ═══════════════════════════════════════════════
+       LIFE / HABITABILITY SECTION
+    ═══════════════════════════════════════════════ */
+    .life-section {
+      animation: riseUp 1s 0.22s ease both;
+      margin-bottom: 52px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      border-top: 2px solid var(--ice);
+      padding: 36px;
+    }
+
+    .life-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 44px;
+      margin-top: 20px;
+      align-items: start;
+    }
+
+    .life-text p {
+      font-size: 0.92rem;
+      line-height: 1.88;
+      margin-bottom: 12px;
+      color: var(--pale);
+      opacity: 0.9;
+    }
+
+    .life-ms {
+      background: rgba(30,138,180,0.07);
+      border: 1px solid rgba(30,138,180,0.2);
+      padding: 16px 18px;
+      margin-top: 8px;
+    }
+
+    .ms-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--teal);
+      display: block;
+      margin-bottom: 7px;
+    }
+
+    .ms-text {
+      font-style: italic;
+      font-size: 0.86rem;
+      line-height: 1.75;
+      color: var(--frost);
+    }
+
+    /* Compare bars */
+    .compare-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .compare-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+      font-size: 0.82rem;
+    }
+
+    .cl-key { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; }
+    .cl-val { font-family: 'Rajdhani', sans-serif; color: var(--pale); letter-spacing: 1px; }
+
+    .compare-track {
+      height: 5px;
+      background: rgba(30,138,180,0.12);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .compare-fill-europa {
+      height: 100%;
+      border-radius: 2px;
+      background: var(--ice);
+    }
+
+    /* ═══════════════════════════════════════════════
+       MIND-BLOWING FACTS
+    ═══════════════════════════════════════════════ */
+    .wows-section {
+      animation: riseUp 1s 0.25s ease both;
+      margin-bottom: 52px;
+    }
+
+    .wows-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+    }
+
+    .wow-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 24px 22px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: border-color 0.3s;
+    }
+
+    .wow-card:hover { border-color: var(--ice); }
+
+    .wow-icon { font-size: 1.8rem; flex-shrink: 0; }
+
+    .wow-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+      color: var(--frost);
+      margin-bottom: 6px;
+    }
+
+    .wow-body {
+      font-size: 0.86rem;
+      line-height: 1.78;
+      color: var(--ocean);
+    }
+
+    .wow-body strong { color: var(--pale); }
+    .wow-body em     { color: var(--teal); font-style: normal; }
+
+    /* ═══════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════ */
+    footer {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(30,138,180,0.22);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: riseUp 1s 0.3s ease both;
+    }
+
+    .footer-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 300;
+      font-size: 1.6rem;
+      letter-spacing: 10px;
+      text-transform: uppercase;
+      color: var(--ocean);
+    }
+
+    .footer-note {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* ═══════════════════════════════════════════════
+       ANIMATIONS
+    ═══════════════════════════════════════════════ */
+    @keyframes riseUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ═══════════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════════ */
+    @media (max-width: 740px) {
+      .page { padding: 36px 20px 64px; }
+      header { grid-template-columns: 1fr; }
+      .europa-wrap { margin: 0 auto; }
+      .facts-strip { grid-template-columns: repeat(3, 1fr); }
+      .intro-grid { grid-template-columns: 1fr; }
+      .geo-grid { grid-template-columns: 1fr; }
+      .missions-grid { grid-template-columns: 1fr; }
+      .life-grid { grid-template-columns: 1fr; }
+      .wows-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+
+    @media (min-width: 600px) {
+      .site-nav { padding: 0 1.5rem; gap: 2px; }
+      .site-nav a { padding: 6px 14px; }
+    }
+
+    @media (max-width: 480px) {
+      body { font-size: 19px; }
+      .site-nav a { font-size: 15px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav" aria-label="Site navigation">
+  <a href="index.html">🏠 <span>Home</span></a>
+  <a href="our-sun.html">☀️ <span>Our Sun</span></a>
+  <a href="jupiter.html">🪐 <span>Jupiter</span></a>
+  <a href="mars.html">🔴 <span>Mars</span></a>
+  <a href="saturn.html">🪐 <span>Saturn</span></a>
+  <a href="orion.html">⭐ <span>Orion</span></a>
+  <a href="constellations.html">✦ <span>Constellations</span></a>
+  <a href="galileo.html">🔭 <span>Galileo</span></a>
+  <a href="moon-retro.html">🌕 <span>Moon Retro</span></a>
+  <a href="celestron-cpc1100.html">📡 <span>Telescope</span></a>
+  <a href="europa-clipper.html" class="active">🧊 <span>Europa Clipper</span></a>
+</nav>
+
+<div class="cryo-bg"></div>
+
+<div class="page">
+
+  <!-- ══════════════════ HEADER ══════════════════ -->
+  <header>
+    <div>
+      <p class="eyebrow">NASA Mission · Jupiter System · Ocean World</p>
+      <h1>Europa Clipper<span class="h1-sub">Searching for life in the hidden ocean of Jupiter's icy moon</span></h1>
+    </div>
+
+    <!-- Europa SVG orb -->
+    <div class="europa-wrap">
+      <svg viewBox="0 0 180 180" width="180" height="180" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="europaGrad" cx="38%" cy="34%" r="60%">
+            <stop offset="0%"   stop-color="#e8f4fc"/>
+            <stop offset="20%"  stop-color="#c8e4f0"/>
+            <stop offset="45%"  stop-color="#a0cce0"/>
+            <stop offset="70%"  stop-color="#78aec8"/>
+            <stop offset="100%" stop-color="#4888a8"/>
+          </radialGradient>
+          <radialGradient id="europaOcean" cx="50%" cy="60%" r="45%">
+            <stop offset="0%"   stop-color="rgba(14,96,128,0.3)"/>
+            <stop offset="100%" stop-color="transparent"/>
+          </radialGradient>
+          <radialGradient id="europaAtmo" cx="50%" cy="50%" r="50%">
+            <stop offset="65%"  stop-color="transparent"/>
+            <stop offset="100%" stop-color="rgba(6,12,26,0.5)"/>
+          </radialGradient>
+          <filter id="europaGlow">
+            <feGaussianBlur stdDeviation="3.5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <clipPath id="europaClip">
+            <circle cx="90" cy="90" r="72"/>
+          </clipPath>
+        </defs>
+
+        <!-- Subsurface ocean glow halo -->
+        <circle cx="90" cy="90" r="80" fill="rgba(30,138,180,0.06)"/>
+        <circle cx="90" cy="90" r="76" fill="rgba(26,184,200,0.04)"/>
+
+        <!-- Europa globe -->
+        <circle cx="90" cy="90" r="72" fill="url(#europaGrad)" filter="url(#europaGlow)"/>
+
+        <!-- Surface features clipped to globe -->
+        <g clip-path="url(#europaClip)">
+          <!-- Subsurface ocean glow bleeding through ice -->
+          <ellipse cx="90" cy="105" rx="55" ry="40" fill="url(#europaOcean)"/>
+
+          <!-- Lineae — tan/brown fracture lines criss-crossing the ice shell -->
+          <path d="M 30,60 Q 70,75 110,65 Q 140,58 158,70"
+                fill="none" stroke="rgba(160,120,80,0.55)" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M 20,80 Q 55,90 95,82 Q 130,74 155,85"
+                fill="none" stroke="rgba(140,105,65,0.5)" stroke-width="2" stroke-linecap="round"/>
+          <path d="M 35,110 Q 65,100 100,108 Q 135,116 158,105"
+                fill="none" stroke="rgba(150,115,72,0.48)" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M 50,130 Q 80,122 115,130 Q 140,136 155,125"
+                fill="none" stroke="rgba(130,100,60,0.4)" stroke-width="1.8" stroke-linecap="round"/>
+
+          <!-- Diagonal lineae -->
+          <path d="M 60,30 Q 75,65 68,100 Q 62,130 70,155"
+                fill="none" stroke="rgba(155,118,75,0.42)" stroke-width="2" stroke-linecap="round"/>
+          <path d="M 110,25 Q 118,60 112,95 Q 106,128 115,158"
+                fill="none" stroke="rgba(145,110,68,0.38)" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M 130,40 Q 120,70 128,105 Q 135,135 125,158"
+                fill="none" stroke="rgba(160,122,78,0.35)" stroke-width="1.8" stroke-linecap="round"/>
+
+          <!-- Mottled ice patches — slightly off-white regions -->
+          <ellipse cx="55"  cy="55"  rx="14" ry="10" fill="rgba(240,250,255,0.18)"/>
+          <ellipse cx="130" cy="48"  rx="11" ry="8"  fill="rgba(230,245,255,0.15)"/>
+          <ellipse cx="75"  cy="130" rx="10" ry="7"  fill="rgba(235,248,255,0.14)"/>
+          <ellipse cx="118" cy="118" rx="12" ry="8"  fill="rgba(225,242,252,0.12)"/>
+
+          <!-- Chaos terrain — rougher area -->
+          <ellipse cx="95" cy="72" rx="18" ry="12" fill="rgba(180,160,130,0.18)"/>
+          <ellipse cx="65" cy="95" rx="12" ry="9"  fill="rgba(170,148,118,0.14)"/>
+
+          <!-- Limb darkening -->
+          <circle cx="90" cy="90" r="72" fill="url(#europaAtmo)"/>
+        </g>
+
+        <!-- Thin pale-blue atmospheric halo -->
+        <circle cx="90" cy="90" r="72" fill="none" stroke="rgba(160,216,239,0.18)" stroke-width="4"/>
+        <circle cx="90" cy="90" r="74" fill="none" stroke="rgba(30,138,180,0.08)" stroke-width="3"/>
+      </svg>
+    </div>
+  </header>
+
+  <!-- ══════════════════ FAST FACTS ══════════════════ -->
+  <p class="section-label">Fast Facts</p>
+  <div class="facts-strip">
+    <div class="fact-box">
+      <span class="fact-num">Oct 14</span>
+      <span class="fact-unit">2024 · Launch Date</span>
+      <p class="fact-label">SpaceX Falcon Heavy from Kennedy Space Center</p>
+    </div>
+    <div class="fact-box">
+      <span class="fact-num">Apr 2030</span>
+      <span class="fact-unit">Jupiter Arrival</span>
+      <p class="fact-label">5.5-year journey to the outer solar system</p>
+    </div>
+    <div class="fact-box">
+      <span class="fact-num">49</span>
+      <span class="fact-unit">Europa Flybys</span>
+      <p class="fact-label">Closest approach: ~25 km (16 mi)</p>
+    </div>
+    <div class="fact-box">
+      <span class="fact-num">9</span>
+      <span class="fact-unit">Science Instruments</span>
+      <p class="fact-label">Cameras, radar, spectrometers &amp; more</p>
+    </div>
+    <div class="fact-box">
+      <span class="fact-num">3,121</span>
+      <span class="fact-unit">km · Europa Diameter</span>
+      <p class="fact-label">Slightly smaller than Earth's Moon</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════ INTRO ══════════════════ -->
+  <div class="intro-grid">
+    <div>
+      <p class="section-label">What Is Europa Clipper?</p>
+      <div class="intro-text">
+        <p>
+          Europa Clipper is NASA's flagship mission to conduct a detailed scientific investigation
+          of <strong>Jupiter's moon Europa</strong> — one of the most promising places in the
+          solar system to search for conditions suitable for life. Launched on October 14, 2024,
+          aboard a SpaceX Falcon Heavy rocket, it is the largest spacecraft NASA has ever built
+          for a planetary science mission.
+        </p>
+        <p>
+          Europa has long fascinated scientists because beneath its frozen ice shell lies a
+          <strong>global saltwater ocean</strong> containing more liquid water than all of Earth's
+          oceans combined. Tidal forces from Jupiter's immense gravity flex the moon's interior,
+          generating heat that keeps this vast ocean liquid despite Europa's distance from the Sun.
+          Where there is liquid water, heat, and chemical nutrients — the basic ingredients for life
+          as we know it may exist.
+        </p>
+        <p>
+          Rather than orbiting Europa directly (which would expose it to lethal radiation from
+          Jupiter's magnetosphere), Clipper will orbit Jupiter and execute <strong>49 targeted
+          flybys</strong> of Europa over four years, building up a comprehensive picture of the
+          moon's ice shell, ocean, and potential for habitability.
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <p class="section-label">Mission Data</p>
+      <div class="data-table">
+        <div class="dt-head">Europa Clipper · Key Facts</div>
+        <div class="dt-row"><span class="dt-key">Launch</span><span class="dt-val">Oct 14, 2024</span></div>
+        <div class="dt-row"><span class="dt-key">Launch Vehicle</span><span class="dt-val">SpaceX Falcon Heavy</span></div>
+        <div class="dt-row"><span class="dt-key">Jupiter Arrival</span><span class="dt-val">April 2030</span></div>
+        <div class="dt-row"><span class="dt-key">Europa Flybys</span><span class="dt-val">49 (closest ~25 km)</span></div>
+        <div class="dt-row"><span class="dt-key">Science Instruments</span><span class="dt-val">9</span></div>
+        <div class="dt-row"><span class="dt-key">Europa Diameter</span><span class="dt-val">3,121 km</span></div>
+        <div class="dt-row"><span class="dt-key">Ice Shell Thickness</span><span class="dt-val">Est. 15–25 km</span></div>
+        <div class="dt-row"><span class="dt-key">Ocean Depth</span><span class="dt-val">Est. 60–150 km</span></div>
+        <div class="dt-row"><span class="dt-key">Surface Temp.</span><span class="dt-val">–160°C (–260°F)</span></div>
+        <div class="dt-row"><span class="dt-key">Discovery</span><span class="dt-val">1610 · Galileo Galilei</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule"><div class="rule-line"></div><div class="rule-diamond"></div><div class="rule-line"></div></div>
+
+  <!-- ══════════════════ SCIENCE INSTRUMENTS ══════════════════ -->
+  <div class="geo-section">
+    <p class="section-label">9 Science Instruments — Eyes, Ears &amp; Senses at Europa</p>
+    <div class="geo-grid">
+
+      <div class="geo-card">
+        <span class="geo-icon">📡</span>
+        <p class="geo-title">REASON</p>
+        <div class="geo-tag">Radar for Europa Assessment and Sounding: Ocean to Near-surface</div>
+        <p class="geo-body">
+          <strong>Ice-penetrating radar</strong> that will transmit radio waves through Europa's
+          ice shell and detect reflections from the base of the ice and the ocean beneath.
+          Can probe up to 30 km deep. The primary instrument for measuring ice shell thickness
+          and locating liquid water pockets within the ice.
+        </p>
+      </div>
+
+      <div class="geo-card">
+        <span class="geo-icon">🌈</span>
+        <p class="geo-title">MISE</p>
+        <div class="geo-tag">Mapping Imaging Spectrometer for Europa</div>
+        <p class="geo-body">
+          <strong>Infrared spectrometer</strong> that maps the composition of Europa's surface
+          in 864 wavelength channels simultaneously. Will identify salts, organics, acids, and
+          other chemicals — especially in the reddish-brown regions along the lineae that may
+          mark where ocean material has surfaced through the ice.
+        </p>
+      </div>
+
+      <div class="geo-card">
+        <span class="geo-icon">⚗️</span>
+        <p class="geo-title">MASPEX</p>
+        <div class="geo-tag">MAss Spectrometer for Planetary EXploration</div>
+        <p class="geo-body">
+          <strong>Mass spectrometer</strong> designed to analyse the thin gas and plasma
+          surrounding Europa. Will detect and characterise organic molecules and other chemical
+          compounds in the exosphere, and is sensitive enough to sniff plumes of ocean material
+          if they exist — the closest we can get to tasting the ocean from a flyby.
+        </p>
+      </div>
+
+      <div class="geo-card">
+        <span class="geo-icon">🌬️</span>
+        <p class="geo-title">SUDA</p>
+        <div class="geo-tag">SUrface Dust Analyser</div>
+        <p class="geo-body">
+          <strong>Dust mass spectrometer</strong> that captures and analyses individual dust
+          particles ejected from Europa's surface by micrometeorite impacts. Each tiny grain
+          can carry chemical fingerprints of the ice and the ocean below. Designed to detect
+          biosignatures in material that has been blasted off the surface.
+        </p>
+      </div>
+
+      <div class="geo-card">
+        <span class="geo-icon">🔆</span>
+        <p class="geo-title">Europa-UVS</p>
+        <div class="geo-tag">Europa Ultraviolet Spectrograph</div>
+        <p class="geo-body">
+          <strong>Ultraviolet spectrograph</strong> that will search for plumes erupting from
+          Europa's surface — jets of water vapour, like those seen at Saturn's moon Enceladus.
+          Also maps auroral emissions produced where Jupiter's magnetic field interacts with
+          Europa's thin oxygen atmosphere, which helps constrain the ocean's conductivity.
+        </p>
+      </div>
+
+      <div class="geo-card">
+        <span class="geo-icon">📷</span>
+        <p class="geo-title">EIS</p>
+        <div class="geo-tag">Europa Imaging System</div>
+        <p class="geo-body">
+          <strong>Wide-angle and narrow-angle cameras</strong> that will photograph Europa's
+          surface in visible light at resolutions down to 0.5 m per pixel during close flybys.
+          Will map the entire surface at 50 m/pixel resolution and identify sites of geological
+          activity, chaos terrain, and any fresh material erupted from below.
+        </p>
+      </div>
+
+      <div class="geo-card">
+        <span class="geo-icon">🧲</span>
+        <p class="geo-title">ECM &amp; ICEMAG</p>
+        <div class="geo-tag">Magnetometers</div>
+        <p class="geo-body">
+          <strong>Two magnetometers</strong> that measure Jupiter's magnetic field perturbations
+          near Europa. The ocean, if it is salty and electrically conductive, induces its own
+          magnetic signal — these instruments will detect and characterise that signal, providing
+          direct evidence of a liquid ocean and constraining its depth, thickness, and salinity.
+        </p>
+      </div>
+
+      <div class="geo-card">
+        <span class="geo-icon">🌡️</span>
+        <p class="geo-title">E-THEMIS</p>
+        <div class="geo-tag">Europa Thermal Emission Imaging System</div>
+        <p class="geo-body">
+          <strong>Thermal infrared camera</strong> that maps the heat radiating from Europa's
+          surface. Warmer regions may indicate thin ice, subsurface liquid water pockets, or
+          recent geological activity. Will help identify the most geologically active — and
+          potentially most habitable — locations on Europa's surface.
+        </p>
+      </div>
+
+      <div class="geo-card">
+        <span class="geo-icon">📻</span>
+        <p class="geo-title">PIMS</p>
+        <div class="geo-tag">Plasma Instrument for Magnetic Sounding</div>
+        <p class="geo-body">
+          <strong>Plasma analyser</strong> that measures the charged particles surrounding
+          Europa. Works in tandem with the magnetometers to separate Jupiter's magnetic field
+          signal from the ocean's induced magnetic signal — essential for accurately
+          characterising the ocean's properties from the complex electromagnetic environment
+          of Jupiter's powerful magnetosphere.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="rule"><div class="rule-line"></div><div class="rule-diamond"></div><div class="rule-line"></div></div>
+
+  <!-- ══════════════════ MISSION TIMELINE ══════════════════ -->
+  <div class="missions-section">
+    <p class="section-label">Exploring Europa — Past &amp; Present</p>
+
+    <div class="mission-group">
+      <span class="mission-group-label past">Earlier Missions to Europa</span>
+      <div class="missions-grid">
+
+        <div class="mission-card">
+          <span class="mc-year">1979</span>
+          <p class="mc-name">Voyager 1 &amp; 2</p>
+          <span class="mc-agency">NASA · USA</span>
+          <p class="mc-desc">First close-up images of Europa during Jupiter flybys. Revealed a strikingly smooth, cracked surface unlike any other moon — suspiciously lacking the craters expected on an ancient icy body. The smooth surface hinted that something was resurfacing it from below.</p>
+        </div>
+
+        <div class="mission-card">
+          <span class="mc-year">1995–2003</span>
+          <p class="mc-name">Galileo Spacecraft</p>
+          <span class="mc-agency">NASA · USA</span>
+          <p class="mc-desc">Conducted 11 close flybys of Europa during its Jupiter orbital mission. Detected Europa's induced magnetic field — the first strong evidence for a subsurface liquid ocean. Captured detailed images of chaos terrain, lineae, and possible plume sites. Laid the scientific foundation for Clipper.</p>
+        </div>
+
+        <div class="mission-card">
+          <span class="mc-year">2012–2019</span>
+          <p class="mc-name">Hubble Plume Detections</p>
+          <span class="mc-agency">NASA / ESA</span>
+          <p class="mc-desc">Hubble Space Telescope observed possible water vapour plumes erupting from Europa's south polar region on multiple occasions — similar to the confirmed plumes at Saturn's moon Enceladus. The detections remain tentative but suggest ocean material may be venting directly into space.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="mission-group">
+      <span class="mission-group-label active">Europa Clipper — Mission Milestones</span>
+      <div class="missions-grid">
+
+        <div class="mission-card active-mission">
+          <span class="mc-year">Oct 2024</span>
+          <p class="mc-name">Launch</p>
+          <span class="mc-agency">NASA · SpaceX Falcon Heavy</span>
+          <p class="mc-desc">Europa Clipper launched from Kennedy Space Center on October 14, 2024. At approximately 6,000 kg fully fuelled, it is the largest planetary science spacecraft ever built by NASA. The solar arrays span 30.5 metres (100 feet) — needed to generate power so far from the Sun.</p>
+        </div>
+
+        <div class="mission-card active-mission">
+          <span class="mc-year">Dec 2025</span>
+          <p class="mc-name">Mars Gravity Assist</p>
+          <span class="mc-agency">Flyby</span>
+          <p class="mc-desc">Clipper uses Mars's gravity to bend its trajectory and accelerate toward the outer solar system — a fuel-free speed boost. The flyby also serves as an opportunity to calibrate all nine science instruments in a real-space environment before arriving at Jupiter.</p>
+        </div>
+
+        <div class="mission-card active-mission">
+          <span class="mc-year">Apr 2026</span>
+          <p class="mc-name">Earth Gravity Assist</p>
+          <span class="mc-agency">Flyby</span>
+          <p class="mc-desc">Clipper swings back past Earth for a second gravity assist, using our planet's pull to achieve the velocity needed to reach Jupiter. Earth-based tracking stations use the flyby to verify navigation precision before the spacecraft departs the inner solar system for good.</p>
+        </div>
+
+        <div class="mission-card future-mission">
+          <span class="mc-year">Apr 2030</span>
+          <p class="mc-name">Jupiter Orbit Insertion</p>
+          <span class="mc-agency">Science Campaign Begins</span>
+          <p class="mc-desc">After a 5.5-year journey, Clipper fires its main engine to brake into Jupiter orbit. It enters a highly elongated orbit that repeatedly brings it close to Europa while spending most of its time farther out — avoiding the most intense radiation belts that surround Jupiter.</p>
+        </div>
+
+        <div class="mission-card future-mission">
+          <span class="mc-year">2030–2034</span>
+          <p class="mc-name">49 Europa Flybys</p>
+          <span class="mc-agency">Primary Science Phase</span>
+          <p class="mc-desc">Over four years, Clipper executes 49 precisely targeted flybys of Europa at altitudes as low as 25 km (16 miles). Each flyby covers a different ground track, building up global coverage. Every instrument fires simultaneously during each pass — the spacecraft collects years of data in hours of close-approach time.</p>
+        </div>
+
+        <div class="mission-card future-mission">
+          <span class="mc-year">2034+</span>
+          <p class="mc-name">End of Mission</p>
+          <span class="mc-agency">Impact with Ganymede</span>
+          <p class="mc-desc">To comply with planetary protection requirements and avoid any possibility of contaminating Europa with Earth microbes, Clipper will conclude its mission with a controlled impact into Ganymede — Jupiter's largest moon, which does not appear to host a habitable ocean near its surface.</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════ COULD EUROPA SUPPORT LIFE? ══════════════════ -->
+  <div class="life-section">
+    <p class="section-label">Could Europa's Ocean Support Life?</p>
+    <div class="life-grid">
+      <div class="life-text">
+        <p>
+          Europa is considered one of the top candidates for extraterrestrial life in the solar
+          system — not intelligent life, but microbial life. Its subsurface ocean is estimated
+          to be <strong>60–150 km deep</strong>, making it the largest body of liquid water in
+          the solar system. It has existed for billions of years, kept liquid by tidal heating
+          from Jupiter's immense gravitational pull.
+        </p>
+        <p>
+          At the ocean floor, scientists expect conditions similar to Earth's deep-sea hydrothermal
+          vents — where superheated water erupts through cracks in the rock, carrying chemical
+          energy. On Earth, entire ecosystems of bacteria, tube worms, and crustaceans thrive
+          at these vents <strong>without any sunlight</strong>. Europa's ocean floor may offer
+          similar chemistry.
+        </p>
+        <p>
+          The three requirements for life as we know it are: <strong>liquid water, a source
+          of energy, and the right chemistry</strong> (carbon, hydrogen, nitrogen, oxygen,
+          phosphorus, sulphur). Europa likely has all three. Europa Clipper cannot land — but
+          by studying the ocean's chemical fingerprints from above, it will determine whether
+          Europa is truly habitable.
+        </p>
+        <div class="life-ms">
+          <span class="ms-label">🎒 Middle School Analogy</span>
+          <p class="ms-text">
+            Europa is like a sealed thermos kept warm from the outside. The lid is a 20 km
+            thick shell of ice, and inside is an ocean bigger than all of Earth's oceans put
+            together — kept liquid not by the Sun, but by Jupiter squeezing the moon like a
+            stress ball, generating heat through friction deep inside. Europa Clipper is
+            peering through the thermos wall to see what's inside, without ever opening it.
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <p class="section-label" style="margin-bottom: 14px;">Europa vs Earth — Key Comparisons</p>
+        <div class="compare-list">
+
+          <div class="compare-row">
+            <div class="compare-label">
+              <span class="cl-key">Ocean Volume</span>
+              <span class="cl-val">Europa: ~200% of Earth's oceans</span>
+            </div>
+            <div class="compare-track" style="overflow:visible; position:relative;">
+              <div class="compare-fill-europa" style="width:100%; background: linear-gradient(90deg, var(--ice), rgba(30,138,180,0.4));"></div>
+            </div>
+          </div>
+
+          <div class="compare-row">
+            <div class="compare-label">
+              <span class="cl-key">Ice Shell Thickness</span>
+              <span class="cl-val">Est. 15–25 km thick</span>
+            </div>
+            <div class="compare-track"><div class="compare-fill-europa" style="width:55%"></div></div>
+          </div>
+
+          <div class="compare-row">
+            <div class="compare-label">
+              <span class="cl-key">Surface Temperature</span>
+              <span class="cl-val">–160°C · Earth: ~15°C</span>
+            </div>
+            <div class="compare-track"><div class="compare-fill-europa" style="width:8%"></div></div>
+          </div>
+
+          <div class="compare-row">
+            <div class="compare-label">
+              <span class="cl-key">Diameter</span>
+              <span class="cl-val">Europa: 25% of Earth's</span>
+            </div>
+            <div class="compare-track"><div class="compare-fill-europa" style="width:25%"></div></div>
+          </div>
+
+          <div class="compare-row">
+            <div class="compare-label">
+              <span class="cl-key">Day Length</span>
+              <span class="cl-val">Europa: 3.5 Earth days</span>
+            </div>
+            <div class="compare-track"><div class="compare-fill-europa" style="width:35%"></div></div>
+          </div>
+
+          <div class="compare-row">
+            <div class="compare-label">
+              <span class="cl-key">Gravity</span>
+              <span class="cl-val">Europa: 13% of Earth</span>
+            </div>
+            <div class="compare-track"><div class="compare-fill-europa" style="width:13%"></div></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ MIND-BLOWING FACTS ══════════════════ -->
+  <div class="wows-section">
+    <p class="section-label">Mind-Blowing Europa Facts</p>
+    <div class="wows-grid">
+
+      <div class="wow-card">
+        <span class="wow-icon">🌊</span>
+        <div>
+          <p class="wow-title">More Water Than All Earth's Oceans</p>
+          <p class="wow-body">
+            Europa's subsurface ocean is estimated to contain <strong>two to three times more
+            liquid water than all of Earth's oceans combined</strong>. Earth's oceans hold
+            about 1.335 billion cubic kilometres of water. Europa's hold roughly
+            <em>3 billion cubic kilometres</em> — hidden beneath 20 km of ice, in total
+            darkness, 630 million kilometres from the Sun.
+          </p>
+        </div>
+      </div>
+
+      <div class="wow-card">
+        <span class="wow-icon">🔥</span>
+        <div>
+          <p class="wow-title">Tidal Heating Keeps It Liquid</p>
+          <p class="wow-body">
+            Europa should be frozen solid at its distance from the Sun. It isn't —
+            because <strong>Jupiter's immense gravity flexes Europa's interior as it orbits</strong>,
+            generating frictional heat deep inside the moon. This tidal heating is the same
+            process that creates the spectacular volcanic eruptions on Io, Europa's neighbour.
+            <em>Jupiter is Europa's heater.</em>
+          </p>
+        </div>
+      </div>
+
+      <div class="wow-card">
+        <span class="wow-icon">🧊</span>
+        <div>
+          <p class="wow-title">The Ice Shell Moves Like a Conveyor Belt</p>
+          <p class="wow-body">
+            Europa's ice shell doesn't sit still. Warm ice from the bottom rises, cold ice
+            from the top sinks — a slow churning cycle called <strong>ice convection</strong>.
+            This may be continuously recycling ocean chemistry up to the surface. The criss-crossing
+            lineae are actually <em>giant fractures where the ice pulls apart and new material
+            wells up from below</em> — like Earth's mid-ocean ridges, but in ice.
+          </p>
+        </div>
+      </div>
+
+      <div class="wow-card">
+        <span class="wow-icon">🛸</span>
+        <div>
+          <p class="wow-title">49 Flybys But Never Orbiting Europa</p>
+          <p class="wow-body">
+            Europa Clipper will never orbit Europa directly. Jupiter's radiation belts are
+            so intense that <strong>orbiting Europa would kill the spacecraft's electronics
+            within months</strong>. Instead, it orbits Jupiter — spending most of its time
+            away from the radiation — and makes 49 fast, targeted passes. Each flyby lasts
+            only hours, but at closest approach, <em>Clipper skims just 25 km above the ice.</em>
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-name">Europa Clipper</div>
+    <div class="footer-note">NASA Mission · Launched Oct 2024 · Jupiter Arrival Apr 2030 · 49 Europa Flybys</div>
+  </footer>
+
+</div>
+</body>
+</html>
