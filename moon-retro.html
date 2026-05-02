@@ -1006,6 +1006,182 @@
     }
 
     /* ══════════════════════════════════════════════
+       SCALE COMPARISON
+    ══════════════════════════════════════════════ */
+    .scale-section { animation: fadeIn 0.8s 0.2s ease both; }
+
+    .scale-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 24px;
+    }
+
+    .scale-card {
+      background: var(--navy2);
+      border: 1px solid rgba(232,168,32,0.15);
+      padding: 24px 20px;
+      text-align: center;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .scale-card:hover { background: var(--slate); border-color: rgba(232,168,32,0.4); }
+
+    .scale-icon { font-size: 2.4rem; display: block; margin-bottom: 8px; }
+
+    .scale-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: 3px;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .scale-val {
+      font-family: 'Special Elite', monospace;
+      font-size: 0.82rem;
+      color: var(--tan);
+      line-height: 1.6;
+    }
+
+    .scale-divider {
+      background: var(--red);
+      color: var(--cream);
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 4px;
+      font-size: 0.9rem;
+      padding: 10px 20px;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    /* ══════════════════════════════════════════════
+       OBSERVER'S SECTION
+    ══════════════════════════════════════════════ */
+    .observer-section { animation: fadeIn 0.8s 0.2s ease both; }
+
+    .obs-intro {
+      font-size: 0.95rem;
+      color: var(--tan);
+      max-width: 680px;
+      margin-bottom: 28px;
+      line-height: 1.75;
+    }
+
+    .obs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      margin-bottom: 24px;
+    }
+
+    .obs-card {
+      background: var(--navy2);
+      border: 1px solid rgba(232,168,32,0.15);
+      border-left: 4px solid var(--gold);
+      padding: 22px 20px;
+      transition: background 0.2s;
+    }
+
+    .obs-card:hover { background: var(--slate); }
+
+    .obs-card-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 3px;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .obs-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .obs-list li {
+      font-size: 0.84rem;
+      color: var(--tan);
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      line-height: 1.55;
+      display: flex;
+      gap: 8px;
+    }
+
+    .obs-list li:last-child { border-bottom: none; }
+    .obs-list li strong { color: var(--cream); }
+
+    .obs-tip {
+      background: rgba(232,168,32,0.08);
+      border: 1px solid rgba(232,168,32,0.3);
+      border-left: 4px solid var(--gold);
+      padding: 14px 18px;
+      font-size: 0.88rem;
+      color: var(--cream2);
+      line-height: 1.7;
+      margin-top: 2px;
+    }
+
+    .obs-tip strong { color: var(--gold); }
+
+    /* ══════════════════════════════════════════════
+       REALITY CHECK SECTION
+    ══════════════════════════════════════════════ */
+    .reality-section { animation: fadeIn 0.8s 0.2s ease both; }
+
+    .reality-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      margin-top: 24px;
+    }
+
+    .reality-card {
+      background: var(--slate);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 22px 20px;
+    }
+
+    .reality-card.expect {
+      border-left: 4px solid var(--gold);
+    }
+
+    .reality-card.surprise {
+      border-left: 4px solid var(--red);
+    }
+
+    .reality-tag {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 4px;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .reality-card.expect .reality-tag { color: var(--gold); }
+    .reality-card.surprise .reality-tag { color: var(--red2); }
+
+    .reality-item {
+      font-size: 0.84rem;
+      color: var(--tan);
+      line-height: 1.65;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      gap: 8px;
+    }
+
+    .reality-item:last-child { border-bottom: none; }
+    .reality-item strong { color: var(--cream); }
+
+    @media (max-width: 740px) {
+      .scale-grid { grid-template-columns: 1fr; }
+      .obs-grid { grid-template-columns: 1fr; }
+      .reality-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ══════════════════════════════════════════════
        MISSIONS SECTION
     ══════════════════════════════════════════════ */
     .missions-section {
@@ -1571,7 +1747,7 @@
       <div class="matter-block">
         <span class="mb-icon">🚀</span>
         <p class="mb-title">Gateway to Deep Space</p>
-        <p class="mb-body">NASA's Artemis programme is returning astronauts to the Moon — including the <strong>first woman and first person of colour</strong> to walk on the surface. Polar ice could supply water, oxygen, and hydrogen fuel for missions to Mars and beyond.</p>
+        <p class="mb-body">NASA's Artemis programme is returning astronauts to the Moon's <strong>south polar region</strong> — where permanently shadowed craters contain water ice that can be split into hydrogen and oxygen for rocket fuel and life support. The goal isn't just flags and footprints: it's a <strong>long-term surface presence</strong> that turns the Moon into a staging platform for Mars missions. The Moon is the first rung of the ladder to the rest of the solar system.</p>
       </div>
       <div class="matter-block">
         <span class="mb-icon">🔭</span>
@@ -1585,6 +1761,139 @@
       </div>
     </div>
   </div>
+
+  <!-- ══════════════════════
+       SCALE COMPARISON
+  ══════════════════════ -->
+  <div class="section section-alt scale-section">
+    <p class="poster-sub">Perspective</p>
+    <p class="poster-title">Scale That Sticks</p>
+    <div class="poster-rule"></div>
+    <div class="scale-grid">
+      <div class="scale-card">
+        <span class="scale-icon">🏀</span>
+        <p class="scale-label">Earth</p>
+        <p class="scale-val">= a basketball<br/>(24 cm / 9.5 in)</p>
+      </div>
+      <div class="scale-card">
+        <span class="scale-icon">🎾</span>
+        <p class="scale-label">Moon</p>
+        <p class="scale-val">= a tennis ball<br/>(6.7 cm / 2.6 in)</p>
+      </div>
+      <div class="scale-card">
+        <span class="scale-icon">📏</span>
+        <p class="scale-label">Distance Between Them</p>
+        <p class="scale-val">≈ 7.3 metres (24 ft)<br/>apart on this scale</p>
+      </div>
+    </div>
+    <div class="scale-divider">
+      Set a basketball on the ground. Walk 7 metres. Place a tennis ball. That gap — mostly empty space — is what Apollo crossed in 3 days.
+    </div>
+    <div class="scale-grid" style="margin-top:2px;">
+      <div class="scale-card">
+        <span class="scale-icon">☀️</span>
+        <p class="scale-label">Sun (same scale)</p>
+        <p class="scale-val">= a 2.7 m (9 ft) sphere<br/>~290 m (950 ft) away</p>
+      </div>
+      <div class="scale-card">
+        <span class="scale-icon">🌑</span>
+        <p class="scale-label">Moon's Surface Area</p>
+        <p class="scale-val">≈ Africa + Europe<br/>combined</p>
+      </div>
+      <div class="scale-card">
+        <span class="scale-icon">🚗</span>
+        <p class="scale-label">Driving to the Moon</p>
+        <p class="scale-val">At 100 km/h (60 mph)<br/>≈ 160 days non-stop</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider-strip-sm"></div>
+
+  <!-- ══════════════════════
+       OBSERVER'S SECTION
+  ══════════════════════ -->
+  <div class="section section-dark observer-section">
+    <p class="poster-sub">Field Guide</p>
+    <p class="poster-title">🔭 Observe It Yourself</p>
+    <div class="poster-rule"></div>
+    <p class="obs-intro">
+      The Moon is the finest telescope target in the sky. Even a small instrument reveals
+      extraordinary detail. The C11 resolves fine crater rilles, central peaks, and ray systems
+      that look painted on. Here is how to get the most from it.
+    </p>
+    <div class="obs-grid">
+      <div class="obs-card">
+        <p class="obs-card-title">Best Phase to Observe</p>
+        <ul class="obs-list">
+          <li><span>🌓</span><span><strong>First Quarter / Last Quarter</strong> — maximum contrast. The terminator (the shadow line) cuts straight across, throwing craters into stark relief.</span></li>
+          <li><span>🌕</span><span><strong>Full Moon</strong> — great for seeing ray systems (Tycho, Copernicus) but shadows disappear. Flat and washed-out for crater relief.</span></li>
+          <li><span>🌑</span><span><strong>New Moon</strong> — Moon not visible. Use this time for deep-sky objects.</span></li>
+          <li><span>💡</span><span><strong>Pro tip:</strong> Observe along the terminator — the sunrise/sunset line. Craters here cast long shadows that reveal every rim and central peak in dramatic detail.</span></li>
+        </ul>
+      </div>
+      <div class="obs-card">
+        <p class="obs-card-title">Magnification Guide (C11)</p>
+        <ul class="obs-list">
+          <li><span>🔭</span><span><strong>75–100×</strong> — whole-disk view. See maria, highlands, and large craters in context. Start here to orient.</span></li>
+          <li><span>🔭</span><span><strong>150–200×</strong> — crater detail. Tycho's central peak, Copernicus's terraced walls, Clavius's chain of nested craters.</span></li>
+          <li><span>🔭</span><span><strong>250–350×</strong> — fine rilles, boulder fields. Best on nights of excellent seeing. Push this far only when the image is steady.</span></li>
+          <li><span>⚠️</span><span><strong>Seeing matters more than magnification.</strong> A night of bad atmospheric turbulence will blur at 200× what a good night reveals at 350×.</span></li>
+        </ul>
+      </div>
+      <div class="obs-card">
+        <p class="obs-card-title">Targets to Try</p>
+        <ul class="obs-list">
+          <li><span>⭕</span><span><strong>Tycho</strong> — young impact crater with a spectacular ray system visible even at low power. Central peak visible at 150×.</span></li>
+          <li><span>⭕</span><span><strong>Copernicus</strong> — the "monarch of the Moon." Terraced inner walls, flat floor, prominent central peaks. Stunning near quarter.</span></li>
+          <li><span>⭕</span><span><strong>Clavius</strong> — one of the largest craters. Contains a curved chain of smaller craters inside it — a progression from large to small.</span></li>
+          <li><span>⭕</span><span><strong>Vallis Schröteri</strong> — largest rille valley on the Moon. A sinuous channel carved by ancient lava flows. Looks like a carved river.</span></li>
+          <li><span>⭕</span><span><strong>Rupes Recta (Straight Wall)</strong> — a 110 km fault scarp. Near Last Quarter it casts a sharp black line across the surface like a sword.</span></li>
+        </ul>
+      </div>
+      <div class="obs-card">
+        <p class="obs-card-title">Practical Tips</p>
+        <ul class="obs-list">
+          <li><span>🌡️</span><span><strong>Cool the scope down.</strong> Allow 30–45 minutes of cool-down before observing. Thermal currents inside a warm tube destroy fine detail.</span></li>
+          <li><span>🌫️</span><span><strong>Use a neutral-density Moon filter.</strong> At high power the Moon is blinding. An ND filter reduces glare and reveals subtle contrast.</span></li>
+          <li><span>📅</span><span><strong>Use a lunar phase app.</strong> Plan sessions around first/last quarter. Mark craters on a lunar map as you identify them.</span></li>
+          <li><span>🕶️</span><span><strong>Dark-adapt — but not for Moon.</strong> You don't need dark adaptation. Jump straight to it. Your eyes will adjust fast to the bright surface.</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="obs-tip">
+      <strong>C11 Sweet Spot:</strong> For the Moon, the C11 at f/10 (2800mm focal length) is almost over-powered at very high magnification — seeing rarely allows you to push beyond 350×. A 24mm Panoptic or 20mm eyepiece (~116–140×) gives a superb whole-disk view. A 9–11mm eyepiece (~250–310×) on a good night reveals detail that looks like a photograph.
+    </div>
+  </div>
+
+  <div class="divider-strip-sm"></div>
+
+  <!-- ══════════════════════
+       REALITY CHECK
+  ══════════════════════ -->
+  <div class="section section-alt reality-section">
+    <p class="poster-sub">Expectations vs Reality</p>
+    <p class="poster-title">👁️ What You'll Actually See</p>
+    <div class="poster-rule"></div>
+    <div class="reality-grid">
+      <div class="reality-card expect">
+        <span class="reality-tag">What to Expect</span>
+        <div class="reality-item"><span>✅</span><span><strong>Grey, not white</strong> — The Moon through a telescope is a palette of warm greys and subtle browns. The dark maria are clearly distinct from the pale highlands.</span></div>
+        <div class="reality-item"><span>✅</span><span><strong>No colour</strong> — Unless you are doing false-colour imaging, everything is monochrome. Don't expect Apollo photos.</span></div>
+        <div class="reality-item"><span>✅</span><span><strong>Incredibly sharp shadows</strong> — No atmosphere means zero atmospheric scattering. Shadows at the terminator are jet black and razor-edged. Startling the first time you see them.</span></div>
+        <div class="reality-item"><span>✅</span><span><strong>Depth and texture</strong> — At high power along the terminator, the Moon stops looking flat and starts looking three-dimensional. You'll see crater walls catching light like a desert landscape at dawn.</span></div>
+      </div>
+      <div class="reality-card surprise">
+        <span class="reality-tag">Common Surprises</span>
+        <div class="reality-item"><span>⚠️</span><span><strong>Atmospheric turbulence limits you more than aperture.</strong> The C11 has the aperture to show extraordinary detail — but on a mediocre seeing night, 150× is all you'll get cleanly.</span></div>
+        <div class="reality-item"><span>⚠️</span><span><strong>Full Moon is underwhelming for crater detail.</strong> It looks bright and featureless. The best views are near quarter phases, not full.</span></div>
+        <div class="reality-item"><span>⚠️</span><span><strong>You can cover the Moon with a thumbnail.</strong> It's enormous in the eyepiece — but physically it's small. The sensation of scale at high power, seeing craters as landscapes, is disorienting in the best way.</span></div>
+        <div class="reality-item"><span>⚠️</span><span><strong>It moves fast.</strong> At high magnification the Moon drifts across the field quickly. Use a tracking mount and keep one hand near the slow-motion control.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider-strip"></div>
 
   <!-- ══════════════════════
        MISSIONS
