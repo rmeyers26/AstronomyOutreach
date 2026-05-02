@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Galaxies — Islands of Stars in the Universe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+
+    /* ══════════════════════════════════════
+       DESIGN SYSTEM — Galaxies:
+       deep void, lavender, nebula purple/pink
+    ══════════════════════════════════════ */
+    :root {
+      --void:      #04030f;
+      --deep:      #0c0918;
+      --accent:    #b48aff;   /* lavender */
+      --glow:      #7c3af5;   /* deep purple */
+      --pink:      #e075c5;   /* nebula pink */
+      --blue:      #6ab3f5;   /* nebula blue */
+      --chalk:     #f4f0ff;
+      --muted:     #8070a0;
+      --card-bg:   rgba(180,138,255,0.06);
+      --card-bdr:  rgba(180,138,255,0.20);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--void);
+      color: var(--chalk);
+      font-family: 'Lora', serif;
+      font-size: 17px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ══════════════════════════════════════
+       GALAXY NEBULA BACKGROUND
+    ══════════════════════════════════════ */
+    .galaxy-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    /* Drifting nebula glow layers */
+    .galaxy-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% 30%, rgba(124,58,245,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 75% 65%, rgba(224,117,197,0.06) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 60% at 50% 80%, rgba(106,179,245,0.05) 0%, transparent 50%),
+        radial-gradient(ellipse 90% 30% at 10% 70%, rgba(180,138,255,0.04) 0%, transparent 60%);
+      animation: nebulaDrift 40s ease-in-out infinite alternate;
+    }
+
+    @keyframes nebulaDrift {
+      from { transform: scale(1)   rotate(0deg);   opacity: 0.8; }
+      to   { transform: scale(1.1) rotate(1.5deg); opacity: 1; }
+    }
+
+    /* Core glow pulse from centre */
+    .galaxy-bg::after {
+      content: '';
+      position: absolute;
+      top: -10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80vw;
+      height: 80vw;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        rgba(124,58,245,0.10) 0%,
+        rgba(180,138,255,0.05) 35%,
+        transparent 65%
+      );
+      animation: coreGlow 14s ease-in-out infinite alternate;
+    }
+
+    @keyframes coreGlow {
+      from { opacity: 0.5; transform: translateX(-50%) scale(1); }
+      to   { opacity: 1;   transform: translateX(-50%) scale(1.12); }
+    }
+
+    /* ══════════════════════════════════════
+       STARFIELD
+    ══════════════════════════════════════ */
+    .stars {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(1px 1px at 5%  10%, rgba(255,255,255,0.70) 0%, transparent 100%),
+        radial-gradient(1px 1px at 18% 75%, rgba(255,255,255,0.50) 0%, transparent 100%),
+        radial-gradient(1px 1px at 32% 22%, rgba(255,255,255,0.65) 0%, transparent 100%),
+        radial-gradient(1px 1px at 48% 88%, rgba(255,255,255,0.45) 0%, transparent 100%),
+        radial-gradient(1px 1px at 62% 5%,  rgba(255,255,255,0.70) 0%, transparent 100%),
+        radial-gradient(1px 1px at 77% 42%, rgba(255,255,255,0.55) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 18%, rgba(255,255,255,0.60) 0%, transparent 100%),
+        radial-gradient(1px 1px at 14% 52%, rgba(255,255,255,0.40) 0%, transparent 100%),
+        radial-gradient(1px 1px at 40% 60%, rgba(255,255,255,0.50) 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 78%, rgba(255,255,255,0.45) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 25% 38%, rgba(180,138,255,0.55) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 70% 30%, rgba(224,117,197,0.45) 0%, transparent 100%),
+        radial-gradient(2px 2px at 55% 55%,  rgba(180,138,255,0.60) 0%, transparent 100%),
+        radial-gradient(1px 1px at 93% 90%, rgba(255,255,255,0.35) 0%, transparent 100%),
+        radial-gradient(1px 1px at 7%  93%, rgba(255,255,255,0.40) 0%, transparent 100%);
+    }
+
+    /* ══════════════════════════════════════
+       LAYOUT
+    ══════════════════════════════════════ */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 56px 40px 88px;
+    }
+
+    /* ══════════════════════════════════════
+       HEADER
+    ══════════════════════════════════════ */
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: center;
+      border-bottom: 1px solid rgba(180,138,255,0.25);
+      padding-bottom: 44px;
+      margin-bottom: 52px;
+      animation: slideIn 0.9s ease both;
+    }
+
+    .eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 9vw, 8rem);
+      line-height: 0.9;
+      color: var(--accent);
+      letter-spacing: 3px;
+      text-shadow: 0 0 80px rgba(180,138,255,0.4);
+    }
+
+    h1 .subtitle {
+      display: block;
+      font-family: 'Lora', serif;
+      font-size: clamp(1rem, 2vw, 1.1rem);
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-top: 8px;
+      text-shadow: none;
+    }
+
+    /* ── Animated galaxy orb ── */
+    .galaxy-orb {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      position: relative;
+      flex-shrink: 0;
+      box-shadow:
+        0 0 0 10px rgba(124,58,245,0.10),
+        0 0 0 24px rgba(180,138,255,0.06),
+        0 0 60px rgba(180,138,255,0.45);
+      animation: orbFloat 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes orbFloat {
+      from { transform: translateY(0);    box-shadow: 0 0 0 10px rgba(124,58,245,0.10), 0 0 0 24px rgba(180,138,255,0.06), 0 0 60px rgba(180,138,255,0.45); }
+      to   { transform: translateY(-8px); box-shadow: 0 0 0 14px rgba(124,58,245,0.14), 0 0 0 32px rgba(180,138,255,0.08), 0 0 90px rgba(180,138,255,0.60); }
+    }
+
+    /* CSS spiral galaxy */
+    .galaxy-orb-inner {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 50%,
+          #ffffff 0%,
+          #d4b8ff 4%,
+          #7c3af5 12%,
+          #3a1a8a 25%,
+          #1a0a40 45%,
+          #0c0420 65%,
+          #04030f 100%
+        );
+      animation: galaxySpin 30s linear infinite;
+      overflow: hidden;
+    }
+
+    /* Spiral arms via pseudo-element */
+    .galaxy-orb-inner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background:
+        conic-gradient(
+          from 0deg at 50% 50%,
+          transparent 0deg,
+          rgba(180,138,255,0.25) 20deg,
+          transparent 60deg,
+          rgba(224,117,197,0.18) 100deg,
+          transparent 130deg,
+          rgba(180,138,255,0.22) 190deg,
+          transparent 230deg,
+          rgba(106,179,245,0.15) 280deg,
+          transparent 320deg,
+          transparent 360deg
+        );
+      animation: galaxySpin 30s linear infinite;
+    }
+
+    /* Star dust dots */
+    .galaxy-orb-inner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background-image:
+        radial-gradient(1px 1px at 25% 35%, rgba(255,255,255,0.8) 0%, transparent 100%),
+        radial-gradient(1px 1px at 75% 28%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 60% 70%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 68%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 82% 55%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 45% 20%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 18% 55%, rgba(255,255,255,0.5) 0%, transparent 100%);
+    }
+
+    @keyframes galaxySpin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* ══════════════════════════════════════
+       SECTION LABELS
+    ══════════════════════════════════════ */
+    .section-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 18px;
+      font-weight: 500;
+    }
+
+    /* ══════════════════════════════════════
+       FAST FACTS
+    ══════════════════════════════════════ */
+    .facts-strip {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2px;
+      margin-bottom: 52px;
+      animation: slideIn 0.9s 0.08s ease both;
+    }
+
+    .fact-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 20px 14px;
+      text-align: center;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .fact-box:hover {
+      border-color: var(--accent);
+      background: rgba(180,138,255,0.10);
+    }
+
+    .fact-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--accent);
+      line-height: 1;
+      letter-spacing: 1px;
+    }
+
+    .fact-unit {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .fact-label {
+      font-size: 0.78rem;
+      color: var(--chalk);
+      margin-top: 6px;
+      opacity: 0.75;
+      line-height: 1.4;
+    }
+
+    /* ══════════════════════════════════════
+       INTRO + TYPES GRID
+    ══════════════════════════════════════ */
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 48px;
+      margin-bottom: 52px;
+      animation: slideIn 0.9s 0.12s ease both;
+    }
+
+    .intro-text p {
+      font-size: 0.97rem;
+      line-height: 1.85;
+      margin-bottom: 14px;
+      color: var(--chalk);
+      opacity: 0.9;
+    }
+
+    /* Galaxy type bar chart */
+    .comp-bars { display: flex; flex-direction: column; gap: 10px; }
+    .comp-row  { display: flex; flex-direction: column; gap: 4px; }
+
+    .comp-labels {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+    }
+
+    .comp-name { color: var(--accent); letter-spacing: 1px; }
+    .comp-pct  { color: var(--muted); }
+
+    .comp-track {
+      height: 8px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 1px;
+      overflow: hidden;
+    }
+
+    .comp-fill {
+      height: 100%;
+      border-radius: 1px;
+      animation: barGrow 1.2s ease both;
+    }
+
+    @keyframes barGrow {
+      from { width: 0; }
+    }
+
+    /* ══════════════════════════════════════
+       DIVIDER
+    ══════════════════════════════════════ */
+    .rule {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 44px 0;
+    }
+
+    .rule-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(180,138,255,0.4), transparent);
+    }
+
+    .rule-diamond {
+      width: 8px;
+      height: 8px;
+      border: 1px solid var(--accent);
+      transform: rotate(45deg);
+    }
+
+    /* ══════════════════════════════════════
+       MIDDLE-SCHOOL CONCEPT CARDS
+    ══════════════════════════════════════ */
+    .ms-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .ms-badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: rgba(124,58,245,0.20);
+      border: 1px solid rgba(180,138,255,0.35);
+      color: var(--accent);
+      padding: 3px 10px;
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-bottom: 52px;
+      animation: slideIn 0.9s 0.18s ease both;
+    }
+
+    .concept-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 26px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    .concept-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .concept-card:hover { border-color: var(--accent); }
+    .concept-card:hover::before { opacity: 1; }
+
+    .concept-icon { font-size: 1.9rem; }
+
+    .concept-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 2px;
+      color: var(--accent);
+    }
+
+    .concept-def {
+      font-size: 0.86rem;
+      line-height: 1.7;
+      color: var(--chalk);
+      opacity: 0.85;
+      border-left: 2px solid var(--glow);
+      padding-left: 10px;
+    }
+
+    .analogy-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .analogy-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .analogy-list li {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      font-size: 0.83rem;
+      color: var(--chalk);
+      opacity: 0.83;
+      line-height: 1.55;
+    }
+
+    .analogy-list li span:first-child { flex-shrink: 0; }
+    .analogy-list li strong { color: var(--accent); font-style: italic; }
+
+    /* ══════════════════════════════════════
+       FAMOUS GALAXIES GRID
+    ══════════════════════════════════════ */
+    .famous-section {
+      animation: slideIn 0.9s 0.22s ease both;
+      margin-bottom: 52px;
+    }
+
+    .famous-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+
+    .famous-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 22px 18px;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .famous-card:hover {
+      border-color: var(--accent);
+      background: rgba(180,138,255,0.08);
+    }
+
+    .famous-icon { font-size: 1.8rem; display: block; margin-bottom: 10px; }
+
+    .famous-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 2px;
+      color: var(--accent);
+      margin-bottom: 2px;
+    }
+
+    .famous-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .famous-desc {
+      font-size: 0.83rem;
+      line-height: 1.65;
+      color: var(--chalk);
+      opacity: 0.82;
+    }
+
+    .famous-note {
+      margin-top: 10px;
+      font-size: 0.80rem;
+      color: var(--accent);
+      border-top: 1px solid rgba(180,138,255,0.12);
+      padding-top: 8px;
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    /* ══════════════════════════════════════
+       FUN FACTS / MIDDLE SCHOOL HOOKS
+    ══════════════════════════════════════ */
+    .hooks-section {
+      animation: slideIn 0.9s 0.3s ease both;
+      margin-bottom: 52px;
+    }
+
+    .hooks-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+    }
+
+    .hook-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 22px 22px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: border-color 0.3s;
+    }
+
+    .hook-card:hover { border-color: var(--accent); }
+
+    .hook-icon { font-size: 1.7rem; flex-shrink: 0; margin-top: 2px; }
+
+    .hook-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .hook-body {
+      font-size: 0.86rem;
+      line-height: 1.7;
+      color: var(--chalk);
+      opacity: 0.85;
+    }
+
+    .hook-body strong { color: var(--accent); }
+
+    /* ══════════════════════════════════════
+       MILKY WAY VS COMPARISON
+    ══════════════════════════════════════ */
+    .compare-section {
+      animation: slideIn 0.9s 0.22s ease both;
+      margin-bottom: 52px;
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+
+    .compare-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 20px 16px;
+    }
+
+    .compare-topic {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .compare-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .compare-side { text-align: center; flex: 1; }
+
+    .compare-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      color: var(--accent);
+      letter-spacing: 1px;
+      display: block;
+    }
+
+    .compare-lbl {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .compare-vs {
+      font-size: 0.75rem;
+      color: var(--muted);
+      padding: 0 6px;
+    }
+
+    .compare-analogy {
+      font-size: 0.78rem;
+      color: var(--chalk);
+      opacity: 0.7;
+      margin-top: 10px;
+      border-top: 1px solid rgba(180,138,255,0.12);
+      padding-top: 8px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    footer {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(180,138,255,0.20);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: slideIn 0.9s 0.35s ease both;
+    }
+
+    .footer-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--accent);
+      letter-spacing: 4px;
+    }
+
+    .footer-note {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* ══════════════════════════════════════
+       ANIMATIONS
+    ══════════════════════════════════════ */
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ══════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════ */
+    @media (max-width: 740px) {
+      .page { padding: 36px 20px 64px; }
+      header { grid-template-columns: 1fr; }
+      .facts-strip { grid-template-columns: repeat(3, 1fr); }
+      .intro-grid { grid-template-columns: 1fr; }
+      .concept-grid { grid-template-columns: 1fr; }
+      .compare-grid { grid-template-columns: repeat(2, 1fr); }
+      .famous-grid { grid-template-columns: repeat(2, 1fr); }
+      .hooks-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+
+    /* ══════════════════════════════════════
+       SITE NAVIGATION — mobile-first
+    ══════════════════════════════════════ */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      gap: 4px;
+      padding: 0 8px;
+      height: 52px;
+    }
+    .site-nav::-webkit-scrollbar { display: none; }
+    .site-nav a {
+      color: rgba(255,255,255,0.60);
+      text-decoration: none;
+      font-size: 14px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding: 6px 10px;
+      border-radius: 20px;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s, background 0.2s, border-color 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      min-height: 36px;
+    }
+    .site-nav a:hover,
+    .site-nav a:focus-visible { color: #fff; background: rgba(255,255,255,0.08); }
+    .site-nav a.active {
+      color: #fff;
+      background: rgba(180,138,255,0.15);
+      border-color: #b48aff;
+    }
+    @media (min-width: 600px) {
+      .site-nav { padding: 0 1.5rem; gap: 2px; }
+      .site-nav a { font-size: 15px; padding: 6px 14px; }
+    }
+
+    /* ══════════════════════════════════════
+       MOBILE FONT BOOST (≤ 480 px phones)
+    ══════════════════════════════════════ */
+    @media (max-width: 480px) {
+      body { font-size: 18px; }
+      .site-nav a { font-size: 15px; }
+    }
+
+    .nav-divider {
+      width: 1px;
+      height: 20px;
+      background: rgba(255,255,255,0.15);
+      flex-shrink: 0;
+      margin: 0 2px;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav" aria-label="Site navigation">
+  <a href="index.html">🏠 <span>Home</span></a>
+  <div class="nav-divider" aria-hidden="true"></div>
+  <a href="our-sun.html">☀️ <span>Our Sun</span></a>
+  <a href="jupiter.html">🪐 <span>Jupiter</span></a>
+  <a href="mars.html">🔴 <span>Mars</span></a>
+  <a href="saturn.html">🪐 <span>Saturn</span></a>
+  <a href="moon-retro.html">🌕 <span>Moon</span></a>
+  <div class="nav-divider" aria-hidden="true"></div>
+  <a href="orion.html">⭐ <span>Orion</span></a>
+  <a href="constellations.html">✦ <span>Constellations</span></a>
+  <a href="galaxies.html" class="active">🌌 <span>Galaxies</span></a>
+  <div class="nav-divider" aria-hidden="true"></div>
+  <a href="galileo.html">🔭 <span>Galileo</span></a>
+  <a href="celestron-cpc1100.html">📡 <span>Telescope</span></a>
+  <a href="europa-clipper.html">🧊 <span>Europa Clipper</span></a>
+</nav>
+
+<div class="galaxy-bg" aria-hidden="true"></div>
+<div class="stars" aria-hidden="true"></div>
+
+<div class="page">
+
+  <!-- ════════════════════════════════════
+       HERO HEADER
+  ════════════════════════════════════ -->
+  <header>
+    <div>
+      <p class="eyebrow">Deep Sky · Beyond Our Solar System · Middle School Guide</p>
+      <h1>GALAXIES<span class="subtitle">Islands of billions of stars — the building blocks of the universe</span></h1>
+    </div>
+    <div class="galaxy-orb" aria-hidden="true">
+      <div class="galaxy-orb-inner"></div>
+    </div>
+  </header>
+
+  <!-- ════════════════════════════════════
+       FAST FACTS
+  ════════════════════════════════════ -->
+  <p class="section-label">Fast Facts</p>
+  <div class="facts-strip">
+    <div class="fact-box">
+      <div class="fact-num">~2 trillion</div>
+      <span class="fact-unit">Galaxies in observable universe</span>
+      <p class="fact-label">That's 2,000,000,000,000 — more than grains of sand on all Earth's beaches</p>
+    </div>
+    <div class="fact-box">
+      <div class="fact-num">100,000</div>
+      <span class="fact-unit">Light-years wide · Milky Way</span>
+      <p class="fact-label">Light takes 100,000 years to cross our galaxy end to end</p>
+    </div>
+    <div class="fact-box">
+      <div class="fact-num">~250 billion</div>
+      <span class="fact-unit">Stars in the Milky Way</span>
+      <p class="fact-label">Possibly up to 400 billion — we can't count them all directly</p>
+    </div>
+    <div class="fact-box">
+      <div class="fact-num">2.537M</div>
+      <span class="fact-unit">Light-years · Andromeda Galaxy</span>
+      <p class="fact-label">Nearest large galaxy — on a collision course with us</p>
+    </div>
+    <div class="fact-box">
+      <div class="fact-num">13.4 billion</div>
+      <span class="fact-unit">Years old · oldest known galaxies</span>
+      <p class="fact-label">Formed only ~400 million years after the Big Bang</p>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       INTRO + GALAXY TYPES
+  ════════════════════════════════════ -->
+  <div class="intro-grid">
+    <div class="intro-text">
+      <p class="section-label">What Is a Galaxy?</p>
+      <p>
+        A galaxy is a massive system of <strong>stars, gas, dust, and dark matter</strong>,
+        all held together by gravity. Galaxies range from tiny dwarf galaxies with
+        just a few million stars to enormous giants with trillions — and everything
+        in between.
+      </p>
+      <p>
+        Our home galaxy, the <strong>Milky Way</strong>, is a barred spiral galaxy
+        about 100,000 light-years wide. The Sun sits roughly 26,000 light-years from
+        the centre, out in one of the galaxy's spiral arms — a quiet suburb of a
+        very large cosmic city.
+      </p>
+      <p>
+        Galaxies are not scattered randomly. They cluster together in <strong>groups
+        and superclusters</strong>, connected by filaments of gas and dark matter in
+        what astronomers call the "cosmic web." The Milky Way belongs to a group of
+        about 50 galaxies called the <strong>Local Group</strong>.
+      </p>
+    </div>
+
+    <div>
+      <p class="section-label">Galaxy Types — By Share of Known Galaxies</p>
+      <div class="comp-bars">
+
+        <div class="comp-row">
+          <div class="comp-labels">
+            <span class="comp-name">Spiral (incl. barred)</span>
+            <span class="comp-pct">~72%</span>
+          </div>
+          <div class="comp-track">
+            <div class="comp-fill" style="width:72%; background: linear-gradient(90deg,#7c3af5,#b48aff); animation-delay:0.2s;"></div>
+          </div>
+        </div>
+
+        <div class="comp-row">
+          <div class="comp-labels">
+            <span class="comp-name">Elliptical</span>
+            <span class="comp-pct">~20%</span>
+          </div>
+          <div class="comp-track">
+            <div class="comp-fill" style="width:20%; background: linear-gradient(90deg,#5a2aaa,#7c3af5); animation-delay:0.35s;"></div>
+          </div>
+        </div>
+
+        <div class="comp-row">
+          <div class="comp-labels">
+            <span class="comp-name">Irregular</span>
+            <span class="comp-pct">~5%</span>
+          </div>
+          <div class="comp-track">
+            <div class="comp-fill" style="width:5%; background: linear-gradient(90deg,#e075c5,#b48aff); animation-delay:0.5s;"></div>
+          </div>
+        </div>
+
+        <div class="comp-row">
+          <div class="comp-labels">
+            <span class="comp-name">Lenticular</span>
+            <span class="comp-pct">~3%</span>
+          </div>
+          <div class="comp-track">
+            <div class="comp-fill" style="width:3%; background: linear-gradient(90deg,#6ab3f5,#b48aff); animation-delay:0.65s;"></div>
+          </div>
+        </div>
+
+        <p style="font-size:0.82rem; color:var(--muted); margin-top:12px; line-height:1.6;">
+          Percentages vary by survey and methodology — these reflect estimates from
+          large visible-light galaxy catalogues. In dense galaxy clusters,
+          ellipticals dominate; spirals are more common in less crowded environments.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule"><div class="rule-line"></div><div class="rule-diamond"></div><div class="rule-line"></div></div>
+
+  <!-- ════════════════════════════════════
+       MIDDLE-SCHOOL CONCEPT CARDS
+  ════════════════════════════════════ -->
+  <div class="ms-header">
+    <p class="section-label" style="margin:0;">Key Concepts Explained</p>
+    <span class="ms-badge">Middle School</span>
+  </div>
+
+  <div class="concept-grid">
+
+    <!-- What Is a Galaxy -->
+    <div class="concept-card">
+      <span class="concept-icon">🌌</span>
+      <p class="concept-title">Galaxies — Cosmic Cities</p>
+      <p class="concept-def">
+        A galaxy is held together entirely by <strong>gravity</strong>. Nothing
+        else — no walls, no glue — just the mutual pull of billions of stars, plus
+        enormous amounts of invisible dark matter that we can't see but know is there
+        because of how galaxies rotate and bend light.
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>🏙️</span><span><strong>City of stars:</strong> Think of a galaxy as a city, and stars as the buildings. The Milky Way is a city of 250 billion buildings. You live in a building about halfway from the city centre, in a quiet neighbourhood called the Orion Arm.</span></li>
+        <li><span>🌀</span><span><strong>Spinning pizza dough:</strong> Spiral galaxies look like spinning discs because they rotate — the same way pizza dough spreads outward when spun. The "dough" here is made of billions of stars and gas clouds.</span></li>
+        <li><span>🍿</span><span><strong>Popcorn bowl:</strong> The universe has galaxies clustered together in "bowls" (galaxy clusters) with empty voids between them — like popcorn clumped in some parts of a bowl and missing in others.</span></li>
+      </ul>
+    </div>
+
+    <!-- Spiral Galaxies -->
+    <div class="concept-card">
+      <span class="concept-icon">🌀</span>
+      <p class="concept-title">Spiral Galaxies</p>
+      <p class="concept-def">
+        Spiral galaxies — like the Milky Way and Andromeda — have a bright central
+        bulge and sweeping arms of stars, gas, and dust. The arms are actually
+        <strong>density waves</strong>, not fixed structures — stars drift in and out
+        of the arms over millions of years, like traffic bunching on a highway.
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>🚗</span><span><strong>Traffic jam:</strong> Spiral arms aren't like the spokes of a wheel. Stars slow down when they enter a denser region — like cars bunching up near an on-ramp — then speed up again when they leave. The arm is the "jam," not the cars.</span></li>
+        <li><span>🌊</span><span><strong>Ocean wave:</strong> A wave moves across the ocean, but the water molecules mostly stay in place, just bobbing up and down. Spiral arms are waves of density moving through a galaxy — the stars bob, but the wave travels.</span></li>
+        <li><span>🎆</span><span><strong>Pinwheel firework:</strong> The spiralling shape looks like a pinwheel sparkler — but instead of sparks lasting a second, these "sparks" are stars that live for billions of years.</span></li>
+      </ul>
+    </div>
+
+    <!-- Elliptical Galaxies -->
+    <div class="concept-card">
+      <span class="concept-icon">🥚</span>
+      <p class="concept-title">Elliptical Galaxies</p>
+      <p class="concept-def">
+        Elliptical galaxies are smooth, featureless blobs of mostly old, red stars.
+        They contain very little gas or dust, so <strong>almost no new stars are
+        forming</strong> inside them. Many giant ellipticals likely formed from the
+        merger of two or more spiral galaxies — including the far-future fate of the
+        Milky Way and Andromeda.
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>🏚️</span><span><strong>Old neighbourhood:</strong> Elliptical galaxies are like old cities where no new buildings are being built — all the residents (stars) are retired, and nothing new is happening. Quiet, old, massive.</span></li>
+        <li><span>🍳</span><span><strong>Scrambled eggs:</strong> When two spiral galaxies merge, the structure gets scrambled — like stirring two bowls of differently-coloured scrambled eggs together until the swirls disappear. The result is a featureless blob.</span></li>
+        <li><span>📦</span><span><strong>Storage unit:</strong> Unlike spirals buzzing with star formation, ellipticals are like packed storage units — full of old stuff (old stars), nothing new coming in.</span></li>
+      </ul>
+    </div>
+
+    <!-- The Milky Way -->
+    <div class="concept-card">
+      <span class="concept-icon">⭐</span>
+      <p class="concept-title">The Milky Way — Our Galaxy</p>
+      <p class="concept-def">
+        The Milky Way is a <strong>barred spiral galaxy</strong> — it has a central
+        bar of stars from which the spiral arms extend. At its centre lurks a
+        <strong>supermassive black hole</strong> called Sagittarius A*, about
+        4 million times the mass of the Sun. We orbit this centre once every
+        ~225 million years — one "cosmic year."
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>🌏</span><span><strong>Living inside a dinner plate:</strong> We can't see the full shape of the Milky Way directly because we're inside it — like trying to describe the shape of a dinner plate you're sitting on. We map it by studying star distances and radio waves.</span></li>
+        <li><span>🕐</span><span><strong>The cosmic clock:</strong> Our solar system has been around ~4.6 billion years and has completed about 20 full orbits of the Milky Way. That's like saying Earth is "20 galactic years old."</span></li>
+        <li><span>🌆</span><span><strong>Suburb of a giant city:</strong> Our Sun is 26,000 light-years from the galactic centre — living in the quiet outskirts, far from the chaotic, radiation-blasted downtown where Sagittarius A* lives.</span></li>
+      </ul>
+    </div>
+
+    <!-- Dark Matter -->
+    <div class="concept-card">
+      <span class="concept-icon">🌑</span>
+      <p class="concept-title">Dark Matter</p>
+      <p class="concept-def">
+        Galaxies spin too fast at their edges — based on visible mass alone, the
+        outer stars should fly off into space. They don't. Something invisible
+        holds them in. We call it <strong>dark matter</strong>: it makes up about
+        27% of the universe's total content, but emits no light and has never
+        been directly detected. We know it exists through its gravity alone.
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>🎪</span><span><strong>Invisible tent poles:</strong> Imagine a circus tent held up by invisible poles you can't see or touch — you only know they're there because the tent doesn't collapse. Dark matter is the invisible structure holding galaxies together.</span></li>
+        <li><span>⚖️</span><span><strong>Missing weight:</strong> If you put a galaxy on a cosmic scale, the stars and gas only explain about 15% of the weight you measure. The missing 85% is dark matter — you can't see what's tipping the scale.</span></li>
+        <li><span>🌬️</span><span><strong>Wind in a storm:</strong> You can't see the wind, but you can see trees bending and debris flying — you infer the wind's strength from its effects. We infer dark matter from how its gravity bends light and spins galaxies.</span></li>
+      </ul>
+    </div>
+
+    <!-- Galactic Collisions -->
+    <div class="concept-card">
+      <span class="concept-icon">💥</span>
+      <p class="concept-title">Galaxies in Collision</p>
+      <p class="concept-def">
+        Galaxies collide — and when they do, it takes <strong>billions of years</strong>.
+        The Milky Way and Andromeda are currently approaching each other at about
+        110 km/s and will collide in roughly <strong>4.5 billion years</strong>.
+        Despite the name, very few stars actually crash into each other — the space
+        between stars is so vast that they mostly pass right by.
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>👻</span><span><strong>Two ghosts walking through each other:</strong> Stars inside galaxies are so far apart that two colliding galaxies pass through each other like two swarms of fireflies — the fireflies rarely collide directly, but the groups get mixed together.</span></li>
+        <li><span>🥊</span><span><strong>Slow-motion punch:</strong> A galactic collision in fast-forward would look like a dramatic explosion — but in real time it unfolds over billions of years, slower than the human mind can grasp. It's a punch delivered in super-slow-motion.</span></li>
+        <li><span>🔭</span><span><strong>Nature's trigger:</strong> Collisions compress gas clouds and trigger enormous waves of new star formation. A galaxy merger isn't pure destruction — it's also a cosmic nursery, birthing millions of new stars.</span></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="rule"><div class="rule-line"></div><div class="rule-diamond"></div><div class="rule-line"></div></div>
+
+  <!-- ════════════════════════════════════
+       FAMOUS GALAXIES
+  ════════════════════════════════════ -->
+  <div class="famous-section">
+    <p class="section-label">Famous Galaxies — Close Neighbours &amp; Showpieces</p>
+    <div class="famous-grid">
+
+      <div class="famous-card">
+        <span class="famous-icon">🌌</span>
+        <p class="famous-name">Andromeda · M31</p>
+        <span class="famous-tag">Nearest Large Galaxy</span>
+        <p class="famous-desc">The Andromeda Galaxy is the most distant object visible to the naked eye — a faint smudge in the constellation Andromeda. It's a barred spiral larger than the Milky Way, containing ~1 trillion stars. It's on a direct collision course with us.</p>
+        <p class="famous-note">🔭 Naked-eye visible from dark skies. In ~4.5 billion years, it merges with the Milky Way to form "Milkomeda."</p>
+      </div>
+
+      <div class="famous-card">
+        <span class="famous-icon">☁️</span>
+        <p class="famous-name">Large Magellanic Cloud</p>
+        <span class="famous-tag">Satellite Galaxy of the Milky Way</span>
+        <p class="famous-desc">A dwarf irregular galaxy visible from the Southern Hemisphere as a detached piece of the Milky Way. About 160,000 light-years away, it's one of the Milky Way's satellite galaxies — slowly being shredded by our gravity over billions of years.</p>
+        <p class="famous-note">🌟 Home to the Tarantula Nebula — the most active star-forming region in our local neighbourhood.</p>
+      </div>
+
+      <div class="famous-card">
+        <span class="famous-icon">🌀</span>
+        <p class="famous-name">Whirlpool Galaxy · M51</p>
+        <span class="famous-tag">Classic Interacting Spiral</span>
+        <p class="famous-desc">The Whirlpool is a grand-design spiral galaxy about 23 million light-years away, shown actively merging with its smaller companion NGC 5195. It was the first galaxy in which spiral structure was identified, by Lord Rosse in 1845.</p>
+        <p class="famous-note">🔭 Visible with binoculars near the end of the Big Dipper's handle. The merging companion makes it a textbook galaxy collision.</p>
+      </div>
+
+      <div class="famous-card">
+        <span class="famous-icon">🎩</span>
+        <p class="famous-name">Sombrero Galaxy · M104</p>
+        <span class="famous-tag">Edge-on Spiral with Huge Bulge</span>
+        <p class="famous-desc">Seen nearly edge-on, the Sombrero's bright core and wide dust lane give it the appearance of a hat. It's about 28 million light-years away and hosts a supermassive black hole roughly a billion times the mass of the Sun — one of the most massive known in nearby galaxies.</p>
+        <p class="famous-note">🔭 Visible in a small telescope in Virgo. The dark dust lane is one of the most dramatic features in the night sky.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       MILKY WAY vs ANDROMEDA COMPARISON
+  ════════════════════════════════════ -->
+  <div class="compare-section">
+    <p class="section-label">Milky Way vs Andromeda — Our Two Giants</p>
+    <div class="compare-grid">
+
+      <div class="compare-card">
+        <p class="compare-topic">Diameter</p>
+        <div class="compare-row">
+          <div class="compare-side">
+            <span class="compare-val">~100,000</span>
+            <span class="compare-lbl">🌌 Milky Way · light-years</span>
+          </div>
+          <span class="compare-vs">vs</span>
+          <div class="compare-side">
+            <span class="compare-val">~152,000</span>
+            <span class="compare-lbl">🌌 Andromeda · light-years</span>
+          </div>
+        </div>
+        <p class="compare-analogy">📏 Andromeda is about 50% wider — if the Milky Way fit in a football field, Andromeda would be a field and a half.</p>
+      </div>
+
+      <div class="compare-card">
+        <p class="compare-topic">Star Count</p>
+        <div class="compare-row">
+          <div class="compare-side">
+            <span class="compare-val">~250B</span>
+            <span class="compare-lbl">🌌 Milky Way</span>
+          </div>
+          <span class="compare-vs">vs</span>
+          <div class="compare-side">
+            <span class="compare-val">~1T</span>
+            <span class="compare-lbl">🌌 Andromeda</span>
+          </div>
+        </div>
+        <p class="compare-analogy">⭐ Andromeda has roughly 4× more stars — but the Milky Way may have more dark matter, making it roughly equal in total mass.</p>
+      </div>
+
+      <div class="compare-card">
+        <p class="compare-topic">Black Hole Mass</p>
+        <div class="compare-row">
+          <div class="compare-side">
+            <span class="compare-val">4M ☉</span>
+            <span class="compare-lbl">🌌 Sagittarius A*</span>
+          </div>
+          <span class="compare-vs">vs</span>
+          <div class="compare-side">
+            <span class="compare-val">100M ☉</span>
+            <span class="compare-lbl">🌌 Andromeda's BH</span>
+          </div>
+        </div>
+        <p class="compare-analogy">⚫ Andromeda's central black hole is 25× more massive — one of the reasons astronomers are eager to study what happens when these two giants merge.</p>
+      </div>
+
+      <div class="compare-card">
+        <p class="compare-topic">Time to Collision</p>
+        <div class="compare-row">
+          <div class="compare-side">
+            <span class="compare-val">4.5B</span>
+            <span class="compare-lbl">⏱ years from now</span>
+          </div>
+          <span class="compare-vs">—</span>
+          <div class="compare-side">
+            <span class="compare-val">110 km/s</span>
+            <span class="compare-lbl">🚀 closing speed</span>
+          </div>
+        </div>
+        <p class="compare-analogy">📅 The Sun will become a red giant in ~5 billion years — and Andromeda arrives just before it does. Earth (if it still exists) will have a very different night sky.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       MIND-BLOWING FACTS / HOOKS
+  ════════════════════════════════════ -->
+  <div class="hooks-section">
+    <p class="section-label">Mind-Blowing Galaxy Facts</p>
+    <div class="hooks-grid">
+
+      <div class="hook-card">
+        <span class="hook-icon">🔢</span>
+        <div>
+          <p class="hook-title">More Galaxies Than Grains of Sand</p>
+          <p class="hook-body">The observable universe contains an estimated <strong>2 trillion galaxies</strong>. Each galaxy averages hundreds of billions of stars. That means there are roughly 10 times more stars in the observable universe than grains of sand on every beach and desert on Earth — combined.</p>
+        </div>
+      </div>
+
+      <div class="hook-card">
+        <span class="hook-icon">👁️</span>
+        <div>
+          <p class="hook-title">You Can See Another Galaxy Naked-Eye</p>
+          <p class="hook-body">On a clear, dark night you can see the Andromeda Galaxy — <strong>2.537 million light-years away</strong> — without any equipment. The light entering your eye left that galaxy before modern humans existed. You're literally seeing the ancient past with your own eyes.</p>
+        </div>
+      </div>
+
+      <div class="hook-card">
+        <span class="hook-icon">💨</span>
+        <div>
+          <p class="hook-title">The Milky Way Is Moving — Fast</p>
+          <p class="hook-body">Our solar system orbits the Milky Way's centre at about <strong>828,000 km/h (514,000 mph)</strong>. The Milky Way itself hurtles through space toward the "Great Attractor" at ~2.2 million km/h. You are never sitting still — you are always hurtling through the cosmos at staggering speed.</p>
+        </div>
+      </div>
+
+      <div class="hook-card">
+        <span class="hook-icon">🕳️</span>
+        <div>
+          <p class="hook-title">Every Large Galaxy Has a Giant Black Hole</p>
+          <p class="hook-body">At the centre of almost every large galaxy — including the Milky Way — sits a <strong>supermassive black hole</strong>. In 2022, astronomers captured the first image of ours: Sagittarius A*, with a mass of 4 million Suns. Despite its fearsome size, it's currently quiet — not actively feeding.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════ -->
+  <footer>
+    <div class="footer-title">GALAXIES</div>
+    <div class="footer-note">Deep Sky · Middle School Guide · Local Group · ~50 Galaxies</div>
+    <div class="footer-note">Milky Way · 26,000 ly from centre · ~225M yr orbital period</div>
+  </footer>
+
+</div>
+</body>
+</html>
