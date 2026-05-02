@@ -57,16 +57,14 @@
     }
 
     /* ── Navigation ── */
-    .site-nav-wrapper {
+    .site-nav {
       position: sticky;
       top: 0;
       z-index: 100;
       background: rgba(3, 5, 14, 0.92);
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-    }
-
-    .site-nav {
       display: flex;
       align-items: center;
       gap: 0;
@@ -455,21 +453,19 @@
 <div id="starfield" aria-hidden="true"></div>
 
 <!-- Navigation -->
-<div class="site-nav-wrapper">
-  <nav class="site-nav" aria-label="Site navigation">
-    <a href="index.html">🏠 <span>Home</span></a>
-    <a href="our-sun.html">☀️ <span>Our Sun</span></a>
-    <a href="jupiter.html">🪐 <span>Jupiter</span></a>
-    <a href="mars.html">🔴 <span>Mars</span></a>
-    <a href="saturn.html">🪐 <span>Saturn</span></a>
-    <a href="orion.html">⭐ <span>Orion</span></a>
-    <a href="constellations.html" class="active">✦ <span>Constellations</span></a>
-    <a href="galileo.html">🔭 <span>Galileo</span></a>
-    <a href="moon-retro.html">🌕 <span>Moon Retro</span></a>
-    <a href="celestron-cpc1100.html">📡 <span>Telescope</span></a>
-    <a href="europa-clipper.html">🧊 <span>Europa Clipper</span></a>
+<nav class="site-nav" aria-label="Site navigation">
+  <a href="index.html">🏠 <span>Home</span></a>
+  <a href="our-sun.html">☀️ <span>Our Sun</span></a>
+  <a href="jupiter.html">🪐 <span>Jupiter</span></a>
+  <a href="mars.html">🔴 <span>Mars</span></a>
+  <a href="saturn.html">🪐 <span>Saturn</span></a>
+  <a href="orion.html">⭐ <span>Orion</span></a>
+  <a href="constellations.html" class="active">✦ <span>Constellations</span></a>
+  <a href="galileo.html">🔭 <span>Galileo</span></a>
+  <a href="moon-retro.html">🌕 <span>Moon Retro</span></a>
+  <a href="celestron-cpc1100.html">📡 <span>Telescope</span></a>
+  <a href="europa-clipper.html">🧊 <span>Europa Clipper</span></a>
 </nav>
-</div>
 
 <!-- Main content -->
 <div class="page">
