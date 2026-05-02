@@ -296,20 +296,31 @@
       body { font-size: 18px; }
       .site-nav a { font-size: 15px; }
     }
+
+    .nav-divider {
+      width: 1px;
+      height: 20px;
+      background: rgba(255,255,255,0.15);
+      flex-shrink: 0;
+      margin: 0 2px;
+    }
   </style>
 </head>
 <body>
 
 <nav class="site-nav" aria-label="Site navigation">
   <a href="index.html" class="active">🏠 <span>Home</span></a>
+  <div class="nav-divider" aria-hidden="true"></div>
   <a href="our-sun.html">☀️ <span>Our Sun</span></a>
   <a href="jupiter.html">🪐 <span>Jupiter</span></a>
   <a href="mars.html">🔴 <span>Mars</span></a>
   <a href="saturn.html">🪐 <span>Saturn</span></a>
+  <a href="moon-retro.html">🌕 <span>Moon</span></a>
+  <div class="nav-divider" aria-hidden="true"></div>
   <a href="orion.html">⭐ <span>Orion</span></a>
   <a href="constellations.html">✦ <span>Constellations</span></a>
+  <div class="nav-divider" aria-hidden="true"></div>
   <a href="galileo.html">🔭 <span>Galileo</span></a>
-  <a href="moon-retro.html">🌕 <span>Moon Retro</span></a>
   <a href="celestron-cpc1100.html">📡 <span>Telescope</span></a>
   <a href="europa-clipper.html">🧊 <span>Europa Clipper</span></a>
 </nav>
