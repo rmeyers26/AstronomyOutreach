@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Eclipses — When the Sun and Moon Align</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+
+    /* ══════════════════════════════════════
+       DESIGN SYSTEM — Eclipses:
+       deep void, corona gold, shadow purple,
+       blood moon red
+    ══════════════════════════════════════ */
+    :root {
+      --void:      #03020a;
+      --deep:      #0a0618;
+      --accent:    #f5d77a;   /* corona gold   */
+      --corona:    #fffae0;   /* bright corona */
+      --blood:     #c85040;   /* blood moon    */
+      --shadow:    #2a1050;   /* umbra purple  */
+      --blue:      #5ab0f0;   /* sky blue      */
+      --chalk:     #fff8f0;
+      --muted:     #907868;
+      --card-bg:   rgba(245,215,122,0.05);
+      --card-bdr:  rgba(245,215,122,0.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--void);
+      color: var(--chalk);
+      font-family: 'Lora', serif;
+      font-size: 17px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ══════════════════════════════════════
+       ECLIPSE SHADOW BACKGROUND
+    ══════════════════════════════════════ */
+    .eclipse-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    /* Umbra shadow cone drifting across */
+    .eclipse-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 55% at 50% 20%, rgba(245,215,122,0.07) 0%, transparent 55%),
+        radial-gradient(ellipse 90% 40% at 15% 80%, rgba(42,16,80,0.35)    0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 85% 60%, rgba(200,80,64,0.06)   0%, transparent 50%),
+        radial-gradient(ellipse 80% 30% at 50% 50%, rgba(10,6,24,0.60)     0%, transparent 70%);
+      animation: shadowDrift 35s ease-in-out infinite alternate;
+    }
+
+    @keyframes shadowDrift {
+      from { transform: scale(1)   translateX(0);    opacity: 0.8; }
+      to   { transform: scale(1.08) translateX(2%);  opacity: 1; }
+    }
+
+    /* Corona outer glow pulse */
+    .eclipse-bg::after {
+      content: '';
+      position: absolute;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60vw;
+      height: 60vw;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        transparent               25%,
+        rgba(245,215,122,0.06)   35%,
+        rgba(245,215,122,0.03)   55%,
+        transparent               70%
+      );
+      animation: coronaPulse 10s ease-in-out infinite alternate;
+    }
+
+    @keyframes coronaPulse {
+      from { opacity: 0.5; transform: translateX(-50%) scale(1);    }
+      to   { opacity: 1;   transform: translateX(-50%) scale(1.12); }
+    }
+
+    /* ══════════════════════════════════════
+       STARFIELD
+    ══════════════════════════════════════ */
+    .stars {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(1px 1px at 7%  12%, rgba(255,255,255,0.75) 0%, transparent 100%),
+        radial-gradient(1px 1px at 21% 68%, rgba(255,255,255,0.50) 0%, transparent 100%),
+        radial-gradient(1px 1px at 38% 25%, rgba(255,255,255,0.65) 0%, transparent 100%),
+        radial-gradient(1px 1px at 52% 82%, rgba(255,255,255,0.45) 0%, transparent 100%),
+        radial-gradient(1px 1px at 66% 8%,  rgba(255,255,255,0.70) 0%, transparent 100%),
+        radial-gradient(1px 1px at 80% 45%, rgba(255,255,255,0.55) 0%, transparent 100%),
+        radial-gradient(1px 1px at 93% 22%, rgba(255,255,255,0.60) 0%, transparent 100%),
+        radial-gradient(1px 1px at 12% 50%, rgba(255,255,255,0.40) 0%, transparent 100%),
+        radial-gradient(1px 1px at 44% 58%, rgba(255,255,255,0.50) 0%, transparent 100%),
+        radial-gradient(1px 1px at 88% 75%, rgba(255,255,255,0.45) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 30% 40%, rgba(245,215,122,0.60) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 72% 35%, rgba(245,215,122,0.45) 0%, transparent 100%),
+        radial-gradient(2px 2px at 55% 15%,  rgba(255,250,224,0.65) 0%, transparent 100%),
+        radial-gradient(1px 1px at 97% 88%, rgba(255,255,255,0.35) 0%, transparent 100%),
+        radial-gradient(1px 1px at 4%  90%, rgba(255,255,255,0.40) 0%, transparent 100%);
+    }
+
+    /* ══════════════════════════════════════
+       LAYOUT
+    ══════════════════════════════════════ */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 56px 40px 88px;
+    }
+
+    /* ══════════════════════════════════════
+       HEADER
+    ══════════════════════════════════════ */
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: center;
+      border-bottom: 1px solid rgba(245,215,122,0.22);
+      padding-bottom: 44px;
+      margin-bottom: 52px;
+      animation: slideIn 0.9s ease both;
+    }
+
+    .eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 9vw, 8rem);
+      line-height: 0.9;
+      color: var(--accent);
+      letter-spacing: 3px;
+      text-shadow: 0 0 80px rgba(245,215,122,0.40);
+    }
+
+    h1 .subtitle {
+      display: block;
+      font-family: 'Lora', serif;
+      font-size: clamp(1rem, 2vw, 1.1rem);
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-top: 8px;
+      text-shadow: none;
+    }
+
+    /* ── CSS Solar Eclipse Orb ── */
+    .eclipse-orb {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      position: relative;
+      flex-shrink: 0;
+      animation: orbFloat 7s ease-in-out infinite alternate;
+    }
+
+    @keyframes orbFloat {
+      from { transform: translateY(0);    filter: drop-shadow(0 0 18px rgba(245,215,122,0.55)); }
+      to   { transform: translateY(-8px); filter: drop-shadow(0 0 34px rgba(245,215,122,0.75)); }
+    }
+
+    /* Sun layer — corona ring */
+    .eclipse-sun {
+      position: absolute;
+      inset: -16px;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        transparent 46%,
+        rgba(245,215,122,0.20) 50%,
+        rgba(245,215,122,0.45) 55%,
+        rgba(255,250,200,0.60) 60%,
+        rgba(245,215,122,0.35) 65%,
+        rgba(200,160,60,0.15)  75%,
+        transparent 85%
+      );
+      animation: coronaSpin 20s linear infinite;
+    }
+
+    /* Corona streamers */
+    .eclipse-sun::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: conic-gradient(
+        from 0deg at 50% 50%,
+        transparent     0deg,
+        rgba(245,215,122,0.30) 8deg,
+        transparent    22deg,
+        rgba(255,240,160,0.25) 42deg,
+        transparent    58deg,
+        rgba(245,215,122,0.28) 80deg,
+        transparent    95deg,
+        rgba(255,250,200,0.22) 115deg,
+        transparent   130deg,
+        rgba(245,215,122,0.26) 155deg,
+        transparent   170deg,
+        rgba(255,240,160,0.20) 200deg,
+        transparent   215deg,
+        rgba(245,215,122,0.28) 240deg,
+        transparent   255deg,
+        rgba(255,250,200,0.24) 280deg,
+        transparent   300deg,
+        rgba(245,215,122,0.22) 330deg,
+        transparent   360deg
+      );
+      animation: coronaSpin 25s linear infinite reverse;
+    }
+
+    @keyframes coronaSpin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* Moon disk covering the Sun */
+    .eclipse-moon {
+      position: absolute;
+      inset: 8px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 38% 38%,
+        #1a1228 0%,
+        #0d0818 50%,
+        #050310 100%
+      );
+      box-shadow: inset -4px -4px 12px rgba(0,0,0,0.8);
+    }
+
+    /* Diamond ring flash at edge */
+    .eclipse-moon::after {
+      content: '';
+      position: absolute;
+      top: 12%;
+      left: 8%;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,220,0.95) 0%, rgba(245,215,122,0.60) 50%, transparent 100%);
+      animation: diamondRing 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes diamondRing {
+      from { opacity: 0.3; transform: scale(0.8); }
+      to   { opacity: 1;   transform: scale(1.2); }
+    }
+
+    /* ══════════════════════════════════════
+       SECTION LABELS
+    ══════════════════════════════════════ */
+    .section-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 18px;
+      font-weight: 500;
+    }
+
+    /* ══════════════════════════════════════
+       FAST FACTS
+    ══════════════════════════════════════ */
+    .facts-strip {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2px;
+      margin-bottom: 52px;
+      animation: slideIn 0.9s 0.08s ease both;
+    }
+
+    .fact-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 20px 14px;
+      text-align: center;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .fact-box:hover {
+      border-color: var(--accent);
+      background: rgba(245,215,122,0.09);
+    }
+
+    .fact-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--accent);
+      line-height: 1;
+      letter-spacing: 1px;
+    }
+
+    .fact-unit {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .fact-label {
+      font-size: 0.78rem;
+      color: var(--chalk);
+      margin-top: 6px;
+      opacity: 0.75;
+      line-height: 1.4;
+    }
+
+    /* ══════════════════════════════════════
+       INTRO + TYPES GRID
+    ══════════════════════════════════════ */
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 48px;
+      margin-bottom: 52px;
+      animation: slideIn 0.9s 0.12s ease both;
+    }
+
+    .intro-text p {
+      font-size: 0.97rem;
+      line-height: 1.85;
+      margin-bottom: 14px;
+      color: var(--chalk);
+      opacity: 0.9;
+    }
+
+    /* Eclipse type rows */
+    .comp-bars { display: flex; flex-direction: column; gap: 10px; }
+    .comp-row  { display: flex; flex-direction: column; gap: 4px; }
+
+    .comp-labels {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+    }
+
+    .comp-name { color: var(--accent); letter-spacing: 1px; }
+    .comp-pct  { color: var(--muted); }
+
+    .comp-track {
+      height: 8px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 1px;
+      overflow: hidden;
+    }
+
+    .comp-fill {
+      height: 100%;
+      border-radius: 1px;
+      animation: barGrow 1.2s ease both;
+    }
+
+    @keyframes barGrow {
+      from { width: 0; }
+    }
+
+    /* ══════════════════════════════════════
+       DIVIDER
+    ══════════════════════════════════════ */
+    .rule {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 44px 0;
+    }
+
+    .rule-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(245,215,122,0.35), transparent);
+    }
+
+    .rule-diamond {
+      width: 8px;
+      height: 8px;
+      border: 1px solid var(--accent);
+      transform: rotate(45deg);
+    }
+
+    /* ══════════════════════════════════════
+       MIDDLE-SCHOOL CONCEPT CARDS
+    ══════════════════════════════════════ */
+    .ms-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .ms-badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: rgba(200,80,64,0.18);
+      border: 1px solid rgba(200,80,64,0.35);
+      color: #e07060;
+      padding: 3px 10px;
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-bottom: 52px;
+      animation: slideIn 0.9s 0.18s ease both;
+    }
+
+    .concept-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 26px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    .concept-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .concept-card:hover { border-color: var(--accent); }
+    .concept-card:hover::before { opacity: 1; }
+
+    .concept-icon { font-size: 1.9rem; }
+
+    .concept-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 2px;
+      color: var(--accent);
+    }
+
+    .concept-def {
+      font-size: 0.86rem;
+      line-height: 1.7;
+      color: var(--chalk);
+      opacity: 0.85;
+      border-left: 2px solid var(--blood);
+      padding-left: 10px;
+    }
+
+    .analogy-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .analogy-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .analogy-list li {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      font-size: 0.83rem;
+      color: var(--chalk);
+      opacity: 0.83;
+      line-height: 1.55;
+    }
+
+    .analogy-list li span:first-child { flex-shrink: 0; }
+    .analogy-list li strong { color: var(--accent); font-style: italic; }
+
+    /* ══════════════════════════════════════
+       SOLAR vs LUNAR COMPARISON
+    ══════════════════════════════════════ */
+    .compare-section {
+      animation: slideIn 0.9s 0.22s ease both;
+      margin-bottom: 52px;
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+
+    .compare-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 20px 16px;
+    }
+
+    .compare-topic {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .compare-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .compare-side { text-align: center; flex: 1; }
+
+    .compare-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      color: var(--accent);
+      letter-spacing: 1px;
+      display: block;
+    }
+
+    .compare-lbl {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .compare-vs {
+      font-size: 0.75rem;
+      color: var(--muted);
+      padding: 0 6px;
+    }
+
+    .compare-analogy {
+      font-size: 0.78rem;
+      color: var(--chalk);
+      opacity: 0.7;
+      margin-top: 10px;
+      border-top: 1px solid rgba(245,215,122,0.12);
+      padding-top: 8px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    /* ══════════════════════════════════════
+       UPCOMING ECLIPSES TABLE
+    ══════════════════════════════════════ */
+    .upcoming-section {
+      animation: slideIn 0.9s 0.26s ease both;
+      margin-bottom: 52px;
+    }
+
+    .eclipse-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .eclipse-table thead tr {
+      border-bottom: 1px solid rgba(245,215,122,0.25);
+    }
+
+    .eclipse-table th {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 500;
+    }
+
+    .eclipse-table td {
+      padding: 14px 14px;
+      font-size: 0.88rem;
+      color: var(--chalk);
+      opacity: 0.88;
+      border-bottom: 1px solid rgba(245,215,122,0.07);
+      line-height: 1.5;
+    }
+
+    .eclipse-table tr:hover td { background: rgba(245,215,122,0.04); }
+
+    .eclipse-table td:first-child {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      color: var(--accent);
+      letter-spacing: 1px;
+    }
+
+    .type-badge {
+      display: inline-block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 2px;
+    }
+
+    .type-solar-total   { background: rgba(245,215,122,0.15); color: var(--accent);   border: 1px solid rgba(245,215,122,0.30); }
+    .type-solar-annular { background: rgba(200,160,60,0.12);  color: #d4aa55;         border: 1px solid rgba(200,160,60,0.25); }
+    .type-solar-partial { background: rgba(160,120,40,0.10);  color: #b09040;         border: 1px solid rgba(160,120,40,0.20); }
+    .type-lunar-total   { background: rgba(200,80,64,0.15);   color: #e07060;         border: 1px solid rgba(200,80,64,0.30); }
+    .type-lunar-partial { background: rgba(160,60,48,0.12);   color: #c06050;         border: 1px solid rgba(160,60,48,0.25); }
+
+    /* ══════════════════════════════════════
+       FUN FACTS / MIND-BLOWING HOOKS
+    ══════════════════════════════════════ */
+    .hooks-section {
+      animation: slideIn 0.9s 0.3s ease both;
+      margin-bottom: 52px;
+    }
+
+    .hooks-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+    }
+
+    .hook-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-bdr);
+      padding: 22px 22px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: border-color 0.3s;
+    }
+
+    .hook-card:hover { border-color: var(--accent); }
+
+    .hook-icon { font-size: 1.7rem; flex-shrink: 0; margin-top: 2px; }
+
+    .hook-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .hook-body {
+      font-size: 0.86rem;
+      line-height: 1.7;
+      color: var(--chalk);
+      opacity: 0.85;
+    }
+
+    .hook-body strong { color: var(--accent); }
+
+    /* ══════════════════════════════════════
+       SAFETY ALERT BOX
+    ══════════════════════════════════════ */
+    .safety-box {
+      background: rgba(200,80,64,0.10);
+      border: 1px solid rgba(200,80,64,0.35);
+      border-left: 4px solid var(--blood);
+      padding: 22px 24px;
+      margin-bottom: 52px;
+      animation: slideIn 0.9s 0.32s ease both;
+    }
+
+    .safety-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 2px;
+      color: #e07060;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .safety-body {
+      font-size: 0.88rem;
+      line-height: 1.75;
+      color: var(--chalk);
+      opacity: 0.88;
+    }
+
+    .safety-body ul {
+      list-style: none;
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .safety-body ul li {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .safety-body ul li span:first-child { flex-shrink: 0; }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    footer {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(245,215,122,0.18);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: slideIn 0.9s 0.35s ease both;
+    }
+
+    .footer-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--accent);
+      letter-spacing: 4px;
+    }
+
+    .footer-note {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* ══════════════════════════════════════
+       ANIMATIONS
+    ══════════════════════════════════════ */
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ══════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════ */
+    @media (max-width: 740px) {
+      .page { padding: 36px 20px 64px; }
+      header { grid-template-columns: 1fr; }
+      .facts-strip { grid-template-columns: repeat(3, 1fr); }
+      .intro-grid { grid-template-columns: 1fr; }
+      .concept-grid { grid-template-columns: 1fr; }
+      .compare-grid { grid-template-columns: repeat(2, 1fr); }
+      .hooks-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+      .eclipse-table th, .eclipse-table td { padding: 10px 8px; }
+    }
+
+    /* ══════════════════════════════════════
+       SITE NAVIGATION — mobile-first
+    ══════════════════════════════════════ */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      gap: 4px;
+      padding: 0 8px;
+      height: 52px;
+    }
+    .site-nav::-webkit-scrollbar { display: none; }
+    .site-nav a {
+      color: rgba(255,255,255,0.60);
+      text-decoration: none;
+      font-size: 14px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding: 6px 10px;
+      border-radius: 20px;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s, background 0.2s, border-color 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      min-height: 36px;
+    }
+    .site-nav a:hover,
+    .site-nav a:focus-visible { color: #fff; background: rgba(255,255,255,0.08); }
+    .site-nav a.active {
+      color: #fff;
+      background: rgba(245,215,122,0.15);
+      border-color: #f5d77a;
+    }
+    @media (min-width: 600px) {
+      .site-nav { padding: 0 1.5rem; gap: 2px; }
+      .site-nav a { font-size: 15px; padding: 6px 14px; }
+    }
+
+    /* ══════════════════════════════════════
+       MOBILE FONT BOOST (≤ 480 px phones)
+    ══════════════════════════════════════ */
+    @media (max-width: 480px) {
+      body { font-size: 18px; }
+      .site-nav a { font-size: 15px; }
+    }
+
+    .nav-divider {
+      width: 1px;
+      height: 20px;
+      background: rgba(255,255,255,0.15);
+      flex-shrink: 0;
+      margin: 0 2px;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav" aria-label="Site navigation">
+  <a href="index.html">🏠 <span>Home</span></a>
+  <div class="nav-divider" aria-hidden="true"></div>
+  <a href="our-sun.html">☀️ <span>Our Sun</span></a>
+  <a href="jupiter.html">🪐 <span>Jupiter</span></a>
+  <a href="mars.html">🔴 <span>Mars</span></a>
+  <a href="saturn.html">🪐 <span>Saturn</span></a>
+  <a href="moon-retro.html">🌕 <span>Moon</span></a>
+  <a href="eclipses.html" class="active">🌘 <span>Eclipses</span></a>
+  <div class="nav-divider" aria-hidden="true"></div>
+  <a href="orion.html">⭐ <span>Orion</span></a>
+  <a href="constellations.html">✦ <span>Constellations</span></a>
+  <a href="galaxies.html">🌌 <span>Galaxies</span></a>
+  <div class="nav-divider" aria-hidden="true"></div>
+  <a href="galileo.html">🔭 <span>Galileo</span></a>
+  <a href="celestron-cpc1100.html">📡 <span>Telescope</span></a>
+  <a href="europa-clipper.html">🧊 <span>Europa Clipper</span></a>
+</nav>
+
+<div class="eclipse-bg" aria-hidden="true"></div>
+<div class="stars" aria-hidden="true"></div>
+
+<div class="page">
+
+  <!-- ════════════════════════════════════
+       HERO HEADER
+  ════════════════════════════════════ -->
+  <header>
+    <div>
+      <p class="eyebrow">Solar System · Sun–Moon Alignment · Middle School Guide</p>
+      <h1>ECLIPSES<span class="subtitle">When the Sun and Moon align — one of nature's most dramatic spectacles</span></h1>
+    </div>
+    <div class="eclipse-orb" aria-hidden="true">
+      <div class="eclipse-sun"></div>
+      <div class="eclipse-moon"></div>
+    </div>
+  </header>
+
+  <!-- ════════════════════════════════════
+       FAST FACTS
+  ════════════════════════════════════ -->
+  <p class="section-label">Fast Facts</p>
+  <div class="facts-strip">
+    <div class="fact-box">
+      <div class="fact-num">7 min 32 s</div>
+      <span class="fact-unit">Max totality · solar eclipse</span>
+      <p class="fact-label">The longest possible total solar eclipse — most last 2–3 minutes</p>
+    </div>
+    <div class="fact-box">
+      <div class="fact-num">2–5</div>
+      <span class="fact-unit">Solar eclipses per year</span>
+      <p class="fact-label">At least 2 solar eclipses occur somewhere on Earth every year</p>
+    </div>
+    <div class="fact-box">
+      <div class="fact-num">18 yrs 11 days</div>
+      <span class="fact-unit">Saros cycle</span>
+      <p class="fact-label">The repeating rhythm that allows eclipse prediction centuries ahead</p>
+    </div>
+    <div class="fact-box">
+      <div class="fact-num">~50%</div>
+      <span class="fact-unit">Of Earth sees a lunar eclipse</span>
+      <p class="fact-label">Any lunar eclipse is visible from the entire night side of Earth simultaneously</p>
+    </div>
+    <div class="fact-box">
+      <div class="fact-num">Aug 2044</div>
+      <span class="fact-unit">Next US total solar eclipse</span>
+      <p class="fact-label">Path crosses Montana, North Dakota, and into Canada</p>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       INTRO + ECLIPSE TYPES
+  ════════════════════════════════════ -->
+  <div class="intro-grid">
+    <div class="intro-text">
+      <p class="section-label">What Is an Eclipse?</p>
+      <p>
+        An eclipse happens when three objects align in space — the <strong>Sun,
+        Moon, and Earth</strong> — so that one casts a shadow on another.
+        Because the Moon's orbit is slightly tilted relative to Earth's orbit
+        around the Sun, this alignment doesn't happen every month, making
+        eclipses special events.
+      </p>
+      <p>
+        There are two main types: a <strong>solar eclipse</strong> occurs when
+        the Moon passes directly between the Earth and the Sun, blocking sunlight
+        and casting a shadow on Earth's surface. A <strong>lunar eclipse</strong>
+        occurs when the Earth moves between the Sun and Moon, casting Earth's
+        shadow across the Moon.
+      </p>
+      <p>
+        The fact that solar eclipses are possible at all is a remarkable
+        cosmic coincidence: the Sun is about <strong>400 times wider</strong> than
+        the Moon, but also about <strong>400 times further away</strong> — making
+        them appear almost the same size in our sky.
+      </p>
+    </div>
+
+    <div>
+      <p class="section-label">Eclipse Types — by Frequency</p>
+      <div class="comp-bars">
+
+        <div class="comp-row">
+          <div class="comp-labels">
+            <span class="comp-name">Solar — Partial</span>
+            <span class="comp-pct">Most common</span>
+          </div>
+          <div class="comp-track">
+            <div class="comp-fill" style="width:90%; background: linear-gradient(90deg,#a07820,#f5d77a); animation-delay:0.2s;"></div>
+          </div>
+        </div>
+
+        <div class="comp-row">
+          <div class="comp-labels">
+            <span class="comp-name">Solar — Annular ("ring of fire")</span>
+            <span class="comp-pct">Common</span>
+          </div>
+          <div class="comp-track">
+            <div class="comp-fill" style="width:65%; background: linear-gradient(90deg,#c07820,#e5b840); animation-delay:0.35s;"></div>
+          </div>
+        </div>
+
+        <div class="comp-row">
+          <div class="comp-labels">
+            <span class="comp-name">Solar — Total</span>
+            <span class="comp-pct">Rare</span>
+          </div>
+          <div class="comp-track">
+            <div class="comp-fill" style="width:38%; background: linear-gradient(90deg,#7a5010,#c89030); animation-delay:0.5s;"></div>
+          </div>
+        </div>
+
+        <div class="comp-row">
+          <div class="comp-labels">
+            <span class="comp-name">Lunar — Penumbral</span>
+            <span class="comp-pct">Common</span>
+          </div>
+          <div class="comp-track">
+            <div class="comp-fill" style="width:70%; background: linear-gradient(90deg,#602030,#a85040); animation-delay:0.65s;"></div>
+          </div>
+        </div>
+
+        <div class="comp-row">
+          <div class="comp-labels">
+            <span class="comp-name">Lunar — Partial</span>
+            <span class="comp-pct">Moderate</span>
+          </div>
+          <div class="comp-track">
+            <div class="comp-fill" style="width:50%; background: linear-gradient(90deg,#802840,#c85040); animation-delay:0.8s;"></div>
+          </div>
+        </div>
+
+        <div class="comp-row">
+          <div class="comp-labels">
+            <span class="comp-name">Lunar — Total ("Blood Moon")</span>
+            <span class="comp-pct">Rare</span>
+          </div>
+          <div class="comp-track">
+            <div class="comp-fill" style="width:32%; background: linear-gradient(90deg,#a03030,#e06050); animation-delay:0.95s;"></div>
+          </div>
+        </div>
+
+        <p style="font-size:0.82rem; color:var(--muted); margin-top:12px; line-height:1.6;">
+          Total solar eclipses are rare at any given location — on average a
+          specific spot on Earth's surface sees one only every <em>~375 years</em>.
+          Total lunar eclipses are more accessible — visible from half the planet at once.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule"><div class="rule-line"></div><div class="rule-diamond"></div><div class="rule-line"></div></div>
+
+  <!-- ════════════════════════════════════
+       KEY CONCEPTS
+  ════════════════════════════════════ -->
+  <div class="ms-header">
+    <p class="section-label" style="margin:0;">Key Concepts Explained</p>
+    <span class="ms-badge">Middle School</span>
+  </div>
+
+  <div class="concept-grid">
+
+    <!-- Umbra & Penumbra -->
+    <div class="concept-card">
+      <span class="concept-icon">🌑</span>
+      <p class="concept-title">Umbra &amp; Penumbra</p>
+      <p class="concept-def">
+        Every shadow has two parts: the <strong>umbra</strong> (Latin for "shadow")
+        is the darkest, innermost region where the light source is completely blocked.
+        The <strong>penumbra</strong> is the outer, partial shadow where the light
+        source is only partly covered. Whether you see a total or partial eclipse depends
+        entirely on which part of the Moon's shadow falls on you.
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>💡</span><span><strong>Flashlight on a wall:</strong> Hold your hand between a flashlight and a wall. The dark centre of the shadow is the umbra — the blurry outer edge is the penumbra. Stand in the dark centre and the light is completely blocked. Step to the edge and you still see some light.</span></li>
+        <li><span>☂️</span><span><strong>Umbrella in sunlight:</strong> Directly under a beach umbrella it's dark — you're in the "umbra." Step to the edge and you're half in sun, half in shade — the "penumbra." The Moon creates the same effect, just on a planetary scale.</span></li>
+        <li><span>🏟️</span><span><strong>Stadium seats:</strong> In a stadium, some seats are in full shade, some get partial sun depending on the roof overhang. The umbra is the seats in deep shade; the penumbra is the ones with partial cover.</span></li>
+      </ul>
+    </div>
+
+    <!-- Solar Eclipse Geometry -->
+    <div class="concept-card">
+      <span class="concept-icon">☀️</span>
+      <p class="concept-title">Solar Eclipse Geometry</p>
+      <p class="concept-def">
+        A solar eclipse requires the Moon to cross the <strong>ecliptic plane</strong>
+        (the flat plane of Earth's orbit) at a new moon — called a <em>node crossing</em>.
+        Since the Moon's orbit is tilted about 5° relative to Earth's, this alignment
+        happens only a few times per year. The Moon's shadow cone is narrow — the
+        <strong>path of totality</strong> is rarely more than 160 km (100 mi) wide.
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>🎯</span><span><strong>Laser pointer through a keyhole:</strong> The Moon's umbra is like a laser beam — it hits Earth as a tiny dot. Only people standing in that dot see a total eclipse. Everyone else gets a partial or nothing.</span></li>
+        <li><span>🚂</span><span><strong>Train on a track:</strong> The path of totality moves across Earth like a train on a track — narrow and precise. If you're standing on the tracks you see totality; a kilometre away you miss it entirely.</span></li>
+        <li><span>🔭</span><span><strong>Perfect cosmic coincidence:</strong> The Sun is 400× wider than the Moon AND 400× farther away — making them appear almost identical in size from Earth. This is why total eclipses happen at all. Move the Moon slightly farther and we'd only ever get annular eclipses.</span></li>
+      </ul>
+    </div>
+
+    <!-- Annular Eclipse -->
+    <div class="concept-card">
+      <span class="concept-icon">💍</span>
+      <p class="concept-title">Annular Eclipse — "Ring of Fire"</p>
+      <p class="concept-def">
+        The Moon's orbit is not a perfect circle — it's an <strong>ellipse</strong>.
+        When the Moon is near its farthest point (apogee), it appears slightly smaller
+        in the sky. If a solar eclipse occurs then, the Moon doesn't fully cover the Sun,
+        leaving a bright ring of sunlight visible around the Moon's disc. This is an
+        <strong>annular eclipse</strong> — still spectacular, but never as dark as a total.
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>🍩</span><span><strong>Donut in the sky:</strong> An annular eclipse looks exactly like a glowing donut — a dark circle with a bright ring of sunlight all the way around. The "hole" is the Moon; the "donut ring" is the part of the Sun it can't cover.</span></li>
+        <li><span>📏</span><span><strong>A coin too small:</strong> Try covering a flashlight beam with a coin. If the coin is slightly too small, light leaks around the edge. That's what happens during an annular eclipse — the Moon is just too far away to fully cover the Sun.</span></li>
+        <li><span>🔗</span><span><strong>Goldilocks orbit:</strong> Total eclipses happen only when the Moon is at just the right distance. Too close: total. Too far: annular. Same geometry, different result depending on where the Moon is in its elliptical orbit.</span></li>
+      </ul>
+    </div>
+
+    <!-- Lunar Eclipse / Blood Moon -->
+    <div class="concept-card">
+      <span class="concept-icon">🌕</span>
+      <p class="concept-title">Lunar Eclipse &amp; the Blood Moon</p>
+      <p class="concept-def">
+        During a total lunar eclipse, the Moon passes through Earth's umbra and turns
+        a deep <strong>red or orange colour</strong>. This happens because Earth's
+        atmosphere bends (refracts) red wavelengths of sunlight into the shadow — the
+        same reason sunrises and sunsets are red. Every sunset and sunrise on Earth
+        simultaneously projects red light onto the Moon.
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>🌅</span><span><strong>All sunsets at once:</strong> Imagine every sunrise and sunset happening on Earth at the same time — all that red-orange light gets refracted into Earth's shadow and painted onto the Moon. That's why it glows red.</span></li>
+        <li><span>🔴</span><span><strong>Red-filtered torch:</strong> Earth's atmosphere acts like a red filter in front of a torch. White sunlight goes in; only the red wavelengths get bent into the shadow zone. Blue light scatters away (same reason the sky is blue), leaving only red.</span></li>
+        <li><span>👁️</span><span><strong>Safe to watch:</strong> Unlike a solar eclipse, a total lunar eclipse is completely safe to watch with your naked eyes, binoculars, or a telescope — you're just watching the Moon change colour in reflected light.</span></li>
+      </ul>
+    </div>
+
+    <!-- The Saros Cycle -->
+    <div class="concept-card">
+      <span class="concept-icon">🔄</span>
+      <p class="concept-title">The Saros Cycle</p>
+      <p class="concept-def">
+        Ancient Babylonian astronomers discovered that eclipse patterns repeat every
+        <strong>18 years, 11 days, and 8 hours</strong>. This period — called the
+        Saros cycle — is the time it takes for the Sun, Moon, and Earth to return to
+        nearly the same alignment. The extra 8 hours means each successive eclipse in
+        a series occurs about <strong>120° farther west</strong>, so you need three
+        Saros cycles (54 years) before an eclipse returns to the same longitude.
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>🎵</span><span><strong>Cosmic metronome:</strong> The Saros cycle is like a metronome — a regular beat that tells you when the next eclipse is coming. Once you know the rhythm, you can predict eclipses centuries into the future — or the past.</span></li>
+        <li><span>⚙️</span><span><strong>Three interlocking gears:</strong> Think of three gears — the Moon's orbit, Earth's orbit, and the position of the nodes. The Saros is the moment all three gears realign, triggering another eclipse in the sequence.</span></li>
+        <li><span>📅</span><span><strong>The eclipse family:</strong> Each Saros series is like a family of eclipses — related members born 18 years apart, each one slightly shifted westward. A family lasts ~1,000–1,500 years before dying out as geometry drifts.</span></li>
+      </ul>
+    </div>
+
+    <!-- Diamond Ring & Baily's Beads -->
+    <div class="concept-card">
+      <span class="concept-icon">💎</span>
+      <p class="concept-title">Diamond Ring &amp; Baily's Beads</p>
+      <p class="concept-def">
+        In the final seconds before and after totality, sunlight streams through
+        gaps in the Moon's rugged mountains and craters. This creates a string of
+        bright dots around the Moon's edge called <strong>Baily's Beads</strong>
+        (named after astronomer Francis Baily, 1836). When only one bead remains,
+        it creates the dramatic <strong>diamond ring effect</strong> — a single
+        blazing point of light with the corona as its ring.
+      </p>
+      <p class="analogy-label">Analogies</p>
+      <ul class="analogy-list">
+        <li><span>🏔️</span><span><strong>Sunlight through mountain peaks:</strong> Baily's Beads are literally sunlight passing through the valleys between the Moon's mountains — like light coming over a jagged skyline. The Moon's surface topography creates the beaded pattern.</span></li>
+        <li><span>💍</span><span><strong>Engagement ring:</strong> The diamond ring effect is one of the most celebrated sights in astronomy — a single brilliant "diamond" of sunlight sparkling against the gossamer corona ring. It lasts only a second or two.</span></li>
+        <li><span>⏱️</span><span><strong>Countdown clock:</strong> Experienced eclipse chasers watch for Baily's Beads as a countdown — when the last bead shrinks to the diamond, totality is only a second away. Then the corona erupts into view.</span></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="rule"><div class="rule-line"></div><div class="rule-diamond"></div><div class="rule-line"></div></div>
+
+  <!-- ════════════════════════════════════
+       SOLAR vs LUNAR COMPARISON
+  ════════════════════════════════════ -->
+  <div class="compare-section">
+    <p class="section-label">Solar vs Lunar Eclipses — Key Differences</p>
+    <div class="compare-grid">
+
+      <div class="compare-card">
+        <p class="compare-topic">What Blocks What</p>
+        <div class="compare-row">
+          <div class="compare-side">
+            <span class="compare-val">Moon</span>
+            <span class="compare-lbl">☀️ blocks the Sun</span>
+          </div>
+          <span class="compare-vs">vs</span>
+          <div class="compare-side">
+            <span class="compare-val">Earth</span>
+            <span class="compare-lbl">🌕 blocks Moon's light</span>
+          </div>
+        </div>
+        <p class="compare-analogy">Solar: Moon's shadow hits Earth. Lunar: Earth's shadow falls on the Moon.</p>
+      </div>
+
+      <div class="compare-card">
+        <p class="compare-topic">Who Can See It</p>
+        <div class="compare-row">
+          <div class="compare-side">
+            <span class="compare-val">Narrow strip</span>
+            <span class="compare-lbl">☀️ Solar · &lt;160 km wide</span>
+          </div>
+          <span class="compare-vs">vs</span>
+          <div class="compare-side">
+            <span class="compare-val">Half Earth</span>
+            <span class="compare-lbl">🌕 Lunar · entire night side</span>
+          </div>
+        </div>
+        <p class="compare-analogy">🗺️ A total solar eclipse path is razor-thin. A total lunar eclipse is visible to billions simultaneously.</p>
+      </div>
+
+      <div class="compare-card">
+        <p class="compare-topic">Duration of Totality</p>
+        <div class="compare-row">
+          <div class="compare-side">
+            <span class="compare-val">≤7.5 min</span>
+            <span class="compare-lbl">☀️ Solar (total)</span>
+          </div>
+          <span class="compare-vs">vs</span>
+          <div class="compare-side">
+            <span class="compare-val">≤1 hr 47 min</span>
+            <span class="compare-lbl">🌕 Lunar (total)</span>
+          </div>
+        </div>
+        <p class="compare-analogy">⏱️ Lunar totality can last nearly two hours. Solar totality is over in minutes — often just 2–3.</p>
+      </div>
+
+      <div class="compare-card">
+        <p class="compare-topic">Eye Safety</p>
+        <div class="compare-row">
+          <div class="compare-side">
+            <span class="compare-val">⚠️ DANGER</span>
+            <span class="compare-lbl">☀️ Solar — use eclipse glasses</span>
+          </div>
+          <span class="compare-vs">vs</span>
+          <div class="compare-side">
+            <span class="compare-val">✅ SAFE</span>
+            <span class="compare-lbl">🌕 Lunar — naked eye OK</span>
+          </div>
+        </div>
+        <p class="compare-analogy">👀 During totality only, solar is safe. Any partial phase of a solar eclipse requires certified eclipse glasses.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       SAFETY BOX
+  ════════════════════════════════════ -->
+  <div class="safety-box">
+    <p class="safety-title">⚠️ Eclipse Safety — Do Not Look Without Protection</p>
+    <div class="safety-body">
+      <p>Looking at the Sun during any partial phase of a solar eclipse — even briefly — can cause <strong>permanent eye damage and blindness</strong>. The danger is not immediately painful, which makes it especially hazardous. UV and infrared radiation burn the retina before you feel anything.</p>
+      <ul>
+        <li><span>✅</span><span><strong>Safe:</strong> ISO 12312-2 certified eclipse glasses (check for cracks or damage first). A certified solar filter on a telescope or binoculars.</span></li>
+        <li><span>✅</span><span><strong>Safe during totality only:</strong> The naked eye is safe only during the exact window of total solar eclipse — when the Sun is completely blocked. When the diamond ring reappears, look away immediately.</span></li>
+        <li><span>❌</span><span><strong>Never use:</strong> Sunglasses, smoked glass, CDs, smartphone screens, or unverified filters — none reduce solar radiation to safe levels.</span></li>
+        <li><span>✅</span><span><strong>Safe alternative anytime:</strong> Project sunlight through a pinhole in card onto a flat surface — the projected dot shows the Sun's shape and any partial eclipse phase with no eye risk.</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       UPCOMING ECLIPSES
+  ════════════════════════════════════ -->
+  <div class="upcoming-section">
+    <p class="section-label">Upcoming Notable Eclipses — 2026–2030</p>
+    <table class="eclipse-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Best Visibility</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Aug 12, 2026</td>
+          <td><span class="type-badge type-solar-total">Total Solar</span></td>
+          <td>Greenland, Iceland, Spain, Russia</td>
+          <td>Path of totality crosses the Iberian Peninsula — excellent for Europe. Max totality ~2 min 18 s over the Atlantic.</td>
+        </tr>
+        <tr>
+          <td>Feb 6, 2027</td>
+          <td><span class="type-badge type-solar-annular">Annular Solar</span></td>
+          <td>South America, Atlantic, West Africa</td>
+          <td>Ring of fire crosses southern Chile, Argentina, and the Atlantic. Partial phase visible across most of South America.</td>
+        </tr>
+        <tr>
+          <td>Jul 22, 2028</td>
+          <td><span class="type-badge type-solar-total">Total Solar</span></td>
+          <td>Australia, New Zealand</td>
+          <td>Totality crosses Sydney, Australia — a rare event for a major city. Max duration ~5 min 10 s. Partial over all of Australia.</td>
+        </tr>
+        <tr>
+          <td>Jan 12, 2029</td>
+          <td><span class="type-badge type-solar-annular">Annular Solar</span></td>
+          <td>Alaska, Canada, Greenland, Europe</td>
+          <td>Annular path crosses much of North America and northern Europe. Wide partial-eclipse visibility zone.</td>
+        </tr>
+        <tr>
+          <td>Jun 1, 2030</td>
+          <td><span class="type-badge type-solar-annular">Annular Solar</span></td>
+          <td>North Africa, Middle East, Central Asia</td>
+          <td>Narrow annular path through Algeria, Egypt, Saudi Arabia, and into India. Penumbral phase visible across Africa and Asia.</td>
+        </tr>
+        <tr>
+          <td>Sep 7, 2025</td>
+          <td><span class="type-badge type-lunar-total">Total Lunar</span></td>
+          <td>Europe, Africa, Asia, Australia</td>
+          <td>Full "Blood Moon" visible across the Eastern Hemisphere. Totality lasts ~1 hr 22 min. Completely safe to observe without equipment.</td>
+        </tr>
+        <tr>
+          <td>Mar 3, 2026</td>
+          <td><span class="type-badge type-lunar-total">Total Lunar</span></td>
+          <td>Americas, Europe, Africa</td>
+          <td>Excellent for North and South America. Moon turns deep red for ~58 minutes during totality.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ════════════════════════════════════
+       MIND-BLOWING FACTS
+  ════════════════════════════════════ -->
+  <div class="hooks-section">
+    <p class="section-label">Mind-Blowing Eclipse Facts</p>
+    <div class="hooks-grid">
+
+      <div class="hook-card">
+        <span class="hook-icon">🌡️</span>
+        <div>
+          <p class="hook-title">Totality Changes the Weather</p>
+          <p class="hook-body">During a total solar eclipse, temperatures drop <strong>up to 10°C (18°F)</strong> in minutes as the Sun disappears. Animals behave as if night has fallen — birds roost, crickets chirp, flowers close. The sudden darkness is so complete that stars and planets appear in the middle of the day.</p>
+        </div>
+      </div>
+
+      <div class="hook-card">
+        <span class="hook-icon">🧪</span>
+        <div>
+          <p class="hook-title">Einstein Was Proven Right During an Eclipse</p>
+          <p class="hook-body">In 1919, astronomer Arthur Eddington used a total solar eclipse to photograph stars near the Sun's edge. The stars appeared shifted from their expected positions — proof that the Sun's gravity was bending the light, exactly as <strong>Einstein's General Relativity</strong> predicted. It was the experiment that made Einstein world-famous overnight.</p>
+        </div>
+      </div>
+
+      <div class="hook-card">
+        <span class="hook-icon">🌬️</span>
+        <div>
+          <p class="hook-title">The Corona Is Hotter Than the Sun's Surface</p>
+          <p class="hook-body">The Sun's surface is ~5,500°C — but its outer atmosphere (the corona), visible as a white halo during totality, is <strong>over 1,000,000°C</strong>. Why the corona is so much hotter is one of the biggest unsolved problems in solar physics. Total eclipses were the only way to study it for most of human history.</p>
+        </div>
+      </div>
+
+      <div class="hook-card">
+        <span class="hook-icon">📏</span>
+        <div>
+          <p class="hook-title">The Moon Is Slowly Moving Away</p>
+          <p class="hook-body">The Moon moves about <strong>3.8 cm (1.5 inches) farther from Earth</strong> every year. In roughly 600 million years, the Moon will be too far away to ever completely cover the Sun — total solar eclipses will stop being possible. We live in a rare window of cosmic time when this perfect alignment is achievable.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════ -->
+  <footer>
+    <div class="footer-title">ECLIPSES</div>
+    <div class="footer-note">Solar · Lunar · Annular · Saros 18 yr 11 day cycle</div>
+    <div class="footer-note">Middle School Guide · Always use certified eclipse glasses</div>
+  </footer>
+
+</div>
+</body>
+</html>
