@@ -57,50 +57,61 @@
     }
 
     /* ── Navigation ── */
-    .site-nav-wrapper {
+    .site-nav {
       position: sticky;
       top: 0;
-      z-index: 100;
-      background: rgba(3, 5, 14, 0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-    }
-
-    .site-nav {
+      z-index: 999;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
       display: flex;
       align-items: center;
-      gap: 0;
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 0 1rem;
+      gap: 4px;
+      padding: 0 8px;
+      height: 52px;
     }
 
     .site-nav::-webkit-scrollbar { display: none; }
 
     .site-nav a {
-      display: flex;
-      align-items: center;
-      gap: 0.4em;
-      padding: 0.85rem 0.9rem;
-      color: var(--text-muted);
+      color: rgba(255,255,255,0.60);
       text-decoration: none;
-      font-size: 0.82rem;
-      font-weight: 500;
+      font-size: 14px;
       white-space: nowrap;
-      transition: color 0.2s;
-      border-bottom: 2px solid transparent;
+      flex-shrink: 0;
+      padding: 6px 10px;
+      border-radius: 20px;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s, background 0.2s, border-color 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      min-height: 36px;
     }
 
-    .site-nav a:hover { color: var(--text); }
+    .site-nav a:hover,
+    .site-nav a:focus-visible {
+      color: #fff;
+      background: rgba(255,255,255,0.08);
+    }
 
     .site-nav a.active {
       color: #fff;
-      border-bottom-color: var(--accent-winter);
+      background: rgba(255,255,255,0.10);
+      border-color: rgba(255,255,255,0.35);
     }
 
     .site-nav a span { display: inline; }
+
+    @media (min-width: 600px) {
+      .site-nav { padding: 0 1.5rem; gap: 2px; }
+      .site-nav a { font-size: 15px; padding: 6px 14px; }
+    }
 
     /* ── Page wrapper ── */
     .page {
@@ -545,21 +556,21 @@
 <div id="starfield" aria-hidden="true"></div>
 
 <!-- Navigation -->
-<div class="site-nav-wrapper">
-  <nav class="site-nav" aria-label="Site navigation">
-    <a href="index.html">🏠 <span>Home</span></a>
-    <a href="our-sun.html">☀️ <span>Our Sun</span></a>
-    <a href="jupiter.html">🪐 <span>Jupiter</span></a>
-    <a href="mars.html">🔴 <span>Mars</span></a>
-    <a href="saturn.html">🪐 <span>Saturn</span></a>
-    <a href="orion.html">⭐ <span>Orion</span></a>
-    <a href="constellations.html" class="active">✦ <span>Constellations</span></a>
-    <a href="galileo.html">🔭 <span>Galileo</span></a>
-    <a href="moon-retro.html">🌕 <span>Moon Retro</span></a>
-    <a href="celestron-cpc1100.html">📡 <span>Telescope</span></a>
-    <a href="europa-clipper.html">🧊 <span>Europa Clipper</span></a>
+<nav class="site-nav" aria-label="Site navigation">
+  <a href="index.html">🏠 <span>Home</span></a>
+  <a href="our-sun.html">☀️ <span>Our Sun</span></a>
+  <a href="jupiter.html">🪐 <span>Jupiter</span></a>
+  <a href="mars.html">🔴 <span>Mars</span></a>
+  <a href="saturn.html">🪐 <span>Saturn</span></a>
+  <a href="orion.html">⭐ <span>Orion</span></a>
+  <a href="constellations.html" class="active">✦ <span>Constellations</span></a>
+  <a href="galaxies.html">🌌 <span>Galaxies</span></a>
+  <a href="galileo.html">🔭 <span>Galileo</span></a>
+  <a href="moon-retro.html">🌕 <span>Moon Retro</span></a>
+  <a href="eclipses.html">🌘 <span>Eclipses</span></a>
+  <a href="celestron-cpc1100.html">📡 <span>Telescope</span></a>
+  <a href="europa-clipper.html">🧊 <span>Europa Clipper</span></a>
 </nav>
-</div>
 
 <!-- Main content -->
 <div class="page">
@@ -594,7 +605,7 @@
         <img src="https://storage.noirlab.edu/media/archives/images/screen/leo-ann.jpg" alt="Leo constellation annotated" loading="lazy" />
         <figcaption>Image: <a href="https://noirlab.edu/public/education/constellations/leo/" target="_blank" rel="noopener noreferrer">NOIRLab</a> / Eckhard Slawik</figcaption>
       </figure>
-      <p class="const-desc">One of the few constellations that genuinely resembles its namesake. The backwards question-mark "Sickle" traces the lion's mane while the triangle of stars below forms his haunches.</p>
+      <p class="const-desc">The backwards question-mark "Sickle" asterism traces the lion's mane, while the triangle of stars to the east forms his haunches. Regulus, marking the lion's heart, is a multiple star system.</p>
       <div class="flashcard-grid">
 
         <div class="flip-card" tabindex="0" role="button" aria-label="Flashcard: Brightest Star">
@@ -606,7 +617,7 @@
             </div>
             <div class="flip-back">
               <p class="flip-answer-name">Regulus</p>
-              <p class="flip-answer-detail">Blue-white star at the lion's heart. 79 light-years away. Its name means "little king" in Latin.</p>
+              <p class="flip-answer-detail">A multiple star system (4 components) marking the lion's heart. ~79 light-years away. Its name means "little king" in Latin.</p>
             </div>
           </div>
         </div>
@@ -688,7 +699,7 @@
               <span class="flip-hint">tap to flip</span>
             </div>
             <div class="flip-back">
-              <p class="flip-answer-detail">Classical sources most often identify Virgo with Dike or Astraea, goddess of justice, who was the last immortal to leave Earth as humanity grew wicked. She is also linked to Demeter (goddess of harvest), whose grief over Persephone explains the seasons.</p>
+              <p class="flip-answer-detail">Virgo has been associated with multiple figures in Greek mythology depending on the tradition — including Astraea (goddess of justice, last immortal to leave Earth) and Demeter (goddess of harvest, whose grief over Persephone explains the seasons). These are competing traditions rather than one unified myth.</p>
             </div>
           </div>
         </div>
@@ -783,7 +794,7 @@
               <span class="flip-hint">tap to flip</span>
             </div>
             <div class="flip-back">
-              <p class="flip-answer-detail">Arcturus is a high-velocity star moving in a different direction than most local stars, suggesting it originated in a dwarf galaxy absorbed by the Milky Way long ago.</p>
+              <p class="flip-answer-detail">Arcturus is a high-velocity star with an unusual orbit, moving in a different direction than most local stars. It may have originated outside the Milky Way's main disk — possibly from an ancient accreted stellar stream — though a confirmed single origin galaxy has not been established.</p>
             </div>
           </div>
         </div>
@@ -848,7 +859,7 @@
           <div class="flip-inner">
             <div class="flip-front">
               <span class="flip-topic">Key Facts</span>
-              <p class="flip-question">What famous pair of colliding galaxies lies near Corvus?</p>
+              <p class="flip-question">What famous interacting galaxy system lies near Corvus?</p>
               <span class="flip-hint">tap to flip</span>
             </div>
             <div class="flip-back">

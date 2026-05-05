@@ -249,6 +249,34 @@
     .card--moon:hover     { border-color: rgba(232,168,32,0.45); }
     .card--telescope:hover{ border-color: rgba(74,144,217,0.40); }
     .card--europa:hover   { border-color: rgba(30,138,180,0.50); }
+    .card--galaxies:hover  { border-color: rgba(180,138,255,0.50); }
+    .card--eclipses:hover  { border-color: rgba(245,215,122,0.50); }
+
+    /* ══════════════════════════════════════
+       SECTION GROUPS
+    ══════════════════════════════════════ */
+    .topic-section {
+      margin-bottom: 44px;
+    }
+
+    .group-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .group-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.07);
+    }
 
     /* ══════════════════════════════════════
        FOOTER
@@ -270,20 +298,33 @@
       body { font-size: 18px; }
       .site-nav a { font-size: 15px; }
     }
+
+    .nav-divider {
+      width: 1px;
+      height: 20px;
+      background: rgba(255,255,255,0.15);
+      flex-shrink: 0;
+      margin: 0 2px;
+    }
   </style>
 </head>
 <body>
 
 <nav class="site-nav" aria-label="Site navigation">
   <a href="index.html" class="active">🏠 <span>Home</span></a>
+  <div class="nav-divider" aria-hidden="true"></div>
   <a href="our-sun.html">☀️ <span>Our Sun</span></a>
   <a href="jupiter.html">🪐 <span>Jupiter</span></a>
   <a href="mars.html">🔴 <span>Mars</span></a>
   <a href="saturn.html">🪐 <span>Saturn</span></a>
+  <a href="moon-retro.html">🌕 <span>Moon</span></a>
+  <a href="eclipses.html">🌘 <span>Eclipses</span></a>
+  <div class="nav-divider" aria-hidden="true"></div>
   <a href="orion.html">⭐ <span>Orion</span></a>
   <a href="constellations.html">✦ <span>Constellations</span></a>
+  <a href="galaxies.html">🌌 <span>Galaxies</span></a>
+  <div class="nav-divider" aria-hidden="true"></div>
   <a href="galileo.html">🔭 <span>Galileo</span></a>
-  <a href="moon-retro.html">🌕 <span>Moon Retro</span></a>
   <a href="celestron-cpc1100.html">📡 <span>Telescope</span></a>
   <a href="europa-clipper.html">🧊 <span>Europa Clipper</span></a>
 </nav>
@@ -304,79 +345,112 @@
   <!-- ═══════════════════════════════
        TOPIC CARDS
   ═══════════════════════════════ -->
-  <p class="section-label">Choose a topic</p>
-  <div class="topics-grid">
+  <!-- ─── Solar System ───────────────────────── -->
+  <div class="topic-section">
+    <p class="group-label">🌌 Solar System</p>
+    <div class="topics-grid">
 
-    <a href="our-sun.html" class="topic-card card--sun">
-      <div class="card-icon">☀️</div>
-      <div class="card-title">Our Sun</div>
-      <p class="card-desc">The G-type star at the centre of our solar system — explore its layers, nuclear fusion, and solar events.</p>
-      <div class="card-arrow">Explore <span>→</span></div>
-    </a>
+      <a href="our-sun.html" class="topic-card card--sun">
+        <div class="card-icon">☀️</div>
+        <div class="card-title">Our Sun</div>
+        <p class="card-desc">The G-type star at the centre of our solar system — explore its layers, nuclear fusion, and solar events.</p>
+        <div class="card-arrow">Explore <span>→</span></div>
+      </a>
 
-    <a href="jupiter.html" class="topic-card card--jupiter">
-      <div class="card-icon">🪐</div>
-      <div class="card-title">Jupiter</div>
-      <p class="card-desc">King of the planets — dive into its banded atmosphere, Great Red Spot, and 95 known moons.</p>
-      <div class="card-arrow">Explore <span>→</span></div>
-    </a>
+      <a href="jupiter.html" class="topic-card card--jupiter">
+        <div class="card-icon">🪐</div>
+        <div class="card-title">Jupiter</div>
+        <p class="card-desc">King of the planets — dive into its banded atmosphere, Great Red Spot, and ~95 known moons.</p>
+        <div class="card-arrow">Explore <span>→</span></div>
+      </a>
 
-    <a href="mars.html" class="topic-card card--mars">
-      <div class="card-icon">🔴</div>
-      <div class="card-title">Mars</div>
-      <p class="card-desc">The Red Planet of dust storms, canyons, ancient rivers, and ongoing searches for signs of past habitability.</p>
-      <div class="card-arrow">Explore <span>→</span></div>
-    </a>
+      <a href="mars.html" class="topic-card card--mars">
+        <div class="card-icon">🔴</div>
+        <div class="card-title">Mars</div>
+        <p class="card-desc">The Red Planet of dust storms, canyons, ancient rivers, and ongoing searches for signs of past habitability.</p>
+        <div class="card-arrow">Explore <span>→</span></div>
+      </a>
 
-    <a href="saturn.html" class="topic-card card--saturn">
-      <div class="card-icon">🪐</div>
-      <div class="card-title">Saturn</div>
-      <p class="card-desc">The ringed giant — explore its shimmering ring system, low density, storms, and remarkable moons.</p>
-      <div class="card-arrow">Explore <span>→</span></div>
-    </a>
+      <a href="saturn.html" class="topic-card card--saturn">
+        <div class="card-icon">🪐</div>
+        <div class="card-title">Saturn</div>
+        <p class="card-desc">The ringed giant — explore its shimmering ring system, low density, storms, and ~146 known moons.</p>
+        <div class="card-arrow">Explore <span>→</span></div>
+      </a>
 
-    <a href="orion.html" class="topic-card card--orion">
-      <div class="card-icon">⭐</div>
-      <div class="card-title">Orion</div>
-      <p class="card-desc">The Hunter of the Winter Sky — navigate the constellation's brightest stars, nebulae, and mythology.</p>
-      <div class="card-arrow">Explore <span>→</span></div>
-    </a>
+      <a href="moon-retro.html" class="topic-card card--moon">
+        <div class="card-icon">🌕</div>
+        <div class="card-title">The Moon</div>
+        <p class="card-desc">Scale, geology, missions, and what you can see through a telescope — from Apollo to Artemis.</p>
+        <div class="card-arrow">Explore <span>→</span></div>
+      </a>
 
-    <a href="constellations.html" class="topic-card card--orion">
-      <div class="card-icon">✦</div>
-      <div class="card-title">Constellations</div>
-      <p class="card-desc">All four seasons of the night sky — learn the stories, find the stars, and test your knowledge with flip flashcards.</p>
-      <div class="card-arrow">Explore <span>→</span></div>
-    </a>
+      <a href="eclipses.html" class="topic-card card--eclipses">
+        <div class="card-icon">🌘</div>
+        <div class="card-title">Eclipses</div>
+        <p class="card-desc">Solar, lunar, and annular — explore the geometry, the Saros cycle, the Blood Moon, and upcoming eclipses worldwide.</p>
+        <div class="card-arrow">Explore <span>→</span></div>
+      </a>
 
-    <a href="galileo.html" class="topic-card card--galileo">
-      <div class="card-icon">🔭</div>
-      <div class="card-title">Galileo Galilei</div>
-      <p class="card-desc">Father of modern science — discover how one man's observations changed humanity's view of the cosmos.</p>
-      <div class="card-arrow">Explore <span>→</span></div>
-    </a>
+    </div>
+  </div>
 
-    <a href="moon-retro.html" class="topic-card card--moon">
-      <div class="card-icon">🌕</div>
-      <div class="card-title">Moon Retro</div>
-      <p class="card-desc">A vintage NASA-style Moon poster page with lunar facts, bold graphic design, and classic space-age atmosphere.</p>
-      <div class="card-arrow">Explore <span>→</span></div>
-    </a>
+  <!-- ─── Deep Sky & Navigation ────────────────── -->
+  <div class="topic-section">
+    <p class="group-label">🌠 Deep Sky &amp; Navigation</p>
+    <div class="topics-grid">
 
-    <a href="celestron-cpc1100.html" class="topic-card card--telescope">
-      <div class="card-icon">📡</div>
-      <div class="card-title">Celestron CPC 1100</div>
-      <p class="card-desc">The Schmidt-Cassegrain telescope used for outreach — specifications, capabilities, and how it works.</p>
-      <div class="card-arrow">Explore <span>→</span></div>
-    </a>
+      <a href="orion.html" class="topic-card card--orion">
+        <div class="card-icon">⭐</div>
+        <div class="card-title">Orion</div>
+        <p class="card-desc">The Hunter of the Winter Sky — navigate the constellation's brightest stars, nebulae, and mythology.</p>
+        <div class="card-arrow">Explore <span>→</span></div>
+      </a>
 
-    <a href="europa-clipper.html" class="topic-card card--europa">
-      <div class="card-icon">🧊</div>
-      <div class="card-title">Europa Clipper</div>
-      <p class="card-desc">NASA's mission to explore Jupiter's ocean moon — a hidden sea with more water than all Earth's oceans, launching humanity's search for life beyond our world.</p>
-      <div class="card-arrow">Explore <span>→</span></div>
-    </a>
+      <a href="constellations.html" class="topic-card card--orion">
+        <div class="card-icon">✦</div>
+        <div class="card-title">Constellations</div>
+        <p class="card-desc">All four seasons of the night sky — learn the stories, find the stars, and test your knowledge with flip flashcards.</p>
+        <div class="card-arrow">Explore <span>→</span></div>
+      </a>
 
+      <a href="galaxies.html" class="topic-card card--galaxies">
+        <div class="card-icon">🌌</div>
+        <div class="card-title">Galaxies</div>
+        <p class="card-desc">Islands of billions of stars — explore galaxy types, the Milky Way, dark matter, galactic collisions, and famous neighbours like Andromeda.</p>
+        <div class="card-arrow">Explore <span>→</span></div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ─── Science & Exploration ───────────────── -->
+  <div class="topic-section">
+    <p class="group-label">🧠 Science &amp; Exploration</p>
+    <div class="topics-grid">
+
+      <a href="galileo.html" class="topic-card card--galileo">
+        <div class="card-icon">🔭</div>
+        <div class="card-title">Galileo Galilei</div>
+        <p class="card-desc">A central figure in the birth of modern science — discover how his observations helped transform our view of the cosmos.</p>
+        <div class="card-arrow">Explore <span>→</span></div>
+      </a>
+
+      <a href="celestron-cpc1100.html" class="topic-card card--telescope">
+        <div class="card-icon">📡</div>
+        <div class="card-title">Celestron CPC 1100</div>
+        <p class="card-desc">The Schmidt-Cassegrain telescope used for outreach — specifications, optics explained, and what it can show you.</p>
+        <div class="card-arrow">Explore <span>→</span></div>
+      </a>
+
+      <a href="europa-clipper.html" class="topic-card card--europa">
+        <div class="card-icon">🧊</div>
+        <div class="card-title">Europa Clipper</div>
+        <p class="card-desc">NASA's mission to Jupiter's ocean moon — assessing whether a hidden sea beneath the ice could support life.</p>
+        <div class="card-arrow">Explore <span>→</span></div>
+      </a>
+
+    </div>
   </div>
 
   <footer>
