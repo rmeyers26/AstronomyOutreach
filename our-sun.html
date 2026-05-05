@@ -779,6 +779,97 @@
       color: var(--corona);
       opacity: 0.85;
     }
+
+  /* ══════════════════════════════════════════
+     OUTREACH NIGHT GUIDE BOX
+  ══════════════════════════════════════════ */
+  .outreach-box {
+    margin-bottom: 52px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-bdr);
+    border-top: 3px solid var(--solar);
+    animation: riseUp 1s 0.28s ease both;
+  }
+  .ob-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 24px 12px;
+    border-bottom: 1px solid var(--card-bdr);
+    background: rgba(255,255,255,0.02);
+  }
+  .ob-telescope { font-size: 1.4rem; }
+  .ob-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--solar);
+  }
+  .ob-sub {
+    font-size: 0.82rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+    margin-left: auto;
+  }
+  .ob-look {
+    padding: 18px 24px 14px;
+    border-bottom: 1px solid var(--card-bdr);
+    background: rgba(255,255,255,0.015);
+  }
+  .ob-look-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--solar);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .ob-look-text {
+    font-style: italic;
+    font-size: 0.93rem;
+    line-height: 1.7;
+    color: var(--corona);
+    margin: 0;
+  }
+  .ob-facts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+  .ob-fact {
+    padding: 13px 24px;
+    border-right: 1px solid var(--card-bdr);
+    border-bottom: 1px solid var(--card-bdr);
+  }
+  .ob-fact:nth-child(even) { border-right: none; }
+  .ob-fact:last-child { border-bottom: none; }
+  .ob-fact--wide {
+    grid-column: 1 / -1;
+    border-right: none;
+  }
+  .ob-key {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .ob-val {
+    font-size: 0.92rem;
+    color: var(--corona);
+    line-height: 1.55;
+    letter-spacing: 0.3px;
+    margin: 0;
+  }
+  @media (max-width: 600px) {
+    .ob-facts { grid-template-columns: 1fr; }
+    .ob-fact { border-right: none; }
+    .ob-sub { display: none; }
+  }
   </style>
 </head>
 <body>
@@ -1240,6 +1331,45 @@
   <!-- ═══════════════════════════════════════════
        FOOTER
   ═══════════════════════════════════════════ -->
+  <!-- ══════════════════ OUTREACH NIGHT GUIDE ══════════════════ -->
+  <div class="outreach-box">
+    <div class="ob-header">
+      <span class="ob-telescope">🔭</span>
+      <span class="ob-title">Outreach Night Guide</span>
+      <span class="ob-sub">What to say at the eyepiece</span>
+    </div>
+    <div class="ob-look">
+      <span class="ob-look-label">What to look for</span>
+      <p class="ob-look-text">Never look at the Sun without a certified solar filter — with one, seek a brilliant white disk with limb darkening at the edges and darker sunspot regions scattered across the surface. Point out how the edge looks slightly dimmer than the centre: that's the temperature of the outer gas layers cooling as they curve away from us.</p>
+    </div>
+    <div class="ob-facts">
+      <div class="ob-fact">
+        <span class="ob-key">Type of Object</span>
+        <p class="ob-val">G-type main-sequence star — our nearest star, middle-aged and average in size among the 200–400 billion stars in the Milky Way</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">How Far Away</span>
+        <p class="ob-val">150 million km (93 million mi) — light takes exactly 8 minutes 20 seconds to travel from its surface to your eye right now</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">How Large</span>
+        <p class="ob-val">1.39 million km (864,000 mi) across — 109× Earth's diameter; 1.3 million Earths could fit inside</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">In Our Galaxy?</span>
+        <p class="ob-val">Yes — one of an estimated 200–400 billion stars in the Milky Way, located in the Orion Arm about 26,000 light-years from the galactic centre</p>
+      </div>
+      <div class="ob-fact ob-fact--wide">
+        <span class="ob-key">How Was It Formed?</span>
+        <p class="ob-val">4.6 billion years ago, a giant cloud of gas and dust (the solar nebula) collapsed under its own gravity. Most of the material fell to the centre and ignited as the Sun; the leftover disk of gas and dust became the planets.</p>
+      </div>
+      <div class="ob-fact ob-fact--wide">
+        <span class="ob-key">What's Happening Inside?</span>
+        <p class="ob-val">Nuclear fusion in the core converts 600 million tonnes of hydrogen into helium every second, releasing energy as gamma rays. That energy bounces around inside the Sun for up to 100,000 years before reaching the surface — and then takes just 8 minutes to reach us.</p>
+      </div>
+    </div>
+  </div>
+
   <footer>
     <div class="footer-title">Our Sun</div>
     <div class="footer-note">G-Type Main-Sequence Star · Age 4.6 Billion Years</div>

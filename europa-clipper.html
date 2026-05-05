@@ -690,6 +690,97 @@
       body { font-size: 19px; }
       .site-nav a { font-size: 15px; }
     }
+
+  /* ══════════════════════════════════════════
+     OUTREACH NIGHT GUIDE BOX
+  ══════════════════════════════════════════ */
+  .outreach-box {
+    margin-bottom: 52px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-bdr);
+    border-top: 3px solid var(--ice);
+    animation: riseUp 1s 0.28s ease both;
+  }
+  .ob-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 24px 12px;
+    border-bottom: 1px solid var(--card-bdr);
+    background: rgba(255,255,255,0.02);
+  }
+  .ob-telescope { font-size: 1.4rem; }
+  .ob-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--ice);
+  }
+  .ob-sub {
+    font-size: 0.82rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+    margin-left: auto;
+  }
+  .ob-look {
+    padding: 18px 24px 14px;
+    border-bottom: 1px solid var(--card-bdr);
+    background: rgba(255,255,255,0.015);
+  }
+  .ob-look-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--ice);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .ob-look-text {
+    font-style: italic;
+    font-size: 0.93rem;
+    line-height: 1.7;
+    color: var(--pale);
+    margin: 0;
+  }
+  .ob-facts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+  .ob-fact {
+    padding: 13px 24px;
+    border-right: 1px solid var(--card-bdr);
+    border-bottom: 1px solid var(--card-bdr);
+  }
+  .ob-fact:nth-child(even) { border-right: none; }
+  .ob-fact:last-child { border-bottom: none; }
+  .ob-fact--wide {
+    grid-column: 1 / -1;
+    border-right: none;
+  }
+  .ob-key {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .ob-val {
+    font-size: 0.92rem;
+    color: var(--pale);
+    line-height: 1.55;
+    letter-spacing: 0.3px;
+    margin: 0;
+  }
+  @media (max-width: 600px) {
+    .ob-facts { grid-template-columns: 1fr; }
+    .ob-fact { border-right: none; }
+    .ob-sub { display: none; }
+  }
   </style>
 </head>
 <body>
@@ -1237,6 +1328,45 @@
         </div>
       </div>
 
+    </div>
+  </div>
+
+  <!-- ══════════════════ OUTREACH NIGHT GUIDE ══════════════════ -->
+  <div class="outreach-box">
+    <div class="ob-header">
+      <span class="ob-telescope">🔭</span>
+      <span class="ob-title">Outreach Night Guide</span>
+      <span class="ob-sub">What to say at the eyepiece</span>
+    </div>
+    <div class="ob-look">
+      <span class="ob-look-label">What to look for — Jupiter &amp; Europa</span>
+      <p class="ob-look-text">Find Jupiter as a brilliant white "star" with the naked eye. Through a telescope: a disk with cloud bands and four tiny dots in a line either side — the Galilean moons. The small smooth one is Europa, target of the Clipper mission. Watch over several nights and you'll see the moons change position — exactly what Galileo recorded in 1610.</p>
+    </div>
+    <div class="ob-facts">
+      <div class="ob-fact">
+        <span class="ob-key">Type of Object</span>
+        <p class="ob-val">Icy ocean moon — Jupiter's 4th-largest moon; beneath its smooth frozen surface lies what may be the largest ocean in the solar system — bigger than all Earth's oceans combined</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">How Far Away</span>
+        <p class="ob-val">Jupiter is 588–968 million km from Earth; Europa orbits Jupiter at 671,000 km. Light from Jupiter you're seeing tonight left 33–54 minutes ago.</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">How Large</span>
+        <p class="ob-val">3,121 km (1,940 mi) across — slightly smaller than Earth's Moon. Surface gravity is only 13% of Earth's. Its ice shell is 15–25 km thick.</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">In Our Galaxy?</span>
+        <p class="ob-val">Yes — moon of Jupiter in our solar system. Europa Clipper launched in October 2024 and will arrive at Jupiter in April 2030 after a 2.9-billion-km journey.</p>
+      </div>
+      <div class="ob-fact ob-fact--wide">
+        <span class="ob-key">How Was It Formed?</span>
+        <p class="ob-val">4.5 billion years ago from material in Jupiter's early accretion disk — the same process that formed the other three Galilean moons (Io, Ganymede, Callisto). Rocky and icy material in orbit around the young Jupiter clumped together under gravity. Over time, tidal heating from Jupiter's gravity partially melted Europa's interior, creating the global ocean we believe exists today beneath its ice.</p>
+      </div>
+      <div class="ob-fact ob-fact--wide">
+        <span class="ob-key">What's Happening Inside?</span>
+        <p class="ob-val">Jupiter's tidal gravity continuously squeezes and stretches Europa as it orbits, generating heat — enough to keep a global saltwater ocean liquid beneath the ice. That ocean is 60–150 km deep, likely in contact with a rocky seafloor, with hydrothermal vents that could provide the chemical energy for life. The Clipper will make 49 close flybys, skimming as low as 25 km above the ice, to determine whether Europa's ocean is habitable.</p>
+      </div>
     </div>
   </div>
 

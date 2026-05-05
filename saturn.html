@@ -797,6 +797,97 @@
       color: var(--ivory);
       opacity: 0.85;
     }
+
+  /* ══════════════════════════════════════════
+     OUTREACH NIGHT GUIDE BOX
+  ══════════════════════════════════════════ */
+  .outreach-box {
+    margin-bottom: 52px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-bdr);
+    border-top: 3px solid var(--gold);
+    animation: riseUp 1s 0.28s ease both;
+  }
+  .ob-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 24px 12px;
+    border-bottom: 1px solid var(--card-bdr);
+    background: rgba(255,255,255,0.02);
+  }
+  .ob-telescope { font-size: 1.4rem; }
+  .ob-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .ob-sub {
+    font-size: 0.82rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+    margin-left: auto;
+  }
+  .ob-look {
+    padding: 18px 24px 14px;
+    border-bottom: 1px solid var(--card-bdr);
+    background: rgba(255,255,255,0.015);
+  }
+  .ob-look-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .ob-look-text {
+    font-style: italic;
+    font-size: 0.93rem;
+    line-height: 1.7;
+    color: var(--ivory);
+    margin: 0;
+  }
+  .ob-facts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+  .ob-fact {
+    padding: 13px 24px;
+    border-right: 1px solid var(--card-bdr);
+    border-bottom: 1px solid var(--card-bdr);
+  }
+  .ob-fact:nth-child(even) { border-right: none; }
+  .ob-fact:last-child { border-bottom: none; }
+  .ob-fact--wide {
+    grid-column: 1 / -1;
+    border-right: none;
+  }
+  .ob-key {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .ob-val {
+    font-size: 0.92rem;
+    color: var(--ivory);
+    line-height: 1.55;
+    letter-spacing: 0.3px;
+    margin: 0;
+  }
+  @media (max-width: 600px) {
+    .ob-facts { grid-template-columns: 1fr; }
+    .ob-fact { border-right: none; }
+    .ob-sub { display: none; }
+  }
   </style>
 </head>
 <body>
@@ -1279,6 +1370,45 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- ══════════════════ OUTREACH NIGHT GUIDE ══════════════════ -->
+  <div class="outreach-box">
+    <div class="ob-header">
+      <span class="ob-telescope">🔭</span>
+      <span class="ob-title">Outreach Night Guide</span>
+      <span class="ob-sub">What to say at the eyepiece</span>
+    </div>
+    <div class="ob-look">
+      <span class="ob-look-label">What to look for</span>
+      <p class="ob-look-text">One of the most breathtaking sights in any telescope — a small golden-tan disk clearly surrounded by a bright ring system tilted toward you, glowing like a jewel in the eyepiece. The rings are separated from the planet by a visible gap. Almost no one who sees Saturn through a telescope for the first time believes they're really seeing it.</p>
+    </div>
+    <div class="ob-facts">
+      <div class="ob-fact">
+        <span class="ob-key">Type of Object</span>
+        <p class="ob-val">Gas giant — 6th planet from the Sun; the least dense planet in the solar system. It's so light it would float if you could find an ocean large enough to hold it.</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">How Far Away</span>
+        <p class="ob-val">1.2–1.7 billion km (7.4–10.4 AU) from Earth. Light reflected from Saturn's rings left about 70–95 minutes before reaching your eye.</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">How Large</span>
+        <p class="ob-val">120,536 km (74,900 mi) across — 9× Earth's diameter. The rings span 282,000 km from edge to edge, yet are barely 100 metres thick.</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">In Our Galaxy?</span>
+        <p class="ob-val">Yes — in our solar system in the Milky Way. Its moon Titan has a thick atmosphere and liquid methane lakes — the only world beyond Earth with surface liquid.</p>
+      </div>
+      <div class="ob-fact ob-fact--wide">
+        <span class="ob-key">How Was It Formed?</span>
+        <p class="ob-val">4.5 billion years ago from the solar nebula, similar to Jupiter but farther out where more ice was available. A rocky-icy core grew first, then swept up enormous quantities of hydrogen and helium gas. The rings are thought to be relatively recent — perhaps only 100–400 million years old — formed when a moon was torn apart by tidal forces.</p>
+      </div>
+      <div class="ob-fact ob-fact--wide">
+        <span class="ob-key">What's Happening Inside?</span>
+        <p class="ob-val">No solid surface — hydrogen gas transitions through liquid into metallic hydrogen around a rocky core. Saturn radiates 2.5× more heat outward than it receives from the Sun, suggesting ongoing gravitational compression or helium "rain" sinking toward the core. Winds at the equator reach 1,800 km/h — faster than any storm on Earth.</p>
+      </div>
+    </div>
   </div>
 
   <footer>

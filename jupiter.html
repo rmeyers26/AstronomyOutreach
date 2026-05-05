@@ -846,6 +846,97 @@
       color: var(--chalk);
       opacity: 0.85;
     }
+
+  /* ══════════════════════════════════════════
+     OUTREACH NIGHT GUIDE BOX
+  ══════════════════════════════════════════ */
+  .outreach-box {
+    margin-bottom: 52px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-bdr);
+    border-top: 3px solid var(--band1);
+    animation: riseUp 1s 0.28s ease both;
+  }
+  .ob-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 24px 12px;
+    border-bottom: 1px solid var(--card-bdr);
+    background: rgba(255,255,255,0.02);
+  }
+  .ob-telescope { font-size: 1.4rem; }
+  .ob-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--band1);
+  }
+  .ob-sub {
+    font-size: 0.82rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+    margin-left: auto;
+  }
+  .ob-look {
+    padding: 18px 24px 14px;
+    border-bottom: 1px solid var(--card-bdr);
+    background: rgba(255,255,255,0.015);
+  }
+  .ob-look-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--band1);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .ob-look-text {
+    font-style: italic;
+    font-size: 0.93rem;
+    line-height: 1.7;
+    color: var(--chalk);
+    margin: 0;
+  }
+  .ob-facts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+  .ob-fact {
+    padding: 13px 24px;
+    border-right: 1px solid var(--card-bdr);
+    border-bottom: 1px solid var(--card-bdr);
+  }
+  .ob-fact:nth-child(even) { border-right: none; }
+  .ob-fact:last-child { border-bottom: none; }
+  .ob-fact--wide {
+    grid-column: 1 / -1;
+    border-right: none;
+  }
+  .ob-key {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .ob-val {
+    font-size: 0.92rem;
+    color: var(--chalk);
+    line-height: 1.55;
+    letter-spacing: 0.3px;
+    margin: 0;
+  }
+  @media (max-width: 600px) {
+    .ob-facts { grid-template-columns: 1fr; }
+    .ob-fact { border-right: none; }
+    .ob-sub { display: none; }
+  }
   </style>
 </head>
 <body>
@@ -1348,6 +1439,45 @@
   <!-- ════════════════════════════════════
        FOOTER
   ════════════════════════════════════ -->
+  <!-- ══════════════════ OUTREACH NIGHT GUIDE ══════════════════ -->
+  <div class="outreach-box">
+    <div class="ob-header">
+      <span class="ob-telescope">🔭</span>
+      <span class="ob-title">Outreach Night Guide</span>
+      <span class="ob-sub">What to say at the eyepiece</span>
+    </div>
+    <div class="ob-look">
+      <span class="ob-look-label">What to look for</span>
+      <p class="ob-look-text">A bright cream-coloured disk with clearly visible parallel dark and light cloud bands running across it. In larger telescopes, look for the Great Red Spot — a storm wider than Earth — as an ochre oval in the southern hemisphere. Four bright dots in a line either side of the planet are the Galilean moons: Io, Europa, Ganymede, and Callisto.</p>
+    </div>
+    <div class="ob-facts">
+      <div class="ob-fact">
+        <span class="ob-key">Type of Object</span>
+        <p class="ob-val">Gas giant — the largest planet in the solar system; contains more mass than all other planets combined, yet has no solid surface</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">How Far Away</span>
+        <p class="ob-val">588–968 million km (4–6.5 AU) from Earth — varies as both planets orbit the Sun. Light from Jupiter you see tonight left 33–54 minutes ago.</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">How Large</span>
+        <p class="ob-val">143,000 km (88,800 mi) across — 11× Earth's diameter; 1,300 Earths would fit inside. Its Great Red Spot alone is wider than Earth.</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">In Our Galaxy?</span>
+        <p class="ob-val">Yes — 5th planet from the Sun in our own solar system, which orbits in the Orion Arm of the Milky Way</p>
+      </div>
+      <div class="ob-fact ob-fact--wide">
+        <span class="ob-key">How Was It Formed?</span>
+        <p class="ob-val">Likely the first planet to form after the Sun, about 4.5 billion years ago. A rocky core several times Earth's mass built up, then swept up vast quantities of hydrogen and helium gas from the solar nebula — growing to its enormous size within a few million years before the Sun's solar wind blew away the remaining gas.</p>
+      </div>
+      <div class="ob-fact ob-fact--wide">
+        <span class="ob-key">What's Happening Inside?</span>
+        <p class="ob-val">No solid surface exists — hydrogen gas grades into liquid hydrogen with depth, then into metallic hydrogen (which conducts electricity like a metal). This metallic layer rotates rapidly and drives Jupiter's powerful magnetic field — 20,000× stronger than Earth's. A rocky/icy core may sit at the centre. The planet radiates more heat outward than it receives from the Sun.</p>
+      </div>
+    </div>
+  </div>
+
   <footer>
     <div class="footer-title">JUPITER</div>
     <div class="footer-note">Fifth Planet · Gas Giant · 95 Known Moons</div>

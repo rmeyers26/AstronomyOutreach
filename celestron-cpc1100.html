@@ -600,6 +600,101 @@
       body { font-size: 19px; }
       .site-nav a { font-size: 15px; }
     }
+
+  /* ══════════════════════════════════════════
+     OUTREACH NIGHT GUIDE BOX
+  ══════════════════════════════════════════ */
+  @keyframes riseUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .outreach-box {
+    margin-bottom: 52px;
+    background: var(--nebula);
+    border: 1px solid var(--gold-dim);
+    border-top: 3px solid var(--gold);
+    animation: riseUp 1s 0.28s ease both;
+  }
+  .ob-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 24px 12px;
+    border-bottom: 1px solid var(--gold-dim);
+    background: rgba(255,255,255,0.02);
+  }
+  .ob-telescope { font-size: 1.4rem; }
+  .ob-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .ob-sub {
+    font-size: 0.82rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+    margin-left: auto;
+  }
+  .ob-look {
+    padding: 18px 24px 14px;
+    border-bottom: 1px solid var(--gold-dim);
+    background: rgba(255,255,255,0.015);
+  }
+  .ob-look-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .ob-look-text {
+    font-style: italic;
+    font-size: 0.93rem;
+    line-height: 1.7;
+    color: var(--star);
+    margin: 0;
+  }
+  .ob-facts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+  .ob-fact {
+    padding: 13px 24px;
+    border-right: 1px solid var(--gold-dim);
+    border-bottom: 1px solid var(--gold-dim);
+  }
+  .ob-fact:nth-child(even) { border-right: none; }
+  .ob-fact:last-child { border-bottom: none; }
+  .ob-fact--wide {
+    grid-column: 1 / -1;
+    border-right: none;
+  }
+  .ob-key {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .ob-val {
+    font-size: 0.92rem;
+    color: var(--star);
+    line-height: 1.55;
+    letter-spacing: 0.3px;
+    margin: 0;
+  }
+  @media (max-width: 600px) {
+    .ob-facts { grid-template-columns: 1fr; }
+    .ob-fact { border-right: none; }
+    .ob-sub { display: none; }
+  }
   </style>
 </head>
 <body>
@@ -931,6 +1026,45 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- ══════════════════ OUTREACH NIGHT GUIDE ══════════════════ -->
+  <div class="outreach-box">
+    <div class="ob-header">
+      <span class="ob-telescope">🔭</span>
+      <span class="ob-title">Outreach Night Guide</span>
+      <span class="ob-sub">Tonight's best targets — what to show and say</span>
+    </div>
+    <div class="ob-look">
+      <span class="ob-look-label">The formula that works every time</span>
+      <p class="ob-look-text">Name the object → describe what to look for → say how far the light has travelled → give one scale fact that makes jaws drop. Keep it to three sentences. The view does the rest.</p>
+    </div>
+    <div class="ob-facts">
+      <div class="ob-fact">
+        <span class="ob-key">Top Crowd-Pleasers</span>
+        <p class="ob-val">Saturn's rings (universal awe, every age), the Moon near the terminator (most detail), Jupiter with its moons, the Orion Nebula (M42), globular clusters like M13 — a ball of 300,000 suns</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">Best Magnification</span>
+        <p class="ob-val">100–200× for planets and Moon; the CPC 1100 at 200× gives Saturn a field-filling view that leaves crowds speechless. 50–100× for nebulae and galaxies to maximise brightness.</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">What This Telescope Does</span>
+        <p class="ob-val">At 279 mm aperture, the CPC 1100 gathers 1,600× more light than the human eye — revealing objects 1,600× fainter than the naked eye limit. Its GoTo mount can point to any of 40,000 objects automatically.</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">Light Travel Times</span>
+        <p class="ob-val">Moon: 1.3 sec · Mars: 3–22 min · Jupiter: 33–54 min · Saturn: 70–95 min · Orion Nebula: 1,344 years · Andromeda Galaxy (M31): 2.5 million years</p>
+      </div>
+      <div class="ob-fact ob-fact--wide">
+        <span class="ob-key">Scale Facts That Land Every Time</span>
+        <p class="ob-val">"Saturn's rings are 282,000 km across but only about 100 metres thick — if they were the size of a sheet of paper, they'd be thinner than the paper." · "Jupiter's Great Red Spot is a storm that has lasted over 350 years and is wider than Earth." · "The light from the Orion Nebula you're seeing right now left during the early medieval period — before the Norman Conquest."</p>
+      </div>
+      <div class="ob-fact ob-fact--wide">
+        <span class="ob-key">Keeping the Queue Moving</span>
+        <p class="ob-val">Pre-slew to the next target while people are still looking at the current one. Have a short and a long version of each explanation ready — one sentence for a busy line, three for a curious visitor who wants to stay. Let kids adjust the focuser themselves if the line allows — hands-on engagement is what makes outreach memorable.</p>
+      </div>
+    </div>
   </div>
 
   <!-- ─── Footer ───────────────────────────────── -->

@@ -447,6 +447,96 @@
     @media (min-width: 1000px) {
       .page { padding-left: 0; padding-right: 0; }
     }
+
+  /* ══════════════════════════════════════════
+     OUTREACH NIGHT GUIDE BOX
+  ══════════════════════════════════════════ */
+  .outreach-box {
+    margin: 0 0 52px;
+    background: var(--card-bg);
+    border: 1px solid rgba(72,168,224,0.2);
+    border-top: 3px solid var(--accent-winter);
+  }
+  .ob-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 24px 12px;
+    border-bottom: 1px solid rgba(72,168,224,0.2);
+    background: rgba(255,255,255,0.02);
+  }
+  .ob-telescope { font-size: 1.4rem; }
+  .ob-title {
+    font-family: monospace;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--accent-winter);
+  }
+  .ob-sub {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-left: auto;
+  }
+  .ob-look {
+    padding: 18px 24px 14px;
+    border-bottom: 1px solid rgba(72,168,224,0.2);
+    background: rgba(255,255,255,0.015);
+  }
+  .ob-look-label {
+    font-family: monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent-winter);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .ob-look-text {
+    font-style: italic;
+    font-size: 0.93rem;
+    line-height: 1.7;
+    color: var(--text);
+    margin: 0;
+  }
+  .ob-facts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+  .ob-fact {
+    padding: 13px 24px;
+    border-right: 1px solid rgba(72,168,224,0.2);
+    border-bottom: 1px solid rgba(72,168,224,0.2);
+  }
+  .ob-fact:nth-child(even) { border-right: none; }
+  .ob-fact:last-child { border-bottom: none; }
+  .ob-fact--wide {
+    grid-column: 1 / -1;
+    border-right: none;
+  }
+  .ob-key {
+    font-family: monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .ob-val {
+    font-size: 0.92rem;
+    color: var(--text);
+    line-height: 1.55;
+    letter-spacing: 0.3px;
+    margin: 0;
+  }
+  @media (max-width: 600px) {
+    .ob-facts { grid-template-columns: 1fr; }
+    .ob-fact { border-right: none; }
+    .ob-sub { display: none; }
+  }
   </style>
 </head>
 <body>
@@ -1809,6 +1899,45 @@
     </div><!-- /all88-grid -->
 
   </section>
+
+  <!-- ══════════════════ OUTREACH NIGHT GUIDE ══════════════════ -->
+  <div class="outreach-box">
+    <div class="ob-header">
+      <span class="ob-telescope">🔭</span>
+      <span class="ob-title">Outreach Night Guide</span>
+      <span class="ob-sub">What to say at the eyepiece</span>
+    </div>
+    <div class="ob-look">
+      <span class="ob-look-label">What to look for</span>
+      <p class="ob-look-text">Patterns of bright stars connected by imaginary lines — shapes our ancestors used to navigate, track seasons, and tell stories. Point out that stars within a single constellation are usually completely unrelated — they just happen to lie in the same direction from Earth. Some are hundreds of light-years farther away than others.</p>
+    </div>
+    <div class="ob-facts">
+      <div class="ob-fact">
+        <span class="ob-key">Type of Object</span>
+        <p class="ob-val">Asterisms / IAU constellation boundaries — not physical objects but line-of-sight patterns. The IAU officially defines 88 constellations whose boundary lines tile the entire sky.</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">How Far Away</span>
+        <p class="ob-val">Varies enormously within a single constellation — stars in Orion range from 243 to 2,000 light-years. They share only a direction, not a location in space.</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">How Large</span>
+        <p class="ob-val">Range from tiny Crux (68 sq°) to vast Hydra (1,303 sq°). Together the 88 constellations cover the entire celestial sphere — every point in the sky belongs to one.</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">In Our Galaxy?</span>
+        <p class="ob-val">Yes — every naked-eye star in every constellation is in the Milky Way. The faintest stars visible to the naked eye are about 4,000 light-years away.</p>
+      </div>
+      <div class="ob-fact ob-fact--wide">
+        <span class="ob-key">How Did They Come About?</span>
+        <p class="ob-val">Human pattern recognition developed across many cultures independently. Babylonian, Greek, Chinese, Egyptian, and Aboriginal Australian astronomers all mapped stories onto star groupings over thousands of years. The 88 modern constellations formalised by the IAU in 1930 descend mainly from the 48 catalogued by Ptolemy around 150 AD.</p>
+      </div>
+      <div class="ob-fact ob-fact--wide">
+        <span class="ob-key">What Are Those Stars, Really?</span>
+        <p class="ob-val">Each star is an independent sun — some young blue giants burning bright and brief, some ancient red giants near the end of their lives, some with their own planetary systems. The stars in a constellation are no more related to each other than two cities that happen to share a time zone.</p>
+      </div>
+    </div>
+  </div>
 
 </div><!-- /page -->
 
