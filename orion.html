@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Orion — The Hunter of the Winter Sky</title>
-  <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,200;0,300;0,400;0,700;1,200;1,300&family=Spectral:ital,wght@0,300;0,400;1,300;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,200;0,300;0,400;0,700;1,200;1,300&family=Spectral:ital,wght@0,300;0,400;1,300;1,400&family=Share+Tech+Mono&family=Space+Mono&display=swap" rel="stylesheet"/>
   <style>
 
     /* ═══════════════════════════════════════════════
@@ -913,6 +913,97 @@
       color: var(--frost);
       opacity: 0.85;
     }
+
+  /* ══════════════════════════════════════════
+     OUTREACH NIGHT GUIDE BOX
+  ══════════════════════════════════════════ */
+  .outreach-box {
+    margin-bottom: 52px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-bdr);
+    border-top: 3px solid var(--teal);
+    animation: riseUp 1s 0.28s ease both;
+  }
+  .ob-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 24px 12px;
+    border-bottom: 1px solid var(--card-bdr);
+    background: rgba(255,255,255,0.02);
+  }
+  .ob-telescope { font-size: 1.4rem; }
+  .ob-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--teal);
+  }
+  .ob-sub {
+    font-size: 0.82rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+    margin-left: auto;
+  }
+  .ob-look {
+    padding: 18px 24px 14px;
+    border-bottom: 1px solid var(--card-bdr);
+    background: rgba(255,255,255,0.015);
+  }
+  .ob-look-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--teal);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .ob-look-text {
+    font-style: italic;
+    font-size: 0.93rem;
+    line-height: 1.7;
+    color: var(--frost);
+    margin: 0;
+  }
+  .ob-facts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+  .ob-fact {
+    padding: 13px 24px;
+    border-right: 1px solid var(--card-bdr);
+    border-bottom: 1px solid var(--card-bdr);
+  }
+  .ob-fact:nth-child(even) { border-right: none; }
+  .ob-fact:last-child { border-bottom: none; }
+  .ob-fact--wide {
+    grid-column: 1 / -1;
+    border-right: none;
+  }
+  .ob-key {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .ob-val {
+    font-size: 0.92rem;
+    color: var(--frost);
+    line-height: 1.55;
+    letter-spacing: 0.3px;
+    margin: 0;
+  }
+  @media (max-width: 600px) {
+    .ob-facts { grid-template-columns: 1fr; }
+    .ob-fact { border-right: none; }
+    .ob-sub { display: none; }
+  }
   </style>
 </head>
 <body>
@@ -1683,6 +1774,45 @@
   <!-- ═══════════════════════════════════
        FOOTER
   ═══════════════════════════════════ -->
+  <!-- ══════════════════ OUTREACH NIGHT GUIDE ══════════════════ -->
+  <div class="outreach-box">
+    <div class="ob-header">
+      <span class="ob-telescope">🔭</span>
+      <span class="ob-title">Outreach Night Guide</span>
+      <span class="ob-sub">What to say at the eyepiece</span>
+    </div>
+    <div class="ob-look">
+      <span class="ob-look-label">What to look for — M42 Orion Nebula</span>
+      <p class="ob-look-text">Find Orion's three belt stars, then look at the fuzzy "star" just below them — the Great Nebula. In the eyepiece it becomes a glowing cloud with structure and depth. At its heart, four young blue-white stars form a tight trapezoid called the Trapezium. Those four stars are what make the whole nebula glow.</p>
+    </div>
+    <div class="ob-facts">
+      <div class="ob-fact">
+        <span class="ob-key">Type of Object</span>
+        <p class="ob-val">Emission nebula (H II region) — a cloud of ionised gas and dust actively forming new stars right now, 24 light-years across</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">How Far Away</span>
+        <p class="ob-val">1,344 light-years — the nearest large star-forming region to Earth. The light you're seeing left the nebula about 1,344 years ago, during the early medieval period.</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">How Large</span>
+        <p class="ob-val">About 24 light-years (140 trillion km) across. The glowing region visible in a telescope spans roughly 1° of sky — twice the width of the full Moon.</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">In Our Galaxy?</span>
+        <p class="ob-val">Yes — in the Orion Arm of the Milky Way, the same spiral arm our Sun lives in, about 1,344 light-years from us</p>
+      </div>
+      <div class="ob-fact ob-fact--wide">
+        <span class="ob-key">How Was It Formed?</span>
+        <p class="ob-val">Part of a giant molecular cloud 500 light-years across. New massive stars — the Trapezium cluster — formed inside it and began blasting the surrounding gas with ultraviolet radiation, stripping electrons from hydrogen atoms. Those electrons recombine, emitting the characteristic pink-green glow. Gravity is still collapsing new clumps of gas into thousands more protostars.</p>
+      </div>
+      <div class="ob-fact ob-fact--wide">
+        <span class="ob-key">What's Happening Inside?</span>
+        <p class="ob-val">Thousands of new stars being born right now in cocoons of dust — many invisible in optical light but bright in infrared. The Trapezium stars are only ~300,000 years old — cosmic infants. Many of these young stars have protoplanetary disks (proplyds) around them that the Hubble telescope has photographed. Some of those disks may eventually become solar systems like ours.</p>
+      </div>
+    </div>
+  </div>
+
   <footer>
     <div class="footer-name">ORION</div>
     <div class="footer-note">IAU Constellation · 594 sq° area · 7 Named Stars</div>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>The Moon — Retro NASA Poster</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Special+Elite&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Special+Elite&family=Space+Mono&display=swap" rel="stylesheet"/>
   <style>
 
     /* ═══════════════════════════════════════════════
@@ -1264,6 +1264,101 @@
       margin-bottom: 18px;
       font-weight: 500;
     }
+
+  /* ══════════════════════════════════════════
+     OUTREACH NIGHT GUIDE BOX
+  ══════════════════════════════════════════ */
+  @keyframes riseUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .outreach-box {
+    margin-bottom: 52px;
+    background: var(--navy2);
+    border: 1px solid rgba(232,168,32,0.2);
+    border-top: 3px solid var(--gold);
+    animation: riseUp 1s 0.28s ease both;
+  }
+  .ob-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 24px 12px;
+    border-bottom: 1px solid rgba(232,168,32,0.2);
+    background: rgba(255,255,255,0.02);
+  }
+  .ob-telescope { font-size: 1.4rem; }
+  .ob-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .ob-sub {
+    font-size: 0.82rem;
+    color: var(--tan);
+    letter-spacing: 1px;
+    margin-left: auto;
+  }
+  .ob-look {
+    padding: 18px 24px 14px;
+    border-bottom: 1px solid rgba(232,168,32,0.2);
+    background: rgba(255,255,255,0.015);
+  }
+  .ob-look-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .ob-look-text {
+    font-style: italic;
+    font-size: 0.93rem;
+    line-height: 1.7;
+    color: var(--cream);
+    margin: 0;
+  }
+  .ob-facts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+  .ob-fact {
+    padding: 13px 24px;
+    border-right: 1px solid rgba(232,168,32,0.2);
+    border-bottom: 1px solid rgba(232,168,32,0.2);
+  }
+  .ob-fact:nth-child(even) { border-right: none; }
+  .ob-fact:last-child { border-bottom: none; }
+  .ob-fact--wide {
+    grid-column: 1 / -1;
+    border-right: none;
+  }
+  .ob-key {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--tan);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .ob-val {
+    font-size: 0.92rem;
+    color: var(--cream);
+    line-height: 1.55;
+    letter-spacing: 0.3px;
+    margin: 0;
+  }
+  @media (max-width: 600px) {
+    .ob-facts { grid-template-columns: 1fr; }
+    .ob-fact { border-right: none; }
+    .ob-sub { display: none; }
+  }
   </style>
 </head>
 <body>
@@ -1998,6 +2093,45 @@
   <!-- ══════════════════════
        POSTER FOOTER
   ══════════════════════ -->
+  <!-- ══════════════════ OUTREACH NIGHT GUIDE ══════════════════ -->
+  <div class="outreach-box">
+    <div class="ob-header">
+      <span class="ob-telescope">🔭</span>
+      <span class="ob-title">Outreach Night Guide</span>
+      <span class="ob-sub">What to say at the eyepiece</span>
+    </div>
+    <div class="ob-look">
+      <span class="ob-look-label">What to look for</span>
+      <p class="ob-look-text">A brilliant white disk packed with detail. Point out the dark flat plains (maria) where ancient lava flooded ancient craters — they look smooth compared to the surrounding highlands. Look for crater ray systems radiating outward like splashes. The terminator (the line between light and shadow) is the best place to see 3D relief: craters cast long dramatic shadows there.</p>
+    </div>
+    <div class="ob-facts">
+      <div class="ob-fact">
+        <span class="ob-key">Type of Object</span>
+        <p class="ob-val">Natural satellite — Earth's only natural Moon; the 5th largest moon in the solar system and the only world beyond Earth where humans have walked</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">How Far Away</span>
+        <p class="ob-val">~384,400 km (238,855 mi) on average — varies from 356,500 km (closest) to 406,700 km (farthest). Light takes about 1.3 seconds to travel from the Moon to your eye.</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">How Large</span>
+        <p class="ob-val">3,474 km (2,159 mi) across — 27% of Earth's diameter. Surface gravity is 17% of Earth's — you'd weigh about one-sixth as much on the Moon.</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">In Our Galaxy?</span>
+        <p class="ob-val">Yes — orbiting Earth in our solar system. The Moon is gravitationally locked so the same face always points toward us — something most visitors don't know.</p>
+      </div>
+      <div class="ob-fact ob-fact--wide">
+        <span class="ob-key">How Was It Formed?</span>
+        <p class="ob-val">About 4.5 billion years ago, a Mars-sized body called Theia collided with the early Earth at an oblique angle. The impact vaporised both bodies' outer layers, flinging an enormous cloud of debris into orbit. Within about 1,000 years, that debris coalesced into the Moon. Evidence comes from the Moon's composition being nearly identical to Earth's mantle.</p>
+      </div>
+      <div class="ob-fact ob-fact--wide">
+        <span class="ob-key">What's Happening Inside?</span>
+        <p class="ob-val">A small partially molten iron core, a thick rocky mantle, and an ancient highland crust. The Moon is geologically quiet but not completely dead — Apollo seismometers recorded moonquakes, and some regions may still have minor volcanic outgassing. The Moon is also slowly drifting away from Earth at about 3.8 cm per year.</p>
+      </div>
+    </div>
+  </div>
+
   <div class="poster-footer">
     <div class="footer-logo">
       MOON

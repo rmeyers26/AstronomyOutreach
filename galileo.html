@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Galileo Galilei — A Central Figure in the Birth of Modern Science</title>
-  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&family=Space+Mono&display=swap" rel="stylesheet"/>
   <style>
 
     /* ═══════════════════════════════════════════════
@@ -744,6 +744,96 @@
       body { font-size: 19px; }
       .site-nav a { font-size: 15px; }
     }
+
+  /* ══════════════════════════════════════════
+     OUTREACH NIGHT GUIDE BOX
+  ══════════════════════════════════════════ */
+  .outreach-box {
+    margin-bottom: 52px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-bdr);
+    border-top: 3px solid var(--cardinal);
+  }
+  .ob-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 24px 12px;
+    border-bottom: 1px solid var(--card-bdr);
+    background: rgba(139,26,26,0.03);
+  }
+  .ob-telescope { font-size: 1.4rem; }
+  .ob-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--cardinal);
+  }
+  .ob-sub {
+    font-size: 0.82rem;
+    color: var(--sepia);
+    letter-spacing: 1px;
+    margin-left: auto;
+  }
+  .ob-look {
+    padding: 18px 24px 14px;
+    border-bottom: 1px solid var(--card-bdr);
+    background: rgba(139,26,26,0.04);
+  }
+  .ob-look-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--cardinal);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .ob-look-text {
+    font-style: italic;
+    font-size: 0.93rem;
+    line-height: 1.7;
+    color: var(--sepia);
+    margin: 0;
+  }
+  .ob-facts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+  .ob-fact {
+    padding: 13px 24px;
+    border-right: 1px solid var(--card-bdr);
+    border-bottom: 1px solid var(--card-bdr);
+  }
+  .ob-fact:nth-child(even) { border-right: none; }
+  .ob-fact:last-child { border-bottom: none; }
+  .ob-fact--wide {
+    grid-column: 1 / -1;
+    border-right: none;
+  }
+  .ob-key {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--sepia);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .ob-val {
+    font-size: 0.92rem;
+    color: var(--text-main);
+    line-height: 1.55;
+    letter-spacing: 0.3px;
+    margin: 0;
+  }
+  @media (max-width: 600px) {
+    .ob-facts { grid-template-columns: 1fr; }
+    .ob-fact { border-right: none; }
+    .ob-sub { display: none; }
+  }
   </style>
 </head>
 <body>
@@ -1276,6 +1366,45 @@
   <!-- ═══════════════════════════════════
        FOOTER
   ═══════════════════════════════════ -->
+  <!-- ══════════════════ OUTREACH NIGHT GUIDE ══════════════════ -->
+  <div class="outreach-box">
+    <div class="ob-header">
+      <span class="ob-telescope">🔭</span>
+      <span class="ob-title">Outreach Night Guide</span>
+      <span class="ob-sub">What Galileo saw — and you can show tonight</span>
+    </div>
+    <div class="ob-look">
+      <span class="ob-look-label">What to look for</span>
+      <p class="ob-look-text">The same objects Galileo first studied in 1609–1610: the Moon's craters and mountain ranges; Jupiter's four large moons as tiny dots in a straight line; the phases of Venus proving it orbits the Sun; and the Milky Way resolving into individual stars. He saw all of this with a telescope no better than a cheap modern pair of binoculars.</p>
+    </div>
+    <div class="ob-facts">
+      <div class="ob-fact">
+        <span class="ob-key">His Telescope vs. Yours</span>
+        <p class="ob-val">Galileo's best telescope magnified ~20×. A modest modern amateur telescope magnifies 150–300× with vastly superior optics, coatings, and a stable mount. What took him a lifetime of painstaking observation, you can show in minutes.</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">Why It Changed Everything</span>
+        <p class="ob-val">When Galileo saw Jupiter's moons orbiting Jupiter — not Earth — it proved not everything in the sky revolved around our planet. The phases of Venus proved it orbited the Sun. Two observations that toppled a 1,400-year-old model of the universe.</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">Best Galileo Targets Tonight</span>
+        <p class="ob-val">Jupiter and its four Galilean moons (they move night to night — Galileo tracked this). The Moon's terminator showing crater shadows. Venus if visible — look for its crescent phase.</p>
+      </div>
+      <div class="ob-fact">
+        <span class="ob-key">The Sunspot Lesson</span>
+        <p class="ob-val">Galileo observed sunspots moving across the Sun's face and concluded the Sun rotates — heretical at the time. With a proper solar filter you can show the same thing. The spots move noticeably over days.</p>
+      </div>
+      <div class="ob-fact ob-fact--wide">
+        <span class="ob-key">What to Say at the Eyepiece</span>
+        <p class="ob-val">"In 1610, Galileo saw exactly what you're about to see — and it changed our understanding of the universe forever. He didn't discover new objects. He looked at things everyone could see and asked what they actually meant."</p>
+      </div>
+      <div class="ob-fact ob-fact--wide">
+        <span class="ob-key">The Scientific Method, Live</span>
+        <p class="ob-val">Galileo's contribution wasn't just what he saw — it was how he thought about it. He measured, recorded, predicted, and tested. Every science fair project, every clinical trial, every engineering test follows the same process he formalised. When visitors look through your telescope tonight, they're using a tool built on his principles.</p>
+      </div>
+    </div>
+  </div>
+
   <footer>
     <div class="footer-name">Galileo Galilei</div>
     <div class="footer-florin">E pur si muove — "And yet it moves."</div>
